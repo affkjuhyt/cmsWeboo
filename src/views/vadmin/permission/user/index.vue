@@ -454,7 +454,7 @@ export default {
       // 日期范围
       dateRange: [],
       // 状态数据字典
-      statusOptions: [{ dictLabel: "正常", dictValue: true }, { dictLabel: "停用", dictValue: false }],
+      statusOptions: [{ dictLabel: "Normal", dictValue: true }, { dictLabel: "Hủy kích hoạt", dictValue: false }],
       // 性别状态字典
       sexOptions: [],
       // 岗位选项

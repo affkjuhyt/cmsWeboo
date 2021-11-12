@@ -14,16 +14,17 @@ const permission = {
     SET_ROUTES: (state, routes) => {
       state.addRoutes = routes;
       state.routes = constantRoutes.concat(routes);
+      console.log(state.routes);
     },
     SET_SIDEBAR_ROUTERS: (state, routers) => {
       state.sidebarRouters = constantRoutes.concat(routers);
     }
   },
   actions: {
-    // 生成路由
+    // Tạo định tuyến
     GenerateRoutes({ commit }) {
       return new Promise(resolve => {
-        // 向后端请求路由数据
+        // Yêu cầu dữ liệu định tuyến
         getRouters().then(res => {
           const data = handleTree(res.data, "id");
           const sdata = JSON.parse(JSON.stringify(data));
@@ -40,19 +41,19 @@ const permission = {
   }
 };
 
-// 遍历后台传来的路由字符串，转换为组件对象
+// Duyệt qua chuỗi định tuyến từ nền và chuyển đổi nó thành đối tượng
 function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
   return asyncRouterMap.filter(route => {
     if (type && route.children) {
       route.children = filterChildren(route.children);
     }
     if (route.component) {
-      // Layout ParentView 组件特殊处理
+      // Layout ParentView
       if (route.component === "Layout") {
         route.component = Layout;
       } else if (route.component === "ParentView") {
         route.component = ParentView;
-      } else if (typeof route.component === "string" && route.component === "Layout/index" && !route.children) { // 首页定制
+      } else if (typeof route.component === "string" && route.component === "Layout/index" && !route.children) { // Tùy chỉnh trang chủ
         route.meta.affix = true;
         route.children = [
           {
@@ -110,7 +111,7 @@ function filterChildren(childrenMap, lastRouter = false) {
   return children;
 }
 
-export const loadView = (view) => { // 路由懒加载
+export const loadView = (view) => {
   return (resolve) => require([`@/views/${view}`], resolve);
 };
 

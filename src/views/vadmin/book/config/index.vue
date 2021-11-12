@@ -1,27 +1,27 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
-      <el-form-item label="参数名称" prop="configName">
+      <el-form-item label="Tên tham số" prop="configName">
         <el-input
           v-model="queryParams.configName"
-          placeholder="请输入参数名称"
+          placeholder="Vui lòng nhập tên thông số"
           clearable
           size="small"
           style="width: 240px"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="参数键名" prop="configKey">
+      <el-form-item label="Tên khóa tham số" prop="configKey">
         <el-input
           v-model="queryParams.configKey"
-          placeholder="请输入参数键名"
+          placeholder="Khóa tham số"
           clearable
           size="small"
           style="width: 240px"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="系统内置" prop="configType">
+      <el-form-item label="Hệ thống tích hợp" prop="configType">
         <el-select v-model="queryParams.configType" placeholder="系统内置" clearable size="small">
           <el-option
             v-for="dict in typeOptions"

@@ -3,13 +3,13 @@
     <div>
       <div class="setting-drawer-content">
         <div class="setting-drawer-title">
-          <h3 class="drawer-title">主题风格设置</h3>
+          <h3 class="drawer-title">Chủ đề</h3>
         </div>
         <div class="setting-drawer-block-checbox">
           <div class="setting-drawer-block-checbox-item" @click="handleTheme('theme-dark')">
             <img src="@/assets/images/dark.svg" alt="dark">
             <div v-if="sideTheme === 'theme-dark'" class="setting-drawer-block-checbox-selectIcon" style="display: block;">
-              <i aria-label="图标: check" class="anticon anticon-check">
+              <i aria-label="Biểu tượng: check" class="anticon anticon-check">
                 <svg
                   viewBox="64 64 896 896"
                   data-icon="check"
@@ -30,7 +30,7 @@
           <div class="setting-drawer-block-checbox-item" @click="handleTheme('theme-light')">
             <img src="@/assets/images/light.svg" alt="light">
             <div v-if="sideTheme === 'theme-light'" class="setting-drawer-block-checbox-selectIcon" style="display: block;">
-              <i aria-label="图标: check" class="anticon anticon-check">
+              <i aria-label="Biểu tượng: check" class="anticon anticon-check">
                 <svg
                   viewBox="64 64 896 896"
                   data-icon="check"
@@ -51,27 +51,27 @@
         </div>
 
         <div class="drawer-item">
-          <span>主题颜色</span>
+          <span>Màu chủ đề</span>
           <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
         </div>
       </div>
 
       <el-divider />
 
-      <h3 class="drawer-title">系统布局配置</h3>
+      <h3 class="drawer-title">Cấu hình bố cục</h3>
 
       <div class="drawer-item">
-        <span>开启 Tags-Views</span>
+        <span>Tags-Views</span>
         <el-switch v-model="tagsView" class="drawer-switch" />
       </div>
 
       <div class="drawer-item">
-        <span>固定 Header</span>
+        <span>Header</span>
         <el-switch v-model="fixedHeader" class="drawer-switch" />
       </div>
 
       <div class="drawer-item">
-        <span>显示 Logo</span>
+        <span>Logo</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
       </div>
 

@@ -9,12 +9,12 @@
         >
           <el-menu-item index="1">
             <template slot="title">
-              <span class="category-title">未读消息</span>
+              <span class="category-title">Tin nhắn chưa đọc</span>
               <el-badge style="margin-bottom: 3px" :value="countUnread" :hidden="countUnread===0" />
             </template>
           </el-menu-item>
           <el-menu-item index="2">
-            <span class="category-title">已读消息</span>
+            <span class="category-title">Tin nhắn</span>
             <el-badge style="margin-bottom: 3px" type="info" :value="countReaded" />
           </el-menu-item>
         </el-menu>

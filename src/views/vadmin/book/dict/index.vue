@@ -1,30 +1,30 @@
 <template>
   <div class="app-container">
-    <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
-      <el-form-item label="字典名称" prop="dictName">
+    <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="100px">
+      <el-form-item label="Tên" prop="dictName">
         <el-input
           v-model="queryParams.dictName"
-          placeholder="请输入字典名称"
+          placeholder="Vui lòng nhập tên truyện"
           clearable
           size="small"
           style="width: 240px"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="字典类型" prop="dictType">
+      <el-form-item label="Thể loại" prop="dictType">
         <el-input
           v-model="queryParams.dictType"
-          placeholder="请输入字典类型"
+          placeholder="Vui lòng nhập thể loại"
           clearable
           size="small"
           style="width: 240px"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
+      <el-form-item label="Trạng thái" prop="status">
         <el-select
           v-model="queryParams.status"
-          placeholder="字典状态"
+          placeholder="Trạng thái"
           clearable
           size="small"
           style="width: 240px"
@@ -37,7 +37,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="创建时间">
+      <el-form-item label="Thời gian">
         <el-date-picker
           v-model="dateRange"
           size="small"
@@ -45,13 +45,13 @@
           value-format="yyyy-MM-dd"
           type="daterange"
           range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          start-placeholder="Ngày bắt đầu"
+          end-placeholder="Ngày cuối"
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">Tìm kiếm</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">Làm mới</el-button>
       </el-form-item>
     </el-form>
 
@@ -64,7 +64,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-        >新增</el-button>
+        >Thêm mới</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -75,7 +75,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-        >修改</el-button>
+        >Chỉnh sửa</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -86,7 +86,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-        >删除</el-button>
+        >Delete</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -96,7 +96,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-        >导出</el-button>
+        >Xuất dữ liệu</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -106,32 +106,32 @@
           icon="el-icon-refresh"
           size="mini"
           @click="handleClearCache"
-        >清理缓存</el-button>
+        >Xóa cache</el-button>
       </el-col>
       <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
     </el-row>
 
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="字典编号" align="center" prop="id" width="100" />
-      <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true" />
-      <el-table-column label="字典类型" align="center" :show-overflow-tooltip="true">
+      <el-table-column label="ID" align="center" prop="id" width="100" />
+      <el-table-column label="Tên" align="center" prop="dictName" :show-overflow-tooltip="true" />
+      <el-table-column label="Thể loại" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <router-link :to="hasPermi(['system:dict:type:get']) ?'/dict/type/data/' + scope.row.id :'#'" class="link-type">
             <span>{{ scope.row.dictType }}</span>
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="status" :formatter="statusFormat" />
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-      <el-table-column label="创建时间" align="center" prop="create_datetime" width="180">
+      <el-table-column label="Trạng thái" align="center" prop="status" :formatter="statusFormat" />
+      <el-table-column label="Nhận xét" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>
       </el-table-column>
       <el-table-column
         v-if="hasPermi(['system:dict:type:{id}:put','system:dict:type:{id}:delete'])"
-        label="操作"
+        label="Hành động"
         align="center"
         class-name="small-padding fixed-width"
       >
@@ -142,14 +142,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-          >修改</el-button>
+          >Chỉnh sửa</el-button>
           <el-button
             v-hasPermi="['system:dict:type:{id}:delete']"
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-          >删除</el-button>
+          >Xóa</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -162,16 +162,16 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改参数配置对话框 -->
+    <!-- Thêm mới -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="字典名称" prop="dictName">
-          <el-input v-model="form.dictName" placeholder="请输入字典名称" />
+        <el-form-item label="Tên" prop="dictName">
+          <el-input v-model="form.dictName" placeholder="Nhập tên truyện" />
         </el-form-item>
-        <el-form-item label="字典类型" prop="dictType">
-          <el-input v-model="form.dictType" placeholder="请输入字典类型" />
+        <el-form-item label="Thể loại" prop="dictType">
+          <el-input v-model="form.dictType" placeholder="Nhập thể loại truyện" />
         </el-form-item>
-        <el-form-item label="状态" prop="status">
+        <el-form-item label="Trạng thái" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in statusOptions"
@@ -180,13 +180,13 @@
             >{{ dict.dictLabel }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="Miêu tả" prop="remark">
+          <el-input v-model="form.remark" type="textarea" placeholder="Nhập miêu tả truyện" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm">Gửi</el-button>
+        <el-button @click="cancel">Hủy</el-button>
       </div>
     </el-dialog>
   </div>
@@ -234,10 +234,10 @@ export default {
       // 表单校验
       rules: {
         dictName: [
-          { required: true, message: "字典名称不能为空", trigger: "blur" }
+          { required: true, message: "Tên truyện không thể viết thiếu", trigger: "blur" }
         ],
         dictType: [
-          { required: true, message: "字典类型不能为空", trigger: "blur" }
+          { required: true, message: "Thể loại không thể thiếu", trigger: "blur" }
         ]
       }
     };
@@ -294,7 +294,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加字典类型";
+      this.title = "Thêm mới truyện";
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -309,7 +309,7 @@ export default {
       getType(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改字典类型";
+        this.title = "Chỉnh sửa truyện";
       });
     },
     /** 提交按钮 */
@@ -318,13 +318,13 @@ export default {
         if (valid) {
           if (this.form.id !== undefined) {
             updateType(this.form).then(response => {
-              this.msgSuccess("修改成功");
+              this.msgSuccess("Chỉnh sửa thành công");
               this.open = false;
               this.getList();
             });
           } else {
             addType(this.form).then(response => {
-              this.msgSuccess("新增成功");
+              this.msgSuccess("Thêm mới thành công");
               this.open = false;
               this.getList();
             });
@@ -335,23 +335,23 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$confirm('是否确认删除字典编号为"' + ids + '"的数据项?', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm('Bạn có muốn xóa truyện không"' + ids + '"的数据项?', "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return delType(ids);
       }).then(() => {
         this.getList();
-        this.msgSuccess("删除成功");
+        this.msgSuccess("Xóa truyện thành công");
       });
     },
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有类型数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm("Bạn có chắc muốn export tất cả các loại dữ liệu?", "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return exportType(queryParams);
@@ -362,7 +362,7 @@ export default {
     /** 清理缓存按钮操作 */
     handleClearCache() {
       clearCache().then(response => {
-        this.msgSuccess("清理成功");
+        this.msgSuccess("Xóa cache thành công");
       });
     }
   }

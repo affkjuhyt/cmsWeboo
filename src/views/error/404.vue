@@ -9,16 +9,16 @@
       </div>
       <div class="bullshit">
         <div class="bullshit__oops">
-          404错误!
+          Lỗi 404!
         </div>
         <div class="bullshit__headline">
           {{ message }}
         </div>
         <div class="bullshit__info">
-          对不起，您正在寻找的页面不存在。尝试检查URL的错误，然后按浏览器上的刷新按钮或尝试在我们的应用程序中找到其他内容。
+          Xin lỗi, trang bạn đang tìm kiếm không tồn tại. Cố gắng kiểm tra URL để tìm lỗi, sau đó nhấn nút làm mới trên trình duyệt hoặc cố gắng tìm nội dung khác trong ứng dụng của chúng tôi
         </div>
         <router-link to="/" class="bullshit__return-home">
-          返回首页
+          Quay lại trang chủ
         </router-link>
       </div>
     </div>
@@ -31,7 +31,7 @@ export default {
   name: "Page404",
   computed: {
     message() {
-      return "找不到网页！";
+      return "Không tìm thấy trang nào!";
     }
   }
 };

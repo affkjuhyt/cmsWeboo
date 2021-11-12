@@ -267,7 +267,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加岗位";
+      this.title = "Thêm bài đăng";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -276,7 +276,7 @@ export default {
       getPost(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改岗位";
+        this.title = "Sửa";
       });
     },
     /** 提交按钮 */

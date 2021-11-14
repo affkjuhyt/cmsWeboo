@@ -1,19 +1,19 @@
 <template>
   <div class="app-container">
-    <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="100px">
-      <el-form-item label="Tên" prop="bookTitle">
+    <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="70px">
+      <el-form-item label="Tên" prop="title">
         <el-input
-          v-model="queryParams.bookTitle"
+          v-model="queryParams.title"
           placeholder="Vui lòng nhập tên truyện"
           clearable
           size="small"
-          style="width: 240px"
+          style="width: 200px"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="Thể loại" prop="typeBook">
+      <el-form-item label="Thể loại" prop="type">
         <el-input
-          v-model="queryParams.typeBook"
+          v-model="queryParams.type"
           placeholder="Vui lòng nhập thể loại"
           clearable
           size="small"
@@ -21,7 +21,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="Trạng thái" prop="status">
+      <!-- <el-form-item label="Trạng thái" prop="status">
         <el-select
           v-model="queryParams.status"
           placeholder="Trạng thái"
@@ -36,19 +36,7 @@
             :value="dict.dictValue"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="Thời gian">
-        <el-date-picker
-          v-model="dateRange"
-          size="small"
-          style="width: 240px"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="Ngày bắt đầu"
-          end-placeholder="Ngày cuối"
-        />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">Tìm kiếm</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">Làm mới</el-button>
@@ -114,37 +102,37 @@
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" width="100" />
-      <el-table-column label="Tên" align="center" prop="bookTitle" :show-overflow-tooltip="true" />
-      <!-- <el-table-column label="Thể loại" align="center" :show-overflow-tooltip="true">
+      <el-table-column label="Tên" align="center" prop="title" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <router-link :to="hasPermi(['system:dict:type:get']) ?'/dict/type/data/' + scope.row.id :'#'" class="link-type">
-            <span>{{ scope.row.dictType }}</span>
+          <router-link :to="hasPermi(['system:book:chapter:get']) ?'/book/chapter/data/' + scope.row.id :'#'" class="link-type">
+            <span>{{ scope.row.title }}</span>
           </router-link>
         </template>
-      </el-table-column> -->
-      <el-table-column label="Trạng thái" align="center" prop="status" :formatter="statusFormat" />
-      <el-table-column label="Author" align="center" prop="bookAuthor" :show-overflow-tooltip="true" />
+      </el-table-column>
+      <el-table-column label="Thể loại" align="center" prop="type" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column label="Trạng thái" align="center" prop="status" />
+      <el-table-column label="Author" align="center" prop="author" :show-overflow-tooltip="true" />
       <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        v-if="hasPermi(['system:dict:type:{id}:put','system:dict:type:{id}:delete'])"
+        v-if="hasPermi(['system:book:data:{id}:put','system:book:data:{id}:delete'])"
         label="Hành động"
         align="center"
         class-name="small-padding fixed-width"
       >
         <template slot-scope="scope">
           <el-button
-            v-hasPermi="['system:dict:type:{id}:put']"
+            v-hasPermi="['system:book:data:{id}:put']"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
           >Chỉnh sửa</el-button>
           <el-button
-            v-hasPermi="['system:dict:type:{id}:delete']"
+            v-hasPermi="['system:book:data:{id}:delete']"
             size="mini"
             type="text"
             icon="el-icon-delete"
@@ -163,25 +151,19 @@
     />
 
     <!-- Thêm mới -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title_name="title_name" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="Tên" prop="dictName">
-          <el-input v-model="form.dictName" placeholder="Nhập tên truyện" />
+        <el-form-item label="Tên" prop="title">
+          <el-input v-model="form.title" placeholder="Nhập tên truyện" />
         </el-form-item>
-        <el-form-item label="Thể loại" prop="dictType">
-          <el-input v-model="form.dictType" placeholder="Nhập thể loại truyện" />
+        <el-form-item label="Author" prop="author">
+          <el-input v-model="form.author" placeholder="Nhập tên tác giả"></el-input>
         </el-form-item>
-        <el-form-item label="Trạng thái" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in statusOptions"
-              :key="dict.dictValue"
-              :label="dict.dictValue"
-            >{{ dict.dictLabel }}</el-radio>
-          </el-radio-group>
+        <el-form-item label="Thể loại" prop="type">
+          <el-input v-model="form.type" placeholder="Nhập thể loại truyện" />
         </el-form-item>
-        <el-form-item label="Miêu tả" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="Nhập miêu tả truyện" />
+        <el-form-item label="Miêu tả" prop="description">
+          <el-input v-model="form.description" type="textarea" placeholder="Nhập miêu tả truyện" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -208,7 +190,7 @@ export default {
       showSearch: true,
       total: 0,
       typeList: [],
-      title: "",
+      title_name: "",
       open: false,
       statusOptions: [],
       dateRange: [],
@@ -216,13 +198,13 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        bookTitle: undefined,
+        title: undefined,
         thumbnail: undefined,
-        bookAuthor: undefined,
+        author: undefined,
         status: undefined,
-        typeBook: undefined,
-        likeCount: undefined,
-        viewCount: undefined,
+        type: undefined,
+        like_count: undefined,
+        view_count: undefined,
         star: undefined,
         is_enable: undefined,
         is_vip: undefined,
@@ -231,10 +213,10 @@ export default {
       },
       form: {},
       rules: {
-        dictName: [
+        title: [
           { required: true, message: "Tên truyện không thể viết thiếu", trigger: "blur" }
         ],
-        dictType: [
+        type: [
           { required: true, message: "Thể loại không thể thiếu", trigger: "blur" }
         ]
       }
@@ -249,8 +231,10 @@ export default {
   methods: {
     getList() {
       this.loading = true;
-      listBook(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+      console.log("AAAA: " + JSON.stringify(this.queryParams));
+      listBook(this.queryParams).then(response => {
         this.typeList = response.data.results;
+        console.log(response);
         this.total = response.data.count;
         this.loading = false;
       }
@@ -269,15 +253,24 @@ export default {
     reset() {
       this.form = {
         id: undefined,
-        dictName: undefined,
-        dictType: undefined,
-        status: this.selectDictDefault(this.statusOptions),
-        remark: undefined
+        title: undefined,
+        thumbnail: undefined,
+        author: undefined,
+        status: undefined,
+        type: undefined,
+        like_count: undefined,
+        view_count: undefined,
+        star: undefined,
+        is_enable: undefined,
+        is_vip: undefined,
+        is_full: undefined,
+        is_suggest: undefined
       };
       this.resetForm("form");
     },
     /** Nút tìm kiếm hoạt động */
     handleQuery() {
+      // this.queryParams.title = this.title
       this.queryParams.pageNum = 1;
       this.getList();
     },
@@ -291,7 +284,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "Thêm mới truyện";
+      this.title_name = "Thêm mới truyện";
     },
     // Chọn dữ liệu
     handleSelectionChange(selection) {
@@ -306,7 +299,7 @@ export default {
       getBook(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "Chỉnh sửa truyện";
+        this.title_name = "Chỉnh sửa truyện";
       });
     },
     /** Submit form */

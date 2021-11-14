@@ -23,7 +23,7 @@ export default {
     value: { type: Number || Array },
     prop: { type: String },
     /* 用于显示选项 */
-    placeholder: { type: String, default: "请选择" },
+    placeholder: { type: String, default: "Vui lòng chọn" },
     /* 是否多选 */
     multiple: { type: Boolean, default: false },
     /* 是否只能选末级 */

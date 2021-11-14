@@ -480,7 +480,7 @@ export default {
     },
     emptyText: {
       type: String,
-      default: "暂无数据"
+      default: "Không có dữ liệu"
     },
     paginationParams: {
       // 新增。分页参数, 当分页格式返回的属性名称不同使用, 可使用该属性覆盖默认分页属性名称

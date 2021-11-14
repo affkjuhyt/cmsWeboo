@@ -22,11 +22,9 @@ router.beforeEach((to, from, next) => {
         store.dispatch("GetInfo").then(res => {
           // 拉取user_info
           const roles = res.roles;
-          console.log("Roles is: " + roles);
           store.dispatch("GenerateRoutes", { roles }).then(accessRoutes => {
             // 根据roles Tao bang dinh tuyen
             router.addRoutes(accessRoutes); // Tu dong them bang dinh tuyen
-            console.log("Router is: " + JSON.stringify(accessRoutes));
             next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
           });
         }).catch(err => {

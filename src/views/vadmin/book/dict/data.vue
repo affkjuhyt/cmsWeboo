@@ -114,11 +114,11 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="字典编码" align="center" prop="id" />
-      <el-table-column label="字典标签" align="center" prop="dictLabel" />
-      <el-table-column label="字典键值" align="center" prop="dictValue" />
-      <el-table-column label="字典排序" align="center" prop="sort" />
-      <el-table-column label="是否默认" align="center" prop="is_default">
+      <el-table-column label="ID" align="center" prop="id" />
+      <el-table-column label="Label" align="center" prop="dictLabel" />
+      <el-table-column label="Value" align="center" prop="dictValue" />
+      <el-table-column label="Sort" align="center" prop="sort" />
+      <el-table-column label="Is default" align="center" prop="is_default">
         <template slot-scope="scope">
           <el-switch
             disabled
@@ -127,25 +127,25 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="状态"
+        label="Status"
         align="center"
         prop="status"
         :formatter="statusFormat"
       />
       <el-table-column
-        label="备注"
+        label="Remark"
         align="center"
         prop="remark"
         :show-overflow-tooltip="true"
       />
-      <el-table-column label="创建时间" align="center" prop="create_datetime" width="180">
+      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>
       </el-table-column>
       <el-table-column
         v-if="hasPermi(['system:dict:type:{id}:put','system:dict:type:{id}:delete'])"
-        label="操作"
+        label="Hành động"
         align="center"
         class-name="small-padding fixed-width"
       >
@@ -295,6 +295,7 @@ export default {
     /** 查询字典数据列表 */
     getList() {
       this.loading = true;
+      console.log("AAAA: " + JSON.stringify(this.queryParams));
       listData(this.queryParams).then((response) => {
         this.dataList = response.data.results;
         this.total = response.data.count;

@@ -73,6 +73,19 @@ export const constantRoutes = [
         meta: { title: "Dữ liệu từ điển", icon: "" }
       }
     ]
+  },
+  {
+    path: "/book",
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: "chapter/data/:bookId(\\d+)",
+        component: (resolve) => require(["@/views/vadmin/book/manga/data"], resolve),
+        name: "Data",
+        meta: { title: "Dữ liệu chương", icon: "" }
+      }
+    ]
   }
 ];
 

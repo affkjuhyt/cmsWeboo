@@ -3,16 +3,16 @@ import request from "@/utils/request";
 // Get list data book
 export function listBook(query) {
   return request({
-    url: "/admin/system/book/data",
+    url: "/admin/system/book/data/",
     method: "get",
-    parmas: query
+    params: query
   });
 }
 
 // Get detail data
 export function getBook(bookId) {
   return request({
-    url: "/admin/system/book/data" + bookId + "/",
+    url: "/admin/system/book/data/" + bookId+ "/",
     method: "get"
   });
 }
@@ -20,7 +20,7 @@ export function getBook(bookId) {
 // Add data book
 export function addBook(data) {
   return request({
-    url: "/admin/system/book/data" + "/",
+    url: "/admin/system/book/data/",
     method: "post",
     data: data
   });
@@ -29,7 +29,7 @@ export function addBook(data) {
 // Update data book
 export function updateBook(data) {
   return request({
-    url: "/admin/system/book/data" + data.id + "/",
+    url: "/admin/system/book/data/" + data.id + "/",
     method: "put",
     data: data
   });
@@ -38,7 +38,7 @@ export function updateBook(data) {
 // Delete data book
 export function delBook(bookId) {
   return request({
-    url: "/admin/system/book/data" + bookId + "/",
+    url: "/admin/system/book/data/" + bookId + "/",
     method: "delete"
   });
 }
@@ -46,7 +46,7 @@ export function delBook(bookId) {
 // Export data
 export function exportBook(query) {
   return request({
-    url: "/admin/system/book/data/export",
+    url: "/admin/system/book/data/export/",
     method: "get",
     params: query
   });

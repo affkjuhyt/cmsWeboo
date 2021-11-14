@@ -187,7 +187,7 @@ export default {
     },
     emptyText: {
       type: String,
-      default: "暂无数据"
+      default: "Không có dữ liệu"
     },
     topLayout: {
       type: Array,

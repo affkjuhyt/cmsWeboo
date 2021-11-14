@@ -112,6 +112,7 @@ function filterChildren(childrenMap, lastRouter = false) {
 }
 
 export const loadView = (view) => {
+  console.log("ABC: " + JSON.stringify(view));
   return (resolve) => require([`@/views/${view}`], resolve);
 };
 

@@ -37,8 +37,9 @@ export function getChapters(query) {
 // addChapter
 export function addChapter(data) {
   return request({
-    url: "/admin/system/book/chapter" + "/",
+    url: "/admin/system/book/chapter/chapter_update/",
     method: "post",
+    contentType: false,
     data: data
   });
 }
@@ -46,7 +47,7 @@ export function addChapter(data) {
 // updateChapter
 export function updateChapter(data) {
   return request({
-    url: "/admin/system/book/chapter/" + data.id + "/",
+    url: "/admin/system/book/chapter/update/",
     method: "put",
     data: data
   });

@@ -7,17 +7,7 @@
       :inline="true"
       label-width="68px"
     >
-      <!-- <el-form-item label="Tên sách" prop="dictType">
-        <el-select v-model="queryParams.dictType" size="small">
-          <el-option
-            v-for="item in typeOptions"
-            :key="item.id"
-            :label="item.dictName"
-            :value="item.dictType"
-          />
-        </el-select>
-      </el-form-item> -->
-      <el-form-item label="Tên chương" prop="title">
+      <el-form-item label="Tên chương" prop="title" label-width="120px">
         <el-input
           v-model="queryParams.title"
           placeholder="Nhập tên chương"
@@ -102,27 +92,9 @@
       <el-table-column label="ID" align="center" prop="id" />
       <el-table-column label="Tên chương" align="center" prop="title" />
       <el-table-column label="Tên truyện" align="center" prop="name_book" />
-      <el-table-column label="Số chương" align="center" prop="number" />
+      <el-table-column label="STT chương" align="center" prop="number" />
       <el-table-column label="Số like" align="center" prop="like_count">
-        <!-- <template slot-scope="scope">
-          <el-switch
-            disabled
-            :value="scope.row.is_default"
-          />
-        </template> -->
       </el-table-column>
-      <!-- <el-table-column
-        label="状态"
-        align="center"
-        prop="status"
-        :formatter="statusFormat"
-      />
-      <el-table-column
-        label="备注"
-        align="center"
-        prop="remark"
-        :show-overflow-tooltip="true"
-      /> -->
       <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
@@ -163,40 +135,31 @@
 
     <el-dialog :title_name="title_name" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="字典类型">
-          <el-input v-model="form.dictType" :disabled="true" />
+        <el-form-item label="Tên chương" prop="title">
+          <el-input v-model="form.title" placeholder="Nhập tên chương" />
         </el-form-item>
-        <el-form-item label="数据标签" prop="dictLabel">
-          <el-input v-model="form.dictLabel" placeholder="请输入数据标签" />
+        <el-form-item label="Số thứ tự" prop="number">
+          <el-input v-model="form.number" placeholder="Nhập số thứ tự" />
         </el-form-item>
-        <el-form-item label="数据键值" prop="dictValue">
-          <el-input v-model="form.dictValue" placeholder="请输入数据键值" />
+        <el-form-item label="Sách" prop="book">
+          <el-select v-model="form.book" size="small">
+            <el-option
+              v-for="item in listBookOptions"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
+            />
+          </el-select>
         </el-form-item>
-        <el-form-item label="显示排序" prop="sort">
-          <el-input-number v-model="form.sort" controls-position="right" :min="0" />
+        <el-form-item label="Mô tả" prop="description">
+          <el-input v-model="form.description" type="textarea" placeholder="Mô tả thông tin về chương" />
         </el-form-item>
-        <el-form-item label="是否默认" prop="is_default">
-          <el-switch
-            v-model="form.is_default"
-            active-text="是"
-            inactive-text="否"
-          />
-        </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in statusOptions"
-              :key="dict.dictValue"
-              :label="dict.dictValue"
-            >{{ dict.dictLabel }}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="Tệp dữ liệu">
+          <input id="pics" type="file" @change="getFiles($event)" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">Gửi</el-button>
+        <el-button type="primary" @click="submit($event)">Gửi</el-button>
         <el-button @click="cancel">Hủy</el-button>
       </div>
     </el-dialog>
@@ -204,12 +167,13 @@
 </template>
 
 <script>
-import { listChapter, getChapter, getChapters, addChapter, updateChapter, delChapter, exportChapter } from "@/api/vadmin/system/book/chapter";
-// import { getType, listType, clearCache } from "@/api/vadmin/system/dict/type";
-import { clearCache } from "@/api/vadmin/system/book/data";
+import { getChapter, getChapters, addChapter, updateChapter, delChapter, exportChapter } from "@/api/vadmin/system/book/chapter";
+import { listBook, clearCache } from "@/api/vadmin/system/book/data";
+import FileUpload from "@/components/FileUpload/index";
 
 export default {
   name: "Chapter",
+  components: { FileUpload },
   data() {
     return {
       loading: true,
@@ -219,11 +183,11 @@ export default {
       showSearch: true,
       total: 0,
       dataList: [],
-      defaultDictType: "",
+      defaultBookId: "",
       title_name: "",
       open: false,
       statusOptions: [],
-      typeOptions: [],
+      listBookOptions: [],
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -237,29 +201,39 @@ export default {
       },
       form: {},
       rules: {
-        name: [{ required: true, message: "数据标签不能为空", trigger: "blur" }],
-        dictValue: [{ required: true, message: "数据键值不能为空", trigger: "blur" }],
-        sort: [{ required: true, message: "数据顺序不能为空", trigger: "blur" }]
+        title: [{ required: true, message: "Vui lòng nhập tên chương", trigger: "blur" }]
       }
     };
   },
   created() {
     const bookId = this.$route.params && this.$route.params.bookId;
     console.log("CCCC: " + JSON.stringify(this.$route.params));
-    // this.getTypeList();
+    this.getBookList();
     this.getChapter(bookId);
-    // this.getDicts("sys_normal_disable").then((response) => {
-    //   this.statusOptions = response.data;
-    // });
   },
   methods: {
+    getFiles(event) {
+      this.files = event.target.files[0];
+      let urls = this.files;
+      // if (window.createObjectURL != undefined) { // basic
+      //   urls = window.createObjectURL(urls);
+      // } else if (window.URL != undefined) { // mozilla(firefox)
+      //   urls = window.URL.createObjectURL(urls);
+      // } else if (window.webkitURL != undefined) { // webkit or chrome
+      //   urls = window.webkitURL.createObjectURL(urls);
+      // }
+      console.log(urls);
+      console.log(this.files);
+    },
     getChapter(bookId) {
       this.queryParams.book = bookId;
+      this.defaultBookId = bookId;
+      this.queryParams.title = "";
       this.getList();
     },
-    getTypeList() {
-      listChapter({ pageNum: "all" }).then((response) => {
-        this.typeOptions = response.data;
+    getBookList() {
+      listBook({ pageNum: "all" }).then((response) => {
+        this.listBookOptions = response.data;
       });
     },
     getList() {
@@ -288,15 +262,12 @@ export default {
         like_count: undefined,
         book: undefined,
         name_book: undefined
-        // sort: 0,
-        // status: this.selectDictDefault(this.typeOptions),
-        // remark: undefined
       };
       this.resetForm("form");
     },
     handleQuery() {
       let bookId = "";
-      this.typeOptions.map((val) => {
+      this.listBookOptions.map((val) => {
         if (val.book === this.queryParams.book) {
           bookId = val.id;
         }
@@ -307,7 +278,7 @@ export default {
     },
     resetQuery() {
       this.resetForm("queryForm");
-      this.queryParams.book = this.defaultDictType;
+      this.queryParams.book = this.defaultBookId;
       this.handleQuery();
     },
     handleAdd() {
@@ -324,15 +295,34 @@ export default {
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids;
+      console.log("Id is: " + id);
       getChapter(id).then((response) => {
+        console.log("Chapter is: " + JSON.stringify(response));
         this.form = response.data;
         this.open = true;
         this.title_name = "Sửa đổi dữ liệu";
       });
     },
+    submit(event) {
+      event.preventDefault();
+      const formData = new FormData();
+      console.log("Form is: " + this.form.description);
+      formData.append("description", this.form.description);
+      formData.append("title", this.form.title);
+      formData.append("number", this.form.number);
+      formData.append("book", this.form.book);
+      formData.append("file", this.files)
+      console.log("FormData is: " + JSON.stringify(formData));
+      updateChapter(formData).then((response) => {
+        this.msgSuccess("Chỉnh sửa dữ liệu thành công");
+        this.open = false;
+        this.getList();
+      });
+    },
     submitForm: function() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
+          console.log("Json is: " + JSON.stringify(this.form));
           if (this.form.id !== undefined) {
             updateChapter(this.form).then((response) => {
               this.msgSuccess("Chỉnh sửa dữ liệu thành công");
@@ -367,6 +357,7 @@ export default {
     },
     handleExport() {
       const queryParams = this.queryParams;
+      console.log("Export: " + JSON.stringify(queryParams));
       this.$confirm("Bạn có chắc chắn xuất tất cả dữ liệu?", "Cảnh báo", {
         confirmButtonText: "Chắc chắn",
         cancelButtonText: "Hủy",

@@ -13,25 +13,21 @@
       :headers="headers"
       class="upload-file-uploader"
     >
-      <!-- 上传按钮 -->
-      <el-button size="mini" type="primary">选取文件</el-button>
-      <!-- 上传提示 -->
+      <el-button size="mini" type="primary">Chọn tập tin zip</el-button>
       <div v-if="showTip" slot="tip" class="el-upload__tip">
-        请上传
-        <template v-if="fileSize"> 大小不超过 <b style="color: #f56c6c">{{ fileSize }}MB</b> </template>
-        <template v-if="fileType"> 格式为 <b style="color: #f56c6c">{{ fileType.join("/") }}</b> </template>
-        的文件
+        Vui lòng tải lên
+        <template v-if="fileSize"> Kích thước không vượt quá <b style="color: #f56c6c">{{ fileSize }}MB</b> </template>
+        <template v-if="fileType"> Định dạng là <b style="color: #f56c6c">{{ fileType.join("/") }}</b> </template>
       </div>
     </el-upload>
 
-    <!-- 文件列表 -->
     <transition-group class="upload-file-list el-upload-list el-upload-list--text" name="el-fade-in-linear" tag="ul">
       <li v-for="(file, index) in list" :key="file.uid" class="el-upload-list__item ele-upload-list__item-content">
         <el-link :href="file.url" :underline="false" target="_blank">
           <span class="el-icon-document"> {{ getFileName(file.name) }} </span>
         </el-link>
         <div class="ele-upload-list__item-content-action">
-          <el-link :underline="false" type="danger" @click="handleDelete(index)">删除</el-link>
+          <el-link :underline="false" type="danger" @click="handleDelete(index)">Xóa</el-link>
         </div>
       </li>
     </transition-group>
@@ -44,19 +40,15 @@ import { getToken } from "@/utils/auth";
 export default {
   name: "FileUpload",
   props: {
-    // 值
     value: [String, Object, Array],
-    // 大小限制(MB)
     fileSize: {
       type: Number,
-      default: 5
+      default: 20
     },
-    // 文件类型, 例如['png', 'jpg', 'jpeg']
     fileType: {
       type: Array,
-      default: () => ["doc", "xls", "ppt", "txt", "pdf"]
+      default: () => ["doc", "xls", "ppt", "txt", "pdf", "zip"]
     },
-    // 是否显示提示
     isShowTip: {
       type: Boolean,
       default: true
@@ -64,7 +56,7 @@ export default {
   },
   data() {
     return {
-      uploadFileUrl: process.env.VUE_APP_BASE_API + "/admin/system/savefile/", // 上传的图片服务器地址
+      uploadFileUrl: process.env.VUE_APP_BASE_API + "/admin/system/savefile/",
       headers: {
         Authorization: "Bearer " + getToken()
       },
@@ -72,17 +64,13 @@ export default {
     };
   },
   computed: {
-    // 是否显示提示
     showTip() {
       return this.isShowTip && (this.fileType || this.fileSize);
     },
-    // 列表
     list() {
       let temp = 1;
       if (this.value) {
-        // 首先将值转为数组
         const list = Array.isArray(this.value) ? this.value : [this.value];
-        // 然后将数组转为对象数组
         return list.map((item) => {
           if (typeof item === "string") {
             item = { name: item, url: item };
@@ -100,9 +88,7 @@ export default {
     this.fileList = this.list;
   },
   methods: {
-    // 上传前校检格式和大小
     handleBeforeUpload(file) {
-      // 校检文件类型
       if (this.fileType && this.fileType[0] !== "ALL") {
         let fileExtension = "";
         if (file.name.lastIndexOf(".") > -1) {
@@ -114,43 +100,37 @@ export default {
           return false;
         });
         if (!isTypeOk) {
-          this.$message.error(`文件格式不正确, 请上传${this.fileType.join("/")}格式文件!`);
+          this.$message.error(`Định dạng tệp không chính xác, vui lòng tải lên${this.fileType.join("/")}định dạng tệp!`);
           return false;
         }
       }
-      // 校检文件大小
       if (this.fileSize) {
         const isLt = file.size / 1024 / 1024 < this.fileSize;
         if (!isLt) {
-          this.$message.error(`上传文件大小不能超过 ${this.fileSize} MB!`);
+          this.$message.error(`Kích thước tệp không được vượt quá ${this.fileSize} MB!`);
           return false;
         }
       }
       return true;
     },
-    // 文件个数超出
     handleExceed() {
-      this.$message.error(`只允许上传单个文件`);
+      this.$message.error(`Chỉ cho phép tải lên một tệp duy nhất`);
     },
-    // 上传失败
     handleUploadError() {
-      this.$message.error("上传失败, 请重试");
+      this.$message.error("Tải lên không thành công vui lòng cập nhật lại");
     },
-    // 上传成功回调
     handleUploadSuccess(res, file) {
       if (res.code === 200) {
-        this.$message.success("上传成功");
+        this.$message.success("Tải lên thành công");
         this.$emit("input", res.data.file);
       } else {
         this.$message.error(res.msg);
       }
     },
-    // 删除文件
     handleDelete(index) {
       this.fileList.splice(index, 1);
       this.$emit("input", "");
     },
-    // 获取文件名称
     getFileName(name) {
       if (name.lastIndexOf("/") > -1) {
         return name.slice(name.lastIndexOf("/") + 1).toLowerCase();

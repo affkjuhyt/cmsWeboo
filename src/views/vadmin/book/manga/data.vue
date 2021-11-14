@@ -191,6 +191,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        id: undefined,
         description: undefined,
         number: undefined,
         title: undefined,
@@ -214,14 +215,7 @@ export default {
   methods: {
     getFiles(event) {
       this.files = event.target.files[0];
-      let urls = this.files;
-      // if (window.createObjectURL != undefined) { // basic
-      //   urls = window.createObjectURL(urls);
-      // } else if (window.URL != undefined) { // mozilla(firefox)
-      //   urls = window.URL.createObjectURL(urls);
-      // } else if (window.webkitURL != undefined) { // webkit or chrome
-      //   urls = window.webkitURL.createObjectURL(urls);
-      // }
+      const urls = this.files;
       console.log(urls);
       console.log(this.files);
     },
@@ -307,11 +301,12 @@ export default {
       event.preventDefault();
       const formData = new FormData();
       console.log("Form is: " + this.form.description);
+      formData.append("id", this.form.id);
       formData.append("description", this.form.description);
       formData.append("title", this.form.title);
       formData.append("number", this.form.number);
       formData.append("book", this.form.book);
-      formData.append("file", this.files)
+      formData.append("file", this.files);
       console.log("FormData is: " + JSON.stringify(formData));
       updateChapter(formData).then((response) => {
         this.msgSuccess("Chỉnh sửa dữ liệu thành công");

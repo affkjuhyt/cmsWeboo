@@ -1066,7 +1066,6 @@ export default {
         this.getTableData();
       });
     },
-    // 提交上传文件
     submitFileForm() {
       this.$refs.upload.submit();
     }

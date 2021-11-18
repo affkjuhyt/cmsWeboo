@@ -249,7 +249,6 @@ export default {
     });
   },
   methods: {
-    /** 查询字典类型列表 */
     getList() {
       this.loading = true;
       console.log("AAAA: " + JSON.stringify(this.addDateRange(this.queryParams, this.dateRange)));

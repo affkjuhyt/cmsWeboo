@@ -3,6 +3,8 @@ import Vue from "vue";
 import Cookies from "js-cookie";
 
 import Element from "element-ui";
+import lang from "element-ui/lib/locale/lang/en";
+import locale from "element-ui/lib/locale";
 import "./assets/styles/element-variables.scss";
 
 import "@/assets/styles/index.scss"; // global css
@@ -39,6 +41,8 @@ import { getCrontabData, getIntervalData } from "./utils/validate"; // 通用图
 import { getModelSelect } from "@/utils/modelSelect";
 
 // 全局方法挂载
+locale.use(lang);
+
 Vue.prototype.getDicts = getDicts;
 Vue.prototype.getConfigKey = getConfigKey;
 Vue.prototype.getModelSelect = getModelSelect;

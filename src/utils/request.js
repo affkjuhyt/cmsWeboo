@@ -80,11 +80,11 @@ error => {
   console.log("err" + error);
   let { message } = error;
   if (message == "Network Error") {
-    message = "后端接口连接异常";
+    message = "Kết nối API không ổn định";
   } else if (message.includes("timeout")) {
-    message = "系统接口请求超时";
+    message = "Kết nối API hết hạn";
   } else if (message.includes("Request failed with status code")) {
-    message = "系统接口" + message.substr(message.length - 3) + "异常";
+    message = "Kết nối lỗi" + message.substr(message.length - 3) + "异常";
   }
   Message({
     message: message,

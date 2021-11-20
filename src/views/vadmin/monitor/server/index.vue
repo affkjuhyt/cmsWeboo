@@ -1,21 +1,18 @@
 <template>
   <div class="app-container">
-    <!-- 监控控制 -->
     <div class="server-monitor-control">
-      <!-- 监控启用开关 -->
       <div class="control-server-monitor same-block">
-        开启监控：
+        Bật giám sát
         <el-switch
           v-model="isOpeningMonitor"
           active-color="#13ce66"
           inactive-color="#ff4949"
-          title="控制所有监控项"
+          title="Kiểm soát tất cả các hạng mục giám sát"
           @change="changeMonitorStatus"
         />
       </div>
-      <!-- 更新频率设置 -->
       <div class="monitor-update-interval same-block">
-        监控频率：
+        Tần suất giám sát
         <el-input-number
           v-model="monitorUpdateInterval"
           label=""
@@ -38,40 +35,37 @@
         </el-select>
 
       </div>
-      <!-- 监控日志保存时间 -->
       <div class="monitor-log-save-time same-block">
-        保存天数：
-        <el-input v-model="monitorLogSavingDays" class=" same-block" style="width: 120px;" />
+        Tiết kiệm ngày
+        <el-input v-model="monitorLogSavingDays" class=" same-block" style="width: 100px;" />
         <el-button
           type="primary"
           class="same-block"
-          title="只有提交更改才会生效"
+          title="Chỉ các thay đổi cam kết mới có hiệu lực"
           @click="updateMonitorStatusSettingsInfo"
-        >更改
+        >Thay đổi
         </el-button>
       </div>
-      <!-- 清空记录 -->
       <div class="clean-monitor-log same-block">
         <el-button
           class="same-block"
           type="warning"
-          title="清空所有监控记录"
+          title="Xóa tất cả hồ sơ giám sát"
           @click="cleanMonitorLogsInfo"
-        >清空记录
+        >Xóa hồ sơ
         </el-button>
       </div>
     </div>
 
     <div class="server-monitor-top">
-      <!-- 左侧服务器信息 -->
       <el-card class="box-card server-information">
         <div slot="header" class="clearfix">
-          <div class="server-info-item">服务器</div>
+          <div class="server-info-item">Người phục vụ</div>
           <el-select
             filterable
             :value="currentServerName"
             class="server-info-item"
-            placeholder="请选择服务器"
+            placeholder="Vui lòng chọn máy chủ"
             @change="chooseServerInfo"
           >
             <el-option
@@ -84,9 +78,9 @@
           <el-button
             type="primary"
             class="server-info-item"
-            title="只有提交更改才会生效"
+            title="Chỉ các thay đổi cam kết mới có hiệu lực"
             @click="updateServerInfo"
-          >更改
+          >Thay đổi
           </el-button>
         </div>
         <div class="server-info-detail">
@@ -102,7 +96,6 @@
         </div>
       </el-card>
 
-      <!-- 右侧仪表盘 -->
       <el-card
         v-for="(key, index) of Object.keys(instrumentBoardData)"
         :key="`${index}-${key}`"
@@ -117,9 +110,7 @@
         />
       </el-card>
     </div>
-    <!--  下方折线图  -->
     <div class="server-monitor-bottom">
-      <!-- 折线图 -->
       <el-card
         v-for="(key, index) in Object.keys(lineChartData).slice(0,2)"
         :key="`${index}-${key}`"
@@ -153,57 +144,52 @@ import moment from "moment";
 
 const debounce = require("lodash/debounce");
 
-// 要展示的信息，key -> name
 const SERVER_KEY_TO_NAME_MAPPING = {
-  ip: "服务器IP",
-  name: "服务器名称",
-  os: "操作系统",
-  remark: "备注"
+  ip: "IP máy chủ",
+  name: "Tên máy chủ",
+  os: "Hệ điều hành",
+  remark: "Nhận xét"
 };
 
-// 更新频率类型映射
 const INTERVAL_ID_TO_TYPE_MAPPING = {
   0: {
     type: 0,
-    name: "秒",
+    name: "giây",
     key: "seconds",
     second: 1
   },
   1: {
     type: 1,
-    name: "分钟",
+    name: "phút",
     key: "minutes",
     second: 60
   },
   2: {
     type: 2,
-    name: "小时",
+    name: "giờ",
     key: "hours",
     second: 60 * 60
   },
   3: {
     type: 3,
-    name: "天",
+    name: "ngày",
     key: "days",
     second: 24 * 60 * 60
   }
 };
 const defaultUpdateInterval = INTERVAL_ID_TO_TYPE_MAPPING["0"];
 
-// 图表字段映射
 const CHART_KEY_NAME_MAPPING = {
   cpu: "CPU",
-  memory: "内存",
-  disk: "磁盘"
+  memory: "RAM",
+  disk: "Đĩa"
 };
 
-// 仪表盘字段映射
 const INSTRUMENT_BOARD_KEY_TO_NAME_MAPPING = {
-  cpu: "CPU使用率",
-  memory: "内存使用率"
+  cpu: "Sử dụng CPU",
+  memory: "Sử dụng bộ nhớ"
 };
 
-// 服务器信息可修改字段
 const CHANGEABLE_SERVER_FIELDS = ["name", "remark"];
 
 export default {
@@ -223,31 +209,18 @@ export default {
         `${moment().format("YYYY-MM-DD")} 00:00:00`,
         `${moment().format("YYYY-MM-DD")} 23:59:59`
       ],
-      // 加载层信息
       loading: [],
-      // 所有服务器信息
       allServerInfo: [],
-      // 当前展示的服务器名称
       currentServerName: "",
-      // 当前展示的服务器信息
       currentServer: {},
-      // 当前展示的服务器信息索引，更新服务器信息时用
       currentServerIndex: 0,
-      // 开启监控控制按钮
       isOpeningMonitor: false,
-      // 数据更新频率
       monitorUpdateInterval: 60,
-      // 最小更新频率值
       minMonitorUpdateInterval: 0,
-      // 更新频率类型
       intervalType: defaultUpdateInterval.name,
-      // 更新频率单位对应秒
       intervalTypeUnits: defaultUpdateInterval.second,
-      // 监控日志保存天数
       monitorLogSavingDays: 30,
-      // 折线图数据
       lineChartData: {},
-      // 仪表盘数据
       instrumentBoardData: {}
     };
   },
@@ -277,22 +250,17 @@ export default {
   watch: {
     currentServer(newServerInfo) {
       if (newServerInfo) {
-        // 更新最新监控信息
         this.getServerLatestLogInfo(newServerInfo.id);
-        // 获取监控日志信息
         this.getCurrentServerMonitorLogs();
       }
     }
   },
   created() {
     this.openLoading();
-    // 获取所有服务器信息
     this.getServerList(this.currentServerIndex);
-    // 获取服务器监控频率设置
     this.getMonitorStatusSettingsInfo();
   },
   methods: {
-    /** 查询所有服务器基础信息 */
     getServerList(serverIndex) {
       getServerList({ pageNum: "all" }).then(response => {
         this.allServerInfo = response.data;
@@ -303,49 +271,44 @@ export default {
         this.loading.close();
       });
     },
-    /** 修改服务器信息*/
     updateServerInfo() {
       updateServerInfo(this.currentServer.id, this.currentServer).then(() => {
-        this.msgSuccess("修改服务器信息成功！");
+        this.msgSuccess("Sửa đổi thông tin máy chủ thành công!");
       }).catch(error => {
-        this.$message.error(error.msg || "提交修改服务器信息出错！");
+        this.$message.error(error.msg || "Lỗi khi gửi để sửa đổi thông tin máy chủ!");
       }).finally(() => {
         this.getServerList();
       });
     },
-    /** 获取服务器最新监控信息 */
     getServerLatestLogInfo(serverId) {
       getServerLatestLog(serverId).then(results => {
         this.instrumentBoardData = results.data;
       }).catch(error => {
-        this.msgError(error.msg || "获取服务器最新监控信息错误！");
+        this.msgError(error.msg || "Nhận thông tin giám sát mới nhất của lỗi máy chủ!");
       });
     },
-    /** 获取监控日志信息 */
     getCurrentServerMonitorLogs() {
       getMonitorLogs(this.currentServer.id, { as: JSON.stringify({ "create_datetime__range": this.timeRange }) }).then(results => {
         this.lineChartData = results.data;
       }).catch(error => {
-        this.msgError(error.msg || "获取监控日志信息出错误！");
+        this.msgError(error.msg || "Lỗi khi lấy thông tin nhật ký giám sát!");
       });
     },
 
-    /** 清除监控日志 */
     cleanMonitorLogsInfo() {
-      this.$confirm("此操作将删除所有的监控记录，是否继续？", "提示", {
-        confirmButtonText: "确定删除",
-        cancelButtonText: "放弃"
+      this.$confirm("Thao tác này sẽ xóa tất cả các bản ghi giám sát. Bạn có muốn tiếp tục không?", "Cảnh báo", {
+        confirmButtonText: "Xác nhận xóa",
+        cancelButtonText: "Hủy"
       }).then(() => {
         cleanMonitorLog().then(results => {
-          this.msgSuccess("清除记录成功！");
+          this.msgSuccess("Xóa hồ sơ thành công!");
         }).catch(error => {
-          this.$message.warning(error.msg || "清除记录失败，请重试！");
+          this.$message.warning(error.msg || "Không thể xóa hồ sơ, vui lòng thử lại!");
         });
       }).catch(() => {
       });
     },
 
-    /** 获取监控配置信息 */
     getMonitorStatusSettingsInfo() {
       getMonitorStatusInfo().then(results => {
         const { enabled, interval, save_days } = results.data;
@@ -353,47 +316,40 @@ export default {
         this.monitorLogSavingDays = parseInt(save_days);
         this.formatInterval(parseInt(interval));
       }).catch(error => {
-        this.msgError(error.msg || "获取服务器监控配置信息出错误！");
+        this.msgError(error.msg || "Đã xảy ra lỗi khi lấy thông tin cấu hình giám sát máy chủ!");
       });
     },
-    /** 更新监控配置信息 */
     updateMonitorStatusSettingsInfo() {
       updateMonitorStatusInfo(this.monitorStatusInfo).then(() => {
-        this.msgSuccess("更新配置成功！");
+        this.msgSuccess("Đã cập nhật cấu hình thành công!");
       }).catch((error) => {
-        this.msgError(error.msg || "更新服务器监控配置信息出错误！");
+        this.msgError(error.msg || "Lỗi khi cập nhật thông tin cấu hình giám sát máy chủ!");
       });
     },
 
-    // 打开加载层
     openLoading() {
       this.loading = this.$loading({
         lock: true,
-        text: "拼命读取中",
+        text: "Đọc một cách tuyệt vọng",
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)"
       });
     },
-    // 选择展示的服务器信息
     chooseServerInfo(index) {
       this.currentServerIndex = index;
       this.currentServer = this.allServerInfo[index];
       this.currentServerName = this.currentServer.name || this.currentServer.ip;
     },
-    // 更改更新频率（周期）数值
     handleIntervalChange: debounce(function(value) {
       this.monitorUpdateInterval = value;
     }, 500),
-    // 选择更新频率（周期） 单位
     selectIntervalType(value) {
       this.intervalType = value;
       this.intervalTypeUnits = this.intervalNameToSecondMapping[value];
     },
-    // 修改监控状态
     changeMonitorStatus(value) {
       this.isOpeningMonitor = value;
     },
-    // 监控周期时间转换
     formatInterval(intervalTime) {
       let biggerInterval = 0;
       for (const interval of Object.values(INTERVAL_ID_TO_TYPE_MAPPING)) {

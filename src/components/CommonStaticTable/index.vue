@@ -124,17 +124,17 @@
     </el-table>
     <el-row>
       <el-col :span="6" style="margin-top: 20px">
-        <span>已选择:<span style="color: #ff00ff;font-weight: bold;">{{ multipleSelection.length }}</span>条</span>
+        <span>Đã chọn:<span style="color: #ff00ff;font-weight: bold;">{{ multipleSelection.length }}</span>dải</span>
         <el-button
           v-show="multipleSelection.length"
           type="info"
           size="mini"
-          title="清空多选"
+          title="Xóa nhiều lựa chọn"
           @click="clearMultipleSelection"
-        >清空</el-button>
+        >Trống</el-button>
       </el-col>
       <el-col :span="18" style="margin-top: 20px; text-align: right">
-        <span>总计:<span style="color: #ff00ff;font-weight: bold;">{{ filterData.length }}</span>条</span>
+        <span>Toàn bộ:<span style="color: #ff00ff;font-weight: bold;">{{ filterData.length }}</span>dải</span>
       </el-col>
     </el-row>
   </div>

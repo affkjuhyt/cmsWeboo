@@ -1,14 +1,10 @@
-<!--
-@author: xuchi
-@description: 接口信息页面
--->
 <template>
   <div class="app-container">
     <el-card class="box-card" shadow="never">
       <div slot="header" class="clearfix">
-        <span>任务频率</span>
+        <span>Tần suất tác vụ</span>
         <el-button style="float: right; padding: 3px 0" type="text" @click="handleOpenEditIntervalForm(true)">
-          新增频率
+          Thêm tần suất
         </el-button>
       </div>
       <div style="height: 200px;">
@@ -36,7 +32,7 @@
             <el-divider />
           </div>
           <div v-if="detail.length===0" style="text-align: center">
-            暂无信息
+            Không có thông tin
           </div>
         </el-scrollbar>
       </div>
@@ -102,14 +98,14 @@ export default {
       this.editIntervalFormVisible = true;
     },
     handleRemoveIntervalTable(info) {
-      this.$confirm("确认删除？", "确认信息", {
+      this.$confirm("Xác nhận xóa?", "Xác nhận thông tin", {
         distinguishCancelAndClose: true,
-        confirmButtonText: "删除",
-        cancelButtonText: "取消"
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy"
       }).then(() => {
         SyncDataApi.deleteIntervalschedule(info.id).then(response => {
           const name = info.name ? info.name + ":" : "";
-          this.msgSuccess(name + "删除成功");
+          this.msgSuccess(name + "Đã xóa thành công");
           this.initData();
         });
       });

@@ -33,7 +33,6 @@ export function roleMenuTreeselect(roleId) {
   });
 }
 
-// 新增菜单
 export function addMenu(data) {
   return request({
     url: "/admin/permission/menus/",
@@ -42,7 +41,6 @@ export function addMenu(data) {
   });
 }
 
-// 修改菜单
 export function updateMenu(data) {
   return request({
     url: "/admin/permission/menus/" + data.id + "/",
@@ -51,7 +49,6 @@ export function updateMenu(data) {
   });
 }
 
-// 删除菜单
 export function delMenu(menuId) {
   return request({
     url: "/admin/permission/menus/" + menuId + "/",

@@ -14,7 +14,7 @@
     <el-dialog :title="title" :visible.sync="open" append-to-body>
       <el-transfer
         v-model="value"
-        :titles="['显示', '隐藏']"
+        :titles="['Hiện', 'Ẩn']"
         :data="columns"
         @change="dataChange"
       />

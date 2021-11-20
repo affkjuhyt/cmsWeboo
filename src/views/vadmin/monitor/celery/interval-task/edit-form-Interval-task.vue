@@ -1,7 +1,3 @@
-<!--
-@author: xuchi
-@description: 接口编辑组件
--->
 <template>
   <small-dialog
     ref="dialog"
@@ -17,11 +13,11 @@
       <el-form-item v-show="false" prop="instanceId" label="instanceId" style="width: 200px;">
         <el-input v-model="form.instanceId" readonly />
       </el-form-item>
-      <el-form-item prop="every" label="频率:">
-        <el-input-number v-model="form.every" :min="1" label="频率" />
+      <el-form-item prop="every" label="Tần số:">
+        <el-input-number v-model="form.every" :min="1" label="Tần số" />
       </el-form-item>
-      <el-form-item prop="period" label="周期:">
-        <el-select v-model="form.period" placeholder="请选择">
+      <el-form-item prop="period" label="Khoảng thời gian:">
+        <el-select v-model="form.period" placeholder="Vui lòng chọn">
           <el-option
             v-for="(item,index) in lists"
             :key="index.value"
@@ -47,10 +43,10 @@ export default {
   data() {
     return {
       lists: [
-        { label: "天", value: "days" },
-        { label: "小时", value: "hours" },
-        { label: "分钟", value: "minutes" },
-        { label: "秒", value: "seconds" }
+        { label: "ngày", value: "days" },
+        { label: "giờ", value: "hours" },
+        { label: "phút", value: "minutes" },
+        { label: "giây", value: "seconds" }
       ],
       loading: false,
       dialogVisible: false,
@@ -64,7 +60,7 @@ export default {
   },
   computed: {
     dialogTitle() {
-      return this.create ? "新增任务频率" : "编辑任务频率";
+      return this.create ? "Tần suất nhiệm vụ mới" : "Chỉnh sửa tần suất tác vụ";
     }
   },
   watch: {
@@ -79,7 +75,6 @@ export default {
   },
   methods: {
     dialogOpen() {
-      // 为True意味着是通过遍及方式打开对话框
       if (!this.create) {
         this.form = { ...this.entity };
       }

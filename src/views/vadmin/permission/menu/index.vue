@@ -1,17 +1,17 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true">
-      <el-form-item label="菜单名称" prop="name">
+      <el-form-item label="Tên menu" prop="name">
         <el-input
           v-model="queryParams.name"
-          placeholder="请输入菜单名称"
+          placeholder="Nhập tên menu"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="菜单类型" prop="menuType">
-        <el-select v-model="queryParams.menuType" placeholder="菜单类型" clearable size="small">
+      <el-form-item label="Loại menu" prop="menuType">
+        <el-select v-model="queryParams.menuType" placeholder="Loại menu" clearable size="small">
           <el-option
             v-for="dict in menuTypeOptions"
             :key="dict.dictValue"
@@ -20,8 +20,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="菜单状态" clearable size="small">
+      <el-form-item label="Status" prop="status">
+        <el-select v-model="queryParams.status" placeholder="Trạng thái menu" clearable size="small">
           <el-option
             v-for="dict in statusOptions"
             :key="dict.dictValue"
@@ -31,8 +31,8 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">Tìm kiếm</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">Reset</el-button>
       </el-form-item>
     </el-form>
 
@@ -45,7 +45,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-        >新增
+        >Thêm mới
         </el-button>
       </el-col>
       <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
@@ -57,32 +57,32 @@
       row-key="id"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column prop="name" label="菜单名称" :show-overflow-tooltip="true" width="160" />
-      <el-table-column prop="icon" label="图标" align="center" width="100">
+      <el-table-column prop="name" label="Menu" :show-overflow-tooltip="true" width="160" />
+      <el-table-column prop="icon" label="Icon" align="center" width="100">
         <template slot-scope="scope">
           <svg-icon :icon-class="scope.row.icon || ''" />
         </template>
       </el-table-column>
-      <el-table-column prop="orderNum" label="排序" width="60" />
-      <el-table-column prop="menuType" label="菜单类型" :formatter="menuTypeFormat" width="80" />
-      <el-table-column prop="perms" label="权限标识" :show-overflow-tooltip="true" />
-      <el-table-column prop="component_path" label="组件路径" :show-overflow-tooltip="true" />
+      <el-table-column prop="orderNum" label="Loại" width="60" />
+      <el-table-column prop="menuType" label="Loại menu" :formatter="menuTypeFormat" width="100px" />
+      <el-table-column prop="perms" label="ID cơ quan" :show-overflow-tooltip="true" />
+      <el-table-column prop="component_path" label="Đường dẫn thành phần" :show-overflow-tooltip="true" />
       <!--      <el-table-column prop="interface_path" label="接口路径" :show-overflow-tooltip="true"></el-table-column>-->
       <!--      <el-table-column prop="interface_method" label="请求方式" :formatter="interfaceMethodFormat" width="70"></el-table-column>-->
-      <el-table-column prop="status" label="状态" :formatter="statusFormat" width="80" />
-      <el-table-column label="更新时间" align="center" prop="update_datetime">
+      <el-table-column prop="status" label="Status" :formatter="statusFormat" width="80" />
+      <el-table-column label="Thời gian cập nhật" align="center" prop="update_datetime">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.update_datetime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="create_datetime">
+      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>
       </el-table-column>
       <el-table-column
         v-if="hasPermi(['permission:menus:{id}:put', 'permission:menus:post', 'permission:menus:{id}:delete'])"
-        label="操作"
+        label="Hành động"
         align="center"
         class-name="small-padding fixed-width"
       >
@@ -93,7 +93,7 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-          >修改
+          >Chỉnh sửa
           </el-button>
           <el-button
             v-hasPermi="['permission:menus:post']"
@@ -101,7 +101,7 @@
             type="text"
             icon="el-icon-plus"
             @click="handleAdd(scope.row)"
-          >新增
+          >Thêm
           </el-button>
           <el-button
             v-hasPermi="['permission:menus:{id}:delete']"
@@ -109,38 +109,37 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-          >删除
+          >Xóa
           </el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <!-- 添加或修改菜单对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="上级菜单">
+            <el-form-item label="Menu phía trên">
               <treeselect
                 v-model="form.parentId"
                 :options="menuOptions"
                 :normalizer="normalizer"
                 :show-count="true"
-                placeholder="选择上级菜单"
+                placeholder="Chọn menu phía trên"
               />
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="菜单类型" prop="menuType">
+            <el-form-item label="Loại menu" prop="menuType">
               <el-radio-group v-model="form.menuType">
-                <el-radio label="0">目录</el-radio>
-                <el-radio label="1">菜单</el-radio>
-                <el-radio label="2">按钮</el-radio>
+                <el-radio label="0">Nội dung</el-radio>
+                <el-radio label="1">Menu</el-radio>
+                <el-radio label="2">Nút</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item v-if="form.menuType != '2'" label="菜单图标">
+            <el-form-item v-if="form.menuType != '2'" label="Biểu tượng menu">
               <el-popover
                 placement="bottom-start"
                 width="460"
@@ -148,7 +147,7 @@
                 @show="$refs['iconSelect'].reset()"
               >
                 <IconSelect ref="iconSelect" @selected="selected" />
-                <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
+                <el-input slot="reference" v-model="form.icon" placeholder="Nhấp vào biểu tượng chọn" readonly>
                   <svg-icon
                     v-if="form.icon"
                     slot="prefix"
@@ -162,43 +161,43 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="form.menuType == '2'?'菜单名称':'按钮名称'" prop="name">
-              <el-input v-model="form.name" placeholder="请输入菜单名称" />
+            <el-form-item :label="form.menuType == '2'?'Tên menu':'Tên nút'" prop="name">
+              <el-input v-model="form.name" placeholder="Vui lòng nhập tên menu" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="显示排序" prop="orderNum">
+            <el-form-item label="Sắp xếp hiển thị" prop="orderNum">
               <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item v-if="form.menuType != '2'" label="是否外链">
+            <el-form-item v-if="form.menuType != '2'" label="Có liên kết không">
               <el-radio-group v-model="form.isFrame">
-                <el-radio label="0">是</el-radio>
-                <el-radio label="1">否</el-radio>
+                <el-radio label="0">Đúng</el-radio>
+                <el-radio label="1">Sai</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.menuType != '2'" label="路由地址" prop="web_path">
-              <el-input v-model="form.web_path" placeholder="请输入前端路由地址" />
+            <el-form-item v-if="form.menuType != '2'" label="Địa chỉ định tuyến" prop="web_path">
+              <el-input v-model="form.web_path" placeholder="Vui lòng nhập địa chỉ định tuyến giao diện người dùng" />
             </el-form-item>
           </el-col>
           <el-col v-if="form.menuType != '2'" :span="12">
-            <el-form-item label="组件路径" prop="component_path">
-              <el-input v-model="form.component_path" placeholder="请输入前端组件路径" @change="ComponentPathChange" />
+            <el-form-item label="Đường dẫn thành phần" prop="component_path">
+              <el-input v-model="form.component_path" placeholder="Vui lòng nhập đường dẫn thành phần front-end" @change="ComponentPathChange" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.menuType != '0'" label="接口路径" prop="interface_path">
-              <el-input v-model="form.interface_path" placeholder="请输入后端接口路径" @change="InterfacePathChange" />
+            <el-form-item v-if="form.menuType != '0'" label="Đường dẫn giao diện" prop="interface_path">
+              <el-input v-model="form.interface_path" placeholder="Vui lòng nhập đường dẫn giao diện back-end" @change="InterfacePathChange" />
             </el-form-item>
           </el-col>
           <el-col v-if="form.menuType != '0'" :span="12">
-            <el-form-item label="请求方法" prop="interface_method">
+            <el-form-item label="Yêu cầu phương thức" prop="interface_method">
               <el-select
                 v-model="form.interface_method"
-                placeholder="请选择后端请求方法"
+                placeholder="Vui lòng chọn phương thức yêu cầu phụ trợ"
                 clearable
                 size="small"
                 @change="CreatePerms"
@@ -213,12 +212,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item v-if="form.menuType != '0'" label="权限标识">
-              <el-input v-model="form.perms" placeholder="请权限标识" maxlength="50" />
+            <el-form-item v-if="form.menuType != '0'" label="ID cơ quan">
+              <el-input v-model="form.perms" placeholder="Hãy xác định" maxlength="50" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.menuType != '2'" label="显示状态">
+            <el-form-item v-if="form.menuType != '2'" label="Trạng thái hiển thị">
               <el-radio-group v-model="form.visible">
                 <el-radio
                   v-for="dict in visibleOptions"
@@ -230,7 +229,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.menuType != '2'" label="菜单状态">
+            <el-form-item v-if="form.menuType != '2'" label="Trạng thái menu">
               <el-radio-group v-model="form.status">
                 <el-radio
                   v-for="dict in statusOptions"
@@ -242,18 +241,18 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.menuType == '1'" label="是否缓存">
+            <el-form-item v-if="form.menuType == '1'" label="Có lưu vào bộ nhớ cache không?">
               <el-radio-group v-model="form.isCache">
-                <el-radio label="0">不缓存</el-radio>
-                <el-radio label="1">缓存</el-radio>
+                <el-radio label="0">Không lưu vào bộ nhớ cache</el-radio>
+                <el-radio label="1">Bộ nhớ đệm</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm">Chắc chắn</el-button>
+        <el-button @click="cancel">Hủy bỏ</el-button>
       </div>
     </el-dialog>
   </div>
@@ -270,43 +269,31 @@ export default {
   components: { Treeselect, IconSelect },
   data() {
     return {
-      // 遮罩层
       loading: true,
-      // 显示搜索条件
       showSearch: true,
-      // 菜单表格树数据
       menuList: [],
-      // 菜单树选项
       menuOptions: [],
-      // 弹出层标题
       title: "",
-      // 是否显示弹出层
       open: false,
-      // 显示状态数据字典
       visibleOptions: [],
-      // 菜单状态数据字典
       statusOptions: [],
-      // 菜单类型数据字典
       menuTypeOptions: [],
       interfaceMethodOptions: [],
-      // 查询参数
       queryParams: {
         name: undefined,
         visible: undefined,
         pageNum: "all"
       },
-      // 表单参数
       form: {},
-      // 表单校验
       rules: {
         name: [
-          { required: true, message: "菜单名称不能为空", trigger: "blur" }
+          { required: true, message: "Tên menu không được để trống", trigger: "blur" }
         ],
         orderNum: [
-          { required: true, message: "菜单顺序不能为空", trigger: "blur" }
+          { required: true, message: "Thứ tự menu không được để trống", trigger: "blur" }
         ],
         web_path: [
-          { required: true, message: "路由地址不能为空", trigger: "blur" }
+          { required: true, message: "Địa chỉ định tuyến không được để trống", trigger: "blur" }
         ]
       }
     };
@@ -327,11 +314,9 @@ export default {
     });
   },
   methods: {
-    // 选择图标
     selected(name) {
       this.form.icon = name;
     },
-    /** 接口路径变化，必须斜杠开头，不能斜杠结尾*/
     InterfacePathChange() {
       if (this.form.interface_path.length === 0) {
         this.form.perms = "";
@@ -345,16 +330,13 @@ export default {
       }
       this.CreatePerms();
     },
-    /** 自动生成权限标识 */
     CreatePerms() {
       const res = this.form.interface_path + ":" + this.form.interface_method;
       this.form.perms = res.toLocaleLowerCase().replace(/(\/)/g, ":").replace(/(::)/g, ":").replace(/(^:)|(:$)/g, "");
     },
-    /** 组件路径变化，替换斜杠开头 */
     ComponentPathChange() {
       this.form.component_path = this.form.component_path.replace(/(^\/)/g, "");
     },
-    /** 查询菜单列表 */
     getList() {
       this.loading = true;
       listMenu(this.queryParams).then(response => {
@@ -362,7 +344,6 @@ export default {
         this.loading = false;
       });
     },
-    /** 转换菜单数据结构 */
     normalizer(node) {
       if (node.children && !node.children.length) {
         delete node.children;
@@ -373,33 +354,27 @@ export default {
         children: node.children
       };
     },
-    /** 查询菜单下拉树结构 */
     getTreeselect() {
       listMenu({ pageNum: "all" }).then(response => {
         this.menuOptions = [];
-        const menu = { id: 0, name: "主类目", children: [] };
+        const menu = { id: 0, name: "Danh mục chính", children: [] };
         menu.children = this.handleTree(response.data, "id");
         this.menuOptions.push(menu);
       });
     },
-    // 菜单状态字典翻译
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.status);
     },
-    // 菜单类型 字典翻译
     menuTypeFormat(row, column) {
       return this.selectDictLabel(this.menuTypeOptions, row.menuType);
     },
-    // 请求方式 字典翻译
     interfaceMethodFormat(row, column) {
       return this.selectDictLabel(this.interfaceMethodOptions, row.interface_method);
     },
-    // 取消按钮
     cancel() {
       this.open = false;
       this.reset();
     },
-    // 表单重置
     reset() {
       this.form = {
         id: undefined,
@@ -420,16 +395,13 @@ export default {
       };
       this.resetForm("form");
     },
-    /** 搜索按钮操作 */
     handleQuery() {
       this.getList();
     },
-    /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    /** 新增按钮操作 */
     handleAdd(row) {
       this.reset();
       this.getTreeselect();
@@ -439,7 +411,7 @@ export default {
         this.form.parentId = 0;
       }
       this.open = true;
-      this.title = "添加菜单";
+      this.title = "Thêm menu";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -448,7 +420,7 @@ export default {
       getMenu(row.id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改菜单";
+        this.title = "Sửa đổi menu";
       });
     },
     /** 提交按钮 */
@@ -461,13 +433,13 @@ export default {
           }
           if (this.form.id != undefined) {
             updateMenu(cloneData).then(response => {
-              this.msgSuccess("修改成功");
+              this.msgSuccess("Sửa thành công");
               this.open = false;
               this.getList();
             });
           } else {
             addMenu(cloneData).then(response => {
-              this.msgSuccess("新增成功");
+              this.msgSuccess("Thêm mới thành công");
               this.open = false;
               this.getList();
             });
@@ -477,15 +449,15 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      this.$confirm('是否确认删除名称为"' + row.name + '"的数据项?', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm('Bạn có chắc chắn xóa"' + row.name + '"mục dữ liệu?', "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return delMenu(row.id);
       }).then(() => {
         this.getList();
-        this.msgSuccess("删除成功");
+        this.msgSuccess("Xóa thành công");
       });
     }
   }

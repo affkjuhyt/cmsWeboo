@@ -193,12 +193,12 @@ const OPERATION_LOG_FORM_ITEM = [
   },
   {
     index: 7,
-    label: "操作状态",
+    label: "Tình trạng hoạt động",
     key: "status",
     labelType: "boolean",
     labelChoices: {
-      false: "失败",
-      true: "正常"
+      false: "Thất bại",
+      true: "Thông thường"
     }
   },
   {

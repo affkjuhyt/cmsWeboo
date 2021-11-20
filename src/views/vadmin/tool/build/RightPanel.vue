@@ -1,20 +1,19 @@
 <template>
   <div class="right-board">
     <el-tabs v-model="currentTab" class="center-tabs">
-      <el-tab-pane label="组件属性" name="field" />
-      <el-tab-pane label="表单属性" name="form" />
+      <el-tab-pane label="Thuộc tính thành phần" name="field" />
+      <el-tab-pane label="Thuộc tính biểu mẫu" name="form" />
     </el-tabs>
     <div class="field-box">
-      <a class="document-link" target="_blank" :href="documentLink" title="查看组件文档">
+      <a class="document-link" target="_blank" :href="documentLink" title="Xem tài liệu thành phần">
         <i class="el-icon-link" />
       </a>
       <el-scrollbar class="right-scrollbar">
-        <!-- 组件属性 -->
         <el-form v-show="currentTab==='field' && showField" size="small" label-width="90px">
-          <el-form-item v-if="activeData.changeTag" label="组件类型">
+          <el-form-item v-if="activeData.changeTag" label="Loại thành phần">
             <el-select
               v-model="activeData.tagIcon"
-              placeholder="请选择组件类型"
+              placeholder="Vui lòng chọn loại thành phần"
               :style="{width: '100%'}"
               @change="tagChange"
             >
@@ -31,25 +30,25 @@
               </el-option-group>
             </el-select>
           </el-form-item>
-          <el-form-item v-if="activeData.vModel!==undefined" label="字段名">
-            <el-input v-model="activeData.vModel" placeholder="请输入字段名（v-model）" />
+          <el-form-item v-if="activeData.vModel!==undefined" label="Tên trường">
+            <el-input v-model="activeData.vModel" placeholder="Vui lòng nhập tên trường（v-model）" />
           </el-form-item>
-          <el-form-item v-if="activeData.componentName!==undefined" label="组件名">
+          <el-form-item v-if="activeData.componentName!==undefined" label="Tên thành phần">
             {{ activeData.componentName }}
           </el-form-item>
-          <el-form-item v-if="activeData.label!==undefined" label="标题">
-            <el-input v-model="activeData.label" placeholder="请输入标题" />
+          <el-form-item v-if="activeData.label!==undefined" label="Chức vụ">
+            <el-input v-model="activeData.label" placeholder="Vui lòng nhập tiêu đề" />
           </el-form-item>
-          <el-form-item v-if="activeData.placeholder!==undefined" label="占位提示">
-            <el-input v-model="activeData.placeholder" placeholder="请输入占位提示" />
+          <el-form-item v-if="activeData.placeholder!==undefined" label="Lời nhắc trình dữ chỗ">
+            <el-input v-model="activeData.placeholder" placeholder="Vui lòng nhập gợi ý trình giữ chỗ" />
           </el-form-item>
-          <el-form-item v-if="activeData['start-placeholder']!==undefined" label="开始占位">
-            <el-input v-model="activeData['start-placeholder']" placeholder="请输入占位提示" />
+          <el-form-item v-if="activeData['start-placeholder']!==undefined" label="Bắt đầu chiếm đóng">
+            <el-input v-model="activeData['start-placeholder']" placeholder="Vui lòng nhập gợi ý trình giữ chỗ" />
           </el-form-item>
-          <el-form-item v-if="activeData['end-placeholder']!==undefined" label="结束占位">
-            <el-input v-model="activeData['end-placeholder']" placeholder="请输入占位提示" />
+          <el-form-item v-if="activeData['end-placeholder']!==undefined" label="Phần giữ chỗ cuối">
+            <el-input v-model="activeData['end-placeholder']" placeholder="Vui lòng nhập gợi ý trình giữ chỗ" />
           </el-form-item>
-          <el-form-item v-if="activeData.span!==undefined" label="表单栅格">
+          <el-form-item v-if="activeData.span!==undefined" label="Lưới biểu mẫu">
             <el-slider v-model="activeData.span" :max="24" :min="1" :marks="{12:''}" @change="spanChange" />
           </el-form-item>
           <el-form-item v-if="activeData.layout==='rowFormItem'" label="栅格间隔">
@@ -81,29 +80,29 @@
           <el-form-item v-if="activeData.labelWidth!==undefined" label="标签宽度">
             <el-input v-model.number="activeData.labelWidth" type="number" placeholder="请输入标签宽度" />
           </el-form-item>
-          <el-form-item v-if="activeData.style&&activeData.style.width!==undefined" label="组件宽度">
-            <el-input v-model="activeData.style.width" placeholder="请输入组件宽度" clearable />
+          <el-form-item v-if="activeData.style&&activeData.style.width!==undefined" label="Chiều rộng thành phần">
+            <el-input v-model="activeData.style.width" placeholder="Vui lòng nhập chiều rộng của thành phần" clearable />
           </el-form-item>
-          <el-form-item v-if="activeData.vModel!==undefined" label="默认值">
+          <el-form-item v-if="activeData.vModel!==undefined" label="Mặc định">
             <el-input
               :value="setDefaultValue(activeData.defaultValue)"
-              placeholder="请输入默认值"
+              placeholder="Vui lòng nhập giá trị mặc định"
               @input="onDefaultValueInput"
             />
           </el-form-item>
-          <el-form-item v-if="activeData.tag==='el-checkbox-group'" label="至少应选">
+          <el-form-item v-if="activeData.tag==='el-checkbox-group'" label="Ít nhất">
             <el-input-number
               :value="activeData.min"
               :min="0"
-              placeholder="至少应选"
+              placeholder="Ít nhất"
               @input="$set(activeData, 'min', $event?$event:undefined)"
             />
           </el-form-item>
-          <el-form-item v-if="activeData.tag==='el-checkbox-group'" label="最多可选">
+          <el-form-item v-if="activeData.tag==='el-checkbox-group'" label="Có thể lựa chọn nhiều nhất">
             <el-input-number
               :value="activeData.max"
               :min="0"
-              placeholder="最多可选"
+              placeholder="Có thể lựa chọn nhiều nhất"
               @input="$set(activeData, 'max', $event?$event:undefined)"
             />
           </el-form-item>

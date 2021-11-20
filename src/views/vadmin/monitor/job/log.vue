@@ -150,8 +150,8 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="执行状态：">
-              <div v-if="form.status == 0">正常</div>
-              <div v-else-if="form.status == 1">失败</div>
+              <div v-if="form.status == 0">Thông thường</div>
+              <div v-else-if="form.status == 1">Thất bại</div>
             </el-form-item>
           </el-col>
           <el-col :span="24">

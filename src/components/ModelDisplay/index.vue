@@ -265,7 +265,7 @@
     </el-table>
     <el-row>
       <el-col v-if="selection" :span="6" style="margin-top: 20px">
-        <span>已选择:<span style="color: #ff00ff;font-weight: bold;">{{ multipleSelection.length }}</span>条</span>
+        <span>Đã chọn:<span style="color: #ff00ff;font-weight: bold;">{{ multipleSelection.length }}</span>条</span>
         <el-button
           v-show="multipleSelection.length"
           type="info"

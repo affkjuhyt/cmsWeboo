@@ -109,7 +109,7 @@
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="Hành động" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             v-hasPermi="['admin:system:logininfor:get']"
@@ -117,7 +117,7 @@
             type="text"
             icon="el-icon-view"
             @click="handleView(scope.row,scope.index)"
-          >详细
+          >Chi tiết
           </el-button>
         </template>
       </el-table-column>
@@ -131,10 +131,9 @@
       @pagination="getList"
     />
 
-    <!-- 表单类详情dialog-->
     <detail-form-dialog
       v-if="openDetailModal"
-      dialog-title="登录日志详细"
+      dialog-title="Chi tiết nhật kí đăng nhập"
       modal-width="700px"
       :open-detail-modal="openDetailModal"
       :form-data="form"
@@ -152,47 +151,47 @@ import DetailFormDialog from "@/components/Modal/DetailFormDialog";
 const LOGIN_FORM_ITEM = [
   {
     index: 1,
-    label: "访问编号",
+    label: "Id",
     key: "id"
   },
   {
     index: 2,
-    label: "用户名称",
+    label: "Người tạo",
     key: "creator_name"
   },
   {
     index: 3,
-    label: "登录地址",
+    label: "Địa chỉ IP",
     key: "ipaddr"
   },
   {
     index: 4,
-    label: "登录地点",
+    label: "Vị trí đăng nhập",
     key: "loginLocation"
   },
   {
     index: 5,
-    label: "浏览器",
+    label: "Trình duyệt",
     key: "browser"
   },
   {
     index: 6,
-    label: "操作系统",
+    label: "Hệ điều hành",
     key: "browser"
   },
   {
     index: 7,
-    label: "操作信息",
+    label: "Thông tin hoạt động",
     key: "os"
   },
   {
     index: 8,
-    label: "登录状态",
+    label: "Trạng thái đăng nhập",
     key: "status",
     labelType: "boolean",
     labelChoices: {
-      false: "失败",
-      true: "正常"
+      false: "Thất bại",
+      true: "Thông thường"
     }
   },
   {

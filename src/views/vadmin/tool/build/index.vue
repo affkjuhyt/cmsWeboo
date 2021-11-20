@@ -9,7 +9,7 @@
       <el-scrollbar class="left-scrollbar">
         <div class="components-list">
           <div class="components-title">
-            <svg-icon icon-class="component" />输入型组件
+            <svg-icon icon-class="component" />Các thành phần kiểu đầu vào
           </div>
           <draggable
             class="components-draggable"
@@ -33,7 +33,7 @@
             </div>
           </draggable>
           <div class="components-title">
-            <svg-icon icon-class="component" />选择型组件
+            <svg-icon icon-class="component" />Các thành phần lựa chọn
           </div>
           <draggable
             class="components-draggable"
@@ -57,7 +57,7 @@
             </div>
           </draggable>
           <div class="components-title">
-            <svg-icon icon-class="component" /> 布局型组件
+            <svg-icon icon-class="component" /> Thành phần bố cục
           </div>
           <draggable
             class="components-draggable"
@@ -87,13 +87,13 @@
     <div class="center-board">
       <div class="action-bar">
         <el-button icon="el-icon-download" type="text" @click="download">
-          导出vue文件
+          Xuất tệp vue
         </el-button>
         <el-button class="copy-btn-main" icon="el-icon-document-copy" type="text" @click="copy">
-          复制代码
+          Sao chép mã
         </el-button>
         <el-button class="delete-btn" icon="el-icon-delete" type="text" @click="empty">
-          清空
+          Trống
         </el-button>
       </div>
       <el-scrollbar class="center-scrollbar">
@@ -119,7 +119,7 @@
               />
             </draggable>
             <div v-show="!drawingList.length" class="empty-info">
-              从左侧拖入或点选组件进行表单设计
+              Kéo vào hoặc nhấp vào các thành phần từ bên trái để thiết kế biểu mẫu
             </div>
           </el-form>
         </el-row>
@@ -135,7 +135,7 @@
 
     <code-type-dialog
       :visible.sync="dialogVisible"
-      title="选择生成类型"
+      title="Chọn loại xây dựng"
       :show-file-name="showFileName"
       @confirm="generate"
     />
@@ -226,15 +226,15 @@ export default {
       text: trigger => {
         const codeStr = this.generateCode();
         this.$notify({
-          title: "成功",
-          message: "代码已复制到剪切板，可粘贴。",
+          title: "Thành công",
+          message: "Mã đã được sao chép vào khay nhớ tạm và có thể được dán.",
           type: "success"
         });
         return codeStr;
       }
     });
     clipboard.on("error", e => {
-      this.$message.error("代码复制失败");
+      this.$message.error("Sao chép mã không thành công");
     });
   },
   methods: {
@@ -295,7 +295,7 @@ export default {
       document.getElementById("copyNode").click();
     },
     empty() {
-      this.$confirm("确定要清空所有组件吗？", "提示", { type: "warning" }).then(
+      this.$confirm("Bạn có chắc chắn muốn xóa tất cả các thành phần không?", "Cảnh báo", { type: "warning" }).then(
         () => {
           this.drawingList = [];
         }

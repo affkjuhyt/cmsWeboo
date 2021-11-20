@@ -1,12 +1,11 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <!--部门数据-->
       <el-col :span="4" :xs="24">
         <div class="head-container">
           <el-input
             v-model="deptName"
-            placeholder="请输入部门名称"
+            placeholder="Vui lòng nhập tên phòng ban"
             clearable
             size="small"
             prefix-icon="el-icon-search"
@@ -25,33 +24,32 @@
           />
         </div>
       </el-col>
-      <!--用户数据-->
       <el-col :span="20" :xs="24">
         <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
-          <el-form-item label="用户名称" prop="username">
+          <el-form-item label="Tên tài khoản" prop="username" label-width="120px">
             <el-input
               v-model="queryParams.username"
-              placeholder="请输入用户名称"
+              placeholder="Nhập tên tài khoản"
               clearable
               size="small"
               style="width: 240px"
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="手机号码" prop="mobile">
+          <el-form-item label="Số điện thoại" prop="mobile" label-width="120px">
             <el-input
               v-model="queryParams.mobile"
-              placeholder="请输入手机号码"
+              placeholder="Nhập số điện thoại"
               clearable
               size="small"
               style="width: 240px"
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="状态" prop="is_active">
+          <el-form-item label="Trạng thái" prop="is_active">
             <el-select
               v-model="queryParams.is_active"
-              placeholder="用户状态"
+              placeholder="Trạng thái"
               clearable
               size="small"
               style="width: 240px"
@@ -64,7 +62,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item v-if="false" label="创建时间">
+          <el-form-item v-if="false" label="Thời gian tạo">
             <el-date-picker
               v-model="dateRange"
               size="small"
@@ -72,13 +70,13 @@
               value-format="yyyy-MM-dd"
               type="daterange"
               range-separator="-"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
+              start-placeholder="Thời gian bắt đầu"
+              end-placeholder="Thời gian kết thúc"
             />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">Tìm kiếm</el-button>
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">Reset</el-button>
           </el-form-item>
         </el-form>
 
@@ -91,7 +89,7 @@
               icon="el-icon-plus"
               size="mini"
               @click="handleAdd"
-            >新增
+            >Thêm mới
             </el-button>
           </el-col>
           <el-col :span="1.5">
@@ -103,7 +101,7 @@
               size="mini"
               :disabled="single"
               @click="handleUpdate"
-            >修改
+            >Chỉnh sửa
             </el-button>
           </el-col>
           <el-col :span="1.5">
@@ -115,7 +113,7 @@
               size="mini"
               :disabled="multiple"
               @click="handleDelete"
-            >删除
+            >Xóa
             </el-button>
           </el-col>
           <el-col :span="1.5">
@@ -126,7 +124,7 @@
               icon="el-icon-upload2"
               size="mini"
               @click="handleImport"
-            >导入
+            >Nhập dữ liệu
             </el-button>
           </el-col>
           <el-col :span="1.5">
@@ -137,7 +135,7 @@
               icon="el-icon-download"
               size="mini"
               @click="handleExport"
-            >导出
+            >Xuất dữ liệu
             </el-button>
           </el-col>
           <right-toolbar :show-search.sync="showSearch" :columns="columns" @queryTable="getList" />
@@ -145,11 +143,11 @@
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column v-if="columns[0].visible" key="id" label="用户编号" align="center" prop="id" />
+          <el-table-column v-if="columns[0].visible" key="id" label="Tên người dùng" align="center" prop="id" />
           <el-table-column
             v-if="columns[1].visible"
             key="username"
-            label="用户名称"
+            label="Tên tài khoản"
             align="center"
             prop="username"
             :show-overflow-tooltip="true"
@@ -157,7 +155,7 @@
           <el-table-column
             v-if="columns[2].visible"
             key="name"
-            label="用户昵称"
+            label="Tên người dùng"
             align="center"
             prop="name"
             :show-overflow-tooltip="true"
@@ -165,7 +163,7 @@
           <el-table-column
             v-if="columns[3].visible"
             key="deptName"
-            label="部门"
+            label="Phòng"
             align="center"
             prop="dept.deptName"
             :show-overflow-tooltip="true"
@@ -173,7 +171,7 @@
           <el-table-column
             v-if="columns[4].visible"
             key="role"
-            label="关联角色"
+            label="Vai trò liên kết"
             align="center"
             prop="dept.role"
             :show-overflow-tooltip="true"
@@ -190,19 +188,19 @@
                 </el-dropdown>
               </template>
               <template v-else>
-                <span>暂无关联角色</span>
+                <span>Không có vai trò liên quan</span>
               </template>
             </template>
           </el-table-column>
           <el-table-column
             v-if="columns[5].visible"
             key="mobile"
-            label="手机号码"
+            label="Số điện thoại"
             align="center"
             prop="mobile"
             width="120"
           />
-          <el-table-column v-if="columns[6].visible" key="is_active" label="状态" align="center">
+          <el-table-column v-if="columns[6].visible" key="is_active" label="Trạng thái" align="center">
             <template slot-scope="scope">
               <el-switch
                 v-model="scope.row.is_active"
@@ -211,14 +209,14 @@
               />
             </template>
           </el-table-column>
-          <el-table-column v-if="columns[7].visible" label="创建时间" align="center" prop="create_datetime" width="160">
+          <el-table-column v-if="columns[7].visible" label="Thời gian tạo" align="center" prop="create_datetime" width="160">
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.create_datetime) }}</span>
             </template>
           </el-table-column>
           <el-table-column
             v-if="hasPermi(['permission:user:{id}:put','permission:user:{id}:delete','permission:user:resetpwd:put'])"
-            label="操作"
+            label="Hành động"
             align="center"
             width="160"
             class-name="small-padding fixed-width"
@@ -230,7 +228,7 @@
                 type="text"
                 icon="el-icon-edit"
                 @click="handleUpdate(scope.row)"
-              >修改
+              >Chỉnh sửa
               </el-button>
               <el-button
                 v-if="scope.row.id !== 1"
@@ -239,7 +237,7 @@
                 type="text"
                 icon="el-icon-delete"
                 @click="handleDelete(scope.row)"
-              >删除
+              >Xóa
               </el-button>
               <el-button
                 v-hasPermi="['permission:user:resetpwd:put']"
@@ -247,7 +245,7 @@
                 type="text"
                 icon="el-icon-key"
                 @click="handleResetPwd(scope.row)"
-              >重置
+              >Cài lại
               </el-button>
             </template>
           </el-table-column>
@@ -263,18 +261,17 @@
       </el-col>
     </el-row>
 
-    <!-- 添加或修改参数配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户昵称" prop="name">
-              <el-input v-model="form.name" placeholder="请输入用户昵称" />
+            <el-form-item label="Tên của người dùng" prop="name">
+              <el-input v-model="form.name" placeholder="Vui lòng nhập tên của người dùng" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />
+            <el-form-item label="Phòng phân bổ" prop="deptId">
+              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="Vui lòng chọn bộ phận" />
             </el-form-item>
           </el-col>
         </el-row>

@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true">
-      <el-form-item label="部门名称" prop="deptName">
+      <el-form-item label="Tên bộ phận" prop="deptName">
         <el-input
           v-model="queryParams.deptName"
-          placeholder="请输入部门名称"
+          placeholder="Vui lòng nhập tên bộ phận"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -93,32 +93,31 @@
       </el-table-column>
     </el-table>
 
-    <!-- 添加或修改部门对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col v-if="form.parentId !== 0" :span="24">
-            <el-form-item label="上级部门" prop="parentId">
+            <el-form-item label="Cấp cao hơn" prop="parentId">
               <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="部门名称" prop="deptName">
-              <el-input v-model="form.deptName" placeholder="请输入部门名称" />
+            <el-form-item label="Tên bộ phận" prop="deptName">
+              <el-input v-model="form.deptName" placeholder="Vui lòng nhập tên bộ phận" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="显示排序" prop="orderNum">
+            <el-form-item label="Sắp xếp hiển thị" prop="orderNum">
               <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="负责人" prop="leader">
+            <el-form-item label="Leader" prop="leader">
               <el-input v-model="form.leader" placeholder="请输入负责人" maxlength="20" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="联系电话" prop="phone">
+            <el-form-item label="Số điện thoại" prop="phone">
               <el-input v-model="form.phone" placeholder="请输入联系电话" maxlength="11" />
             </el-form-item>
           </el-col>
@@ -141,8 +140,8 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm">Gửi</el-button>
+        <el-button @click="cancel">Hủy</el-button>
       </div>
     </el-dialog>
   </div>
@@ -158,50 +157,40 @@ export default {
   components: { Treeselect },
   data() {
     return {
-      // 遮罩层
       loading: true,
-      // 显示搜索条件
       showSearch: true,
-      // 表格树数据
       deptList: [],
-      // 部门树选项
       deptOptions: [],
-      // 弹出层标题
       title: "",
-      // 是否显示弹出层
       open: false,
-      // 状态数据字典
       statusOptions: [],
-      // 查询参数
       queryParams: {
         deptName: undefined,
         status: undefined,
         pageNum: "all"
       },
-      // 表单参数
       form: {},
-      // 表单校验
       rules: {
         parentId: [
-          { required: true, message: "上级部门不能为空", trigger: "blur" }
+          { required: true, message: "Bộ phận cấp trên không được để trống", trigger: "blur" }
         ],
         deptName: [
-          { required: true, message: "部门名称不能为空", trigger: "blur" }
+          { required: true, message: "Tên bộ phận không được để trống", trigger: "blur" }
         ],
         orderNum: [
-          { required: true, message: "显示排序不能为空", trigger: "blur" }
+          { required: true, message: "Sắp xếp hiển thị không được để trống", trigger: "blur" }
         ],
         email: [
           {
             type: "email",
-            message: "'请输入正确的邮箱地址",
+            message: "'Vui lòng nhập địa chỉ email chính xác",
             trigger: ["blur", "change"]
           }
         ],
         phone: [
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-            message: "请输入正确的手机号码",
+            message: "Vui lòng nhập số điện thoại chính xác",
             trigger: "blur"
           }
         ]
@@ -215,7 +204,6 @@ export default {
     });
   },
   methods: {
-    /** 查询部门列表 */
     getList() {
       this.loading = true;
       listDept(this.queryParams).then(response => {
@@ -223,7 +211,6 @@ export default {
         this.loading = false;
       });
     },
-    /** 转换部门数据结构 */
     normalizer(node) {
       if (node.children && !node.children.length) {
         delete node.children;
@@ -234,16 +221,13 @@ export default {
         children: node.children
       };
     },
-    // 字典状态字典翻译
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.status);
     },
-    // 取消按钮
     cancel() {
       this.open = false;
       this.reset();
     },
-    // 表单重置
     reset() {
       this.form = {
         id: undefined,
@@ -257,34 +241,30 @@ export default {
       };
       this.resetForm("form");
     },
-    /** 搜索按钮操作 */
     handleQuery() {
       this.getList();
     },
-    /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    /** 新增按钮操作 */
     handleAdd(row) {
       this.reset();
       if (row !== undefined) {
         this.form.parentId = row.id;
       }
       this.open = true;
-      this.title = "添加部门";
+      this.title = "Thêm bộ phận";
       listDept({ pageNum: "all" }).then(response => {
         this.deptOptions = this.handleTree(response.data, "id");
       });
     },
-    /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       getDept(row.id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改部门";
+        this.title = "Sửa đổi bộ phận";
       });
       listDeptExcludeChild(row.id).then(response => {
         this.deptOptions = this.handleTree(response.data, "id");
@@ -300,13 +280,13 @@ export default {
           }
           if (this.form.id !== undefined) {
             updateDept(cloneData).then(response => {
-              this.msgSuccess("修改成功");
+              this.msgSuccess("Đã sửa đổi thành công");
               this.open = false;
               this.getList();
             });
           } else {
             addDept(cloneData).then(response => {
-              this.msgSuccess("新增成功");
+              this.msgSuccess("Thêm thành công");
               this.open = false;
               this.getList();
             });
@@ -314,17 +294,16 @@ export default {
         }
       });
     },
-    /** 删除按钮操作 */
     handleDelete(row) {
-      this.$confirm('是否确认删除名称为"' + row.deptName + '"的数据项?', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm('Bạn có chắc chắn xóa tên là"' + row.deptName + '"mục dữ liệu?', "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy bỏ",
         type: "warning"
       }).then(function() {
         return delDept(row.id);
       }).then(() => {
         this.getList();
-        this.msgSuccess("删除成功");
+        this.msgSuccess("Đã xóa thành công");
       });
     }
   }

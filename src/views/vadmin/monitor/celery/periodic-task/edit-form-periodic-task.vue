@@ -1,7 +1,3 @@
-<!--
-@author: xuchi
-@description: 接口编辑组件
--->
 <template>
   <small-dialog
     ref="dialog"
@@ -16,13 +12,13 @@
     @opened="dialogOpen"
   >
     <el-form ref="form" v-loading="loading" :model="form" :size="$ELEMENT.size" label-width="120px">
-      <el-form-item :rules="[{ required: true, message: '任务不能为空'}]" label="celery任务:" prop="task">
+      <el-form-item :rules="[{ required: true, message: 'Tác vụ không được để trống'}]" label="celery:" prop="task">
         <el-autocomplete
           v-model="form.task"
           :fetch-suggestions="querySearch"
           class="inline-input"
           filterable
-          placeholder="celery任务"
+          placeholder="celery"
           style="width: 400px;"
           @select="handleSelect"
         >
@@ -31,11 +27,11 @@
           </template>
         </el-autocomplete>
       </el-form-item>
-      <el-form-item :rules="[{ required: true, message: '名称不能为空'}]" prop="name" label="名称:">
-        <el-input v-model="form.name" placeholder="例如: XXX同步任务" style="width: 400px;" />
+      <el-form-item :rules="[{ required: true, message: 'Tên là bắt buộc'}]" prop="name" label="名称:">
+        <el-input v-model="form.name" placeholder="Ví dụ: tác vụ đồng bộ hóa XXX" style="width: 400px;" />
       </el-form-item>
-      <el-form-item prop="interval" label="任务频率:">
-        <el-select v-model="form.interval" placeholder="请选择任务频率" style="width: 400px;" @change="form.crontab = ''">
+      <el-form-item prop="interval" label="Tác vụ tần suất:">
+        <el-select v-model="form.interval" placeholder="Vui lòng chọn tần suất tác vụ" style="width: 400px;" @change="form.crontab = ''">
           <el-option
             v-for="(item,index) in Interval"
             :key="index"
@@ -44,8 +40,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item prop="crontab" label="任务定时:">
-        <el-select v-model="form.crontab" placeholder="请选择任务定时" style="width: 400px;" @change="form.interval = ''">
+      <el-form-item prop="crontab" label="Thời gian tác vụ:">
+        <el-select v-model="form.crontab" placeholder="Vui lòng chọn thời gian tác vụ" style="width: 400px;" @change="form.interval = ''">
           <el-option
             v-for="(item,index) in Crontab"
             :key="index"

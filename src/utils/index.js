@@ -1,8 +1,5 @@
 import { parseTime } from "./ruoyi";
 
-/**
- * 表格时间格式化
- */
 export function formatDate(cellValue) {
   if (cellValue == null || cellValue == "") return "";
   var date = new Date(cellValue);
@@ -32,14 +29,14 @@ export function formatTime(time, option) {
   const diff = (now - d) / 1000;
 
   if (diff < 30) {
-    return "刚刚";
+    return "Chỉ cần";
   } else if (diff < 3600) {
     // less 1 hour
-    return Math.ceil(diff / 60) + "分钟前";
+    return Math.ceil(diff / 60) + "Vài phút trước";
   } else if (diff < 3600 * 24) {
-    return Math.ceil(diff / 3600) + "小时前";
+    return Math.ceil(diff / 3600) + "Một tiếng trước";
   } else if (diff < 3600 * 24 * 2) {
-    return "1天前";
+    return "1 ngày trước";
   }
   if (option) {
     return parseTime(time, option);
@@ -47,13 +44,13 @@ export function formatTime(time, option) {
     return (
       d.getMonth() +
       1 +
-      "月" +
+      "tháng" +
       d.getDate() +
-      "日" +
+      "ngày" +
       d.getHours() +
-      "时" +
+      "giờ" +
       d.getMinutes() +
-      "分"
+      "phút"
     );
   }
 }
@@ -219,15 +216,12 @@ export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result;
 
   const later = function() {
-    // 据上一次触发时间间隔
     const last = +new Date() - timestamp;
 
-    // 上次被包装函数被调用时间间隔 last 小于设定时间间隔 wait
     if (last < wait && last > 0) {
       timeout = setTimeout(later, wait - last);
     } else {
       timeout = null;
-      // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
       if (!immediate) {
         result = func.apply(context, args);
         if (!timeout) context = args = null;
@@ -239,7 +233,6 @@ export function debounce(func, wait, immediate) {
     context = this;
     timestamp = +new Date();
     const callNow = immediate && !timeout;
-    // 如果延时不存在，重新设定延时
     if (!timeout) timeout = setTimeout(later, wait);
     if (callNow) {
       result = func.apply(context, args);
@@ -374,12 +367,10 @@ export const beautifierConf = {
   }
 };
 
-// 首字母大小
 export function titleCase(str) {
   return str.replace(/( |^)[a-z]/g, L => L.toUpperCase());
 }
 
-// 下划转驼峰
 export function camelCase(str) {
   return str.replace(/-[a-z]/g, str1 => str1.substr(-1).toUpperCase());
 }
@@ -388,17 +379,14 @@ export function isNumberStr(str) {
   return /^[+-]?(0|([1-9]\d*))(\.\d+)?$/g.test(str);
 }
 
-// 是否函数
 export const isFunction = (o) => {
   return Object.prototype.toString.call(o).slice(8, -1) === "Function";
 };
 
-// 是否数组
 export const isArray = (o) => {
   return Object.prototype.toString.call(o).slice(8, -1) === "Array";
 };
 
-// 是否对象
 export const isObj = (o) => {
   return Object.prototype.toString.call(o).slice(8, -1) === "Object";
 };

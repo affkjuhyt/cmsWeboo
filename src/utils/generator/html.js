@@ -116,7 +116,7 @@ const tags = {
     const size = el.size ? `size="${el.size}"` : "";
     let child = buildElButtonChild(el);
 
-    if (child) child = `\n${child}\n`; // 换行
+    if (child) child = `\n${child}\n`;
     return `<${el.tag} ${type} ${icon} ${size} ${disabled}>${child}</${el.tag}>`;
   },
   "el-input": el => {
@@ -135,7 +135,7 @@ const tags = {
       : "";
     let child = buildElInputChild(el);
 
-    if (child) child = `\n${child}\n`; // 换行
+    if (child) child = `\n${child}\n`;
     return `<${el.tag} ${vModel} ${type} ${placeholder} ${maxlength} ${showWordLimit} ${readonly} ${disabled} ${clearable} ${prefixIcon} ${suffixIcon} ${showPassword} ${autosize} ${width}>${child}</${el.tag}>`;
   },
   "el-input-number": el => {
@@ -283,7 +283,6 @@ function attrBuilder(el) {
   };
 }
 
-// el-buttin 子级
 function buildElButtonChild(conf) {
   const children = [];
   if (conf.default) {
@@ -292,7 +291,6 @@ function buildElButtonChild(conf) {
   return children.join("\n");
 }
 
-// el-input innerHTML
 function buildElInputChild(conf) {
   const children = [];
   if (conf.prepend) {

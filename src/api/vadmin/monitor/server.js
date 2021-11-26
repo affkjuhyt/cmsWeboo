@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-// 查询服务器信息详细
+// Chi tiết thông tin truy vấn máy chủ
 export function getServerList(params) {
   return request({
     url: "admin/monitor/server/",

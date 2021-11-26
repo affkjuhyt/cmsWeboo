@@ -277,32 +277,32 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="手机号码" prop="mobile">
-              <el-input v-model="form.mobile" placeholder="请输入手机号码" maxlength="11" />
+            <el-form-item label="Mobile" prop="mobile">
+              <el-input v-model="form.mobile" placeholder="Vui long nhap so dien thoai" maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item v-if="form.id == undefined" label="用户名称" prop="username">
-              <el-input v-model="form.username" placeholder="请输入用户名称" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item v-if="form.id == undefined" label="用户密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" />
+            <el-form-item label="Email" prop="email">
+              <el-input v-model="form.email" placeholder="Vui long nhap email" maxlength="50" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户性别">
-              <el-select v-model="form.gender" placeholder="请选择">
+            <el-form-item v-if="form.id == undefined" label="Username" prop="username">
+              <el-input v-model="form.username" placeholder="Vui long nhap username" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="form.id == undefined" label="Password" prop="password">
+              <el-input v-model="form.password" placeholder="Password" type="password" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="Gender">
+              <el-select v-model="form.gender" placeholder="Gender">
                 <el-option
                   v-for="dict in sexOptions"
                   :key="dict.dictValue"
@@ -313,7 +313,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="状态">
+            <el-form-item label="Status">
               <el-radio-group v-model="form.is_active">
                 <el-radio
                   v-for="dict in statusOptions"
@@ -327,8 +327,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="岗位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择">
+            <el-form-item label="Post">
+              <el-select v-model="form.postIds" multiple placeholder="Post">
                 <el-option
                   v-for="item in postOptions"
                   :key="item.id"
@@ -340,8 +340,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="角色">
-              <el-select v-model="form.roleIds" multiple placeholder="请选择">
+            <el-form-item label="Role">
+              <el-select v-model="form.roleIds" multiple placeholder="Role">
                 <el-option
                   v-for="item in roleOptions"
                   :key="item.id"
@@ -355,19 +355,18 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="备注">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+            <el-form-item label="Remark">
+              <el-input v-model="form.remark" type="textarea" placeholder="Remark" />
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm">Gửi</el-button>
+        <el-button @click="cancel">Hủy</el-button>
       </div>
     </el-dialog>
 
-    <!-- 用户导入对话框 -->
     <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" append-to-body>
       <el-upload
         ref="upload"
@@ -383,19 +382,19 @@
       >
         <i class="el-icon-upload" />
         <div class="el-upload__text">
-          将文件拖到此处，或
-          <em>点击上传</em>
+          Kéo tệp vào đây hoặc
+          <em>Bấm tải lên</em>
         </div>
         <div slot="tip" class="el-upload__tip">
           <el-checkbox v-model="upload.updateSupport" />
-          是否更新已经存在的用户数据
-          <el-link type="info" style="font-size:12px" @click="importTemplate">下载模板</el-link>
+          Có cập nhật dữ liệu người dùng hiện có hay không
+          <el-link type="info" style="font-size:12px" @click="importTemplate">Tải xuống mẫu</el-link>
         </div>
-        <div slot="tip" class="el-upload__tip" style="color:red">提示：仅允许导入“xls”或“xlsx”格式文件！</div>
+        <div slot="tip" class="el-upload__tip" style="color:red">Mẹo: Chỉ cho phép nhập tệp định dạng "xls" hoặc "xlsx"！</div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitFileForm">确 定</el-button>
-        <el-button @click="upload.open = false">取 消</el-button>
+        <el-button type="primary" @click="submitFileForm">Gửi</el-button>
+        <el-button @click="upload.open = false">Upload</el-button>
       </div>
     </el-dialog>
   </div>
@@ -424,62 +423,36 @@ export default {
   components: { Treeselect },
   data() {
     return {
-      // 遮罩层
       loading: true,
-      // 选中数组
       ids: [],
-      // 非单个禁用
       single: true,
-      // 非多个禁用
       multiple: true,
-      // 显示搜索条件
       showSearch: true,
-      // 总条数
       total: 0,
-      // 用户表格数据
       userList: null,
-      // 弹出层标题
       title: "",
-      // 部门树选项
       deptOptions: undefined,
-      // 是否显示弹出层
       open: false,
-      // 部门名称
       deptName: undefined,
-      // 默认密码
       initPassword: undefined,
-      // 日期范围
       dateRange: [],
-      // 状态数据字典
       statusOptions: [{ dictLabel: "Normal", dictValue: true }, { dictLabel: "Hủy kích hoạt", dictValue: false }],
-      // 性别状态字典
       sexOptions: [],
-      // 岗位选项
       postOptions: [],
-      // 角色选项
       roleOptions: [],
-      // 表单参数
       form: {},
       defaultProps: {
         children: "children",
         label: "label"
       },
-      // 用户导入参数
       upload: {
-        // 是否显示弹出层（用户导入）
         open: false,
-        // 弹出层标题（用户导入）
         title: "",
-        // 是否禁用上传
         isUploading: false,
-        // 是否更新已经存在的用户数据
         updateSupport: 0,
-        // 设置上传的请求头部
         headers: { Authorization: "Bearer " + getToken() },
-        // 上传的地址
         url: process.env.VUE_APP_BASE_API + "/admin/system/savefile/"
       },
-      // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -488,39 +461,37 @@ export default {
         is_active: undefined,
         deptId: undefined
       },
-      // 列信息
       columns: [
-        { key: 0, label: `用户编号`, visible: true },
-        { key: 1, label: `用户名称`, visible: true },
-        { key: 2, label: `用户昵称`, visible: true },
-        { key: 3, label: `部门`, visible: true },
-        { key: 4, label: `关联角色`, visible: true },
-        { key: 5, label: `手机号码`, visible: true },
-        { key: 6, label: `状态`, visible: true },
-        { key: 7, label: `创建时间`, visible: true }
+        { key: 0, label: `tên người dùng`, visible: true },
+        { key: 1, label: `tên tài khoản`, visible: true },
+        { key: 2, label: `Biệt hiệu của người dùng`, visible: true },
+        { key: 3, label: `Phòng`, visible: true },
+        { key: 4, label: `Vai trò liên kết`, visible: true },
+        { key: 5, label: `số điện thoại`, visible: true },
+        { key: 6, label: `Status`, visible: true },
+        { key: 7, label: `Thời gian tạo`, visible: true }
       ],
-      // 表单校验
       rules: {
         username: [
-          { required: true, message: "用户名称不能为空", trigger: "blur" }
+          { required: true, message: "Tên tài khoản không được để trông", trigger: "blur" }
         ],
         name: [
-          { required: true, message: "用户昵称不能为空", trigger: "blur" }
+          { required: true, message: "Tên của người dùng không được để trống", trigger: "blur" }
         ],
         password: [
-          { required: true, message: "用户密码不能为空", trigger: "blur" }
+          { required: true, message: "Mật khẩu người dùng không được để trống", trigger: "blur" }
         ],
         email: [
           {
             type: "email",
-            message: "'请输入正确的邮箱地址",
+            message: "'Vui lòng nhập địa chỉ email chính xác",
             trigger: ["blur", "change"]
           }
         ],
         mobile: [
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-            message: "请输入正确的手机号码",
+            message: "Vui lòng nhập số điện thoại chính xác",
             trigger: "blur"
           }
         ]
@@ -528,7 +499,6 @@ export default {
     };
   },
   watch: {
-    // 根据名称筛选部门树
     deptName(val) {
       this.$refs.tree.filter(val);
     }
@@ -547,7 +517,6 @@ export default {
     });
   },
   methods: {
-    /** 查询用户列表 */
     getList() {
       this.loading = true;
       listUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
@@ -557,43 +526,37 @@ export default {
       }
       );
     },
-    /** 查询部门下拉树结构 */
     getTreeselect() {
       treeselect().then(response => {
         this.deptOptions = this.handleTree(response.data, "id");
       });
     },
-    // 筛选节点
     filterNode(value, data) {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
-    // 节点单击事件
     handleNodeClick(data) {
       this.queryParams.deptId = data.id;
       this.getList();
     },
-    // 用户状态修改
     handleStatusChange(row) {
-      const text = row.is_active === true ? "启用" : "停用";
-      this.$confirm('确认要"' + text + '""' + row.username + '"用户吗?', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      const text = row.is_active === true ? "Cho phép" : "Hủy kích hoạt";
+      this.$confirm('Xác nhận để"' + text + '""' + row.username + '"Người sử dụng?', "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return changeUserStatus(row.id, row.is_active);
       }).then(() => {
-        this.msgSuccess(text + "成功");
+        this.msgSuccess(text + "Thành công");
       }).catch(function() {
         row.is_active = row.is_active === false;
       });
     },
-    // 取消按钮
     cancel() {
       this.open = false;
       this.reset();
     },
-    // 表单重置
     reset() {
       this.form = {
         id: undefined,
@@ -611,25 +574,21 @@ export default {
       };
       this.resetForm("form");
     },
-    /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.page = 1;
       this.getList();
     },
-    /** 重置按钮操作 */
     resetQuery() {
       this.dateRange = [];
       this.queryParams.deptId = "";
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id);
       this.single = selection.length !== 1;
       this.multiple = !selection.length;
     },
-    /** 新增按钮操作 */
     handleAdd() {
       this.reset();
       this.getTreeselect();
@@ -637,11 +596,10 @@ export default {
         this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
         this.open = true;
-        this.title = "添加用户";
+        this.title = "Thêm người dùng";
         this.form.password = this.initPassword;
       });
     },
-    /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       this.getTreeselect();
@@ -654,35 +612,33 @@ export default {
         this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
         this.open = true;
-        this.title = "修改用户";
+        this.title = "Sửa đổi người dùng";
         this.form.password = "";
       });
     },
-    /** 重置密码按钮操作 */
     handleResetPwd(row) {
-      this.$prompt('请输入"' + row.username + '"的新密码', "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
+      this.$prompt('Vui lòng nhập"' + row.username + '"Mật khẩu mới', "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy"
       }).then(({ value }) => {
         resetUserPwd(row.id, value).then(response => {
-          this.msgSuccess("修改成功，新密码是：" + value);
+          this.msgSuccess("Sửa đổi thành công và mật khẩu mới là:" + value);
         });
       }).catch(() => {
       });
     },
-    /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id !== undefined) {
             updateUser(this.form).then(response => {
-              this.msgSuccess("修改成功");
+              this.msgSuccess("Chỉnh sửa thành công");
               this.open = false;
               this.getList();
             });
           } else {
             addUser(this.form).then(response => {
-              this.msgSuccess("新增成功");
+              this.msgSuccess("Thêm user thành công");
               this.open = false;
               this.getList();
             });
@@ -690,26 +646,24 @@ export default {
         }
       });
     },
-    /** 删除按钮操作 */
     handleDelete(row) {
       const userIds = row.id || this.ids;
-      this.$confirm('是否确认删除用户编号为"' + userIds + '"的数据项?', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm('Bạn có chắc chắn xóa ID người dùng như"' + userIds + '"mục dữ liệu?', "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return delUser(userIds);
       }).then(() => {
         this.getList();
-        this.msgSuccess("删除成功");
+        this.msgSuccess("Đã xóa thành công");
       });
     },
-    /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有用户数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm("Bạn có chắc chắn xuất tất cả các mục dữ liệu người dùng không?", "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return exportUser(queryParams);
@@ -717,33 +671,27 @@ export default {
         this.download(response.data.file_url, response.data.name);
       });
     },
-    /** 导入按钮操作 */
     handleImport() {
-      this.upload.title = "用户导入";
+      this.upload.title = "Nhập người dùng";
       this.upload.open = true;
     },
-    /** 下载模板操作 */
     importTemplate() {
       importTemplate().then(response => {
         this.download(response.data.file_url, response.data.name);
       });
     },
-    // 文件上传中处理
     handleFileUploadProgress(event, file, fileList) {
       this.upload.isUploading = true;
     },
-    // 文件上传成功处理
     handleFileSuccess(response, file, fileList) {
       this.upload.open = false;
       this.upload.isUploading = false;
       this.$refs.upload.clearFiles();
-      // 是否更新已经存在的用户数据
       importsUser({ file_url: response.data.file_url, updateSupport: this.upload.updateSupport }).then(response => {
-        this.$alert("导入成功！", "导入结果", { dangerouslyUseHTMLString: true });
+        this.$alert("Đã nhập thành công", "nhập kết quả", { dangerouslyUseHTMLString: true });
         this.getList();
       });
     },
-    // 提交上传文件
     submitFileForm() {
       this.$refs.upload.submit();
     }

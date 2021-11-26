@@ -1,10 +1,4 @@
-﻿/**
- * 通用js方法封装处理
- * Copyright (c) 2019 ruoyi
- */
-
-// 日期格式化
-export function parseTime(time, pattern) {
+﻿export function parseTime(time, pattern) {
   if (arguments.length === 0 || !time) {
     return null;
   }
@@ -35,7 +29,7 @@ export function parseTime(time, pattern) {
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key];
     // Note: getDay() returns 0 on Sunday
-    if (key === "a") { return ["日", "一", "二", "三", "四", "五", "六"][value]; }
+    if (key === "a") { return ["ngày", "1", "2", "3", "4", "6", "7"][value]; }
     if (result.length > 0 && value < 10) {
       value = "0" + value;
     }
@@ -44,14 +38,12 @@ export function parseTime(time, pattern) {
   return time_str;
 }
 
-// 表单重置
 export function resetForm(refName) {
   if (this.$refs[refName]) {
     this.$refs[refName].resetFields();
   }
 }
 
-// 添加日期范围
 export function addDateRange(params, dateRange, propName) {
   const search = JSON.parse(JSON.stringify(params));
   if (dateRange != null && dateRange !== "" && dateRange.length !== 0) {
@@ -60,7 +52,6 @@ export function addDateRange(params, dateRange, propName) {
   return search;
 }
 
-// 回显数据字典
 export function selectDictLabel(datas, value) {
   var actions = [];
   Object.keys(datas).some((key) => {
@@ -71,7 +62,6 @@ export function selectDictLabel(datas, value) {
   });
   return actions.join("");
 }
-// 获取字典默认值
 export function selectDictDefault(datas) {
   var actions = [];
   Object.keys(datas).some((key) => {
@@ -86,7 +76,6 @@ export function selectDictDefault(datas) {
   return actions.join("");
 }
 
-// 回显数据字典（字符串数组）
 export function selectDictLabels(datas, value, separator) {
   var actions = [];
   var currentSeparator = undefined === separator ? "," : separator;
@@ -128,7 +117,6 @@ function saveAs(blob, filename) {
 }
 
 /**
- * 获取 blob
  * @param  {String} url 目标文件地址
  * @return {cb}
  */
@@ -143,14 +131,12 @@ function getBlob(url, cb) {
   };
   xhr.send();
 }
-// 通用下载方法
 export function download(file_url, fileName) {
   getBlob(process.env.VUE_APP_BASE_API + file_url, function(blob) {
     saveAs(blob, fileName);
   });
 }
 
-// 字符串格式化(%s )
 export function sprintf(str) {
   var args = arguments; var flag = true; var i = 1;
   str = str.replace(/%s/g, function() {
@@ -164,7 +150,6 @@ export function sprintf(str) {
   return flag ? str : "";
 }
 
-// 转换字符串，undefined,null等转化为""
 export function praseStrEmpty(str) {
   if (!str || str == "undefined" || str == "null") {
     return "";
@@ -173,7 +158,6 @@ export function praseStrEmpty(str) {
 }
 
 /**
- * 构造树型结构数据
  * @param {*} data 数据源
  * @param {*} id id字段 默认 'id'
  * @param {*} parentId 父节点字段 默认 'parentId'
@@ -184,23 +168,17 @@ export function handleTree(data, id, parentId, children, rootId) {
   id = id || "id";
   parentId = parentId || "parentId";
   children = children || "children";
-  // 排序
   function NumCompare(a, b) {
-    // 数字比较函数
     return a.orderNum - b.orderNum;
   }
   rootId = rootId || Math.min.apply(Math, data.map(item => { return item[parentId]; })) || 0;
-  // 对源数据深度克隆
   const cloneData = JSON.parse(JSON.stringify(data));
-  // 循环所有项
   const treeData = cloneData.filter(father => {
     const branchArr = cloneData.filter(child => {
-      // 返回每一项的子级数组
       return father[id] === child[parentId];
     });
     branchArr.sort(NumCompare);
     branchArr.length > 0 ? father.children = branchArr : "";
-    // 返回第一层
     return father[parentId] === rootId || !father[parentId];
   });
   treeData.sort(NumCompare);

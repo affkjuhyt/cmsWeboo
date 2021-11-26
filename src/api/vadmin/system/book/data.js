@@ -12,7 +12,7 @@ export function listBook(query) {
 // Get detail data
 export function getBook(bookId) {
   return request({
-    url: "/admin/system/book/data/" + bookId+ "/",
+    url: "/admin/system/book/data/" + bookId + "/",
     method: "get"
   });
 }

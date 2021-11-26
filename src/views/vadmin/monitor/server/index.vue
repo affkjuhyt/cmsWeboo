@@ -36,8 +36,8 @@
 
       </div>
       <div class="monitor-log-save-time same-block">
-        Tiết kiệm ngày
-        <el-input v-model="monitorLogSavingDays" class=" same-block" style="width: 100px;" />
+        Save days
+        <el-input v-model="monitorLogSavingDays" class=" same-block" style="width: 70px;" />
         <el-button
           type="primary"
           class="same-block"
@@ -60,7 +60,7 @@
     <div class="server-monitor-top">
       <el-card class="box-card server-information">
         <div slot="header" class="clearfix">
-          <div class="server-info-item">Người phục vụ</div>
+          <div class="server-info-item">Máy chủ </div>
           <el-select
             filterable
             :value="currentServerName"
@@ -384,10 +384,11 @@ export default {
 }
 
 .server-information {
-  width: 20%;
+  width: 31%;
   min-width: 400px;
   min-height: 300px;
   display: inline-block;
+  margin-top: 30px;
 }
 
 .information-instrument-panel {

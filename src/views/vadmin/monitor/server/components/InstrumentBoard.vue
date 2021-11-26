@@ -30,11 +30,9 @@
 
 <script>
 import VueTypes from "vue-types";
-// 引入基本模板,按需加载
 const echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/gauge");
 
-// 仪表盘颜色范围
 const NORMAL_COLOR = {
   color: "#28BCFE",
   itemColor: ["#25bfff", "#5284de", "#2a95f9"]
@@ -51,45 +49,35 @@ const DANGER_COLOR = {
 export default {
   name: "InstrumentBoard",
   props: {
-    // 组件key
     ringGraphKey: VueTypes.string.isRequired,
-    // 上标题
     showTopTitle: VueTypes.bool.def(false),
-    // 下标题
     showSubTitle: VueTypes.bool.def(false),
-    // top title 配置映射
     topTitleKeyToNameMapping: VueTypes.object.def({
-      cpu: "CPU使用率",
-      memory: "内存使用率"
+      cpu: "CPU đang sử dụng",
+      memory: "Memory sử dụng"
     }),
     instrumentBoardData: VueTypes.any.isRequired
   },
   data() {
     return {
-      // 当前显示的数据
       currentInstrumentBoardData: {}
     };
   },
   computed: {
-    // 仪表盘是否存在多个数据
     haveMultipleData() {
       return this.instrumentBoardData instanceof Array && this.instrumentBoardData.length > 0;
     },
-    // 使用率
     ringRate() {
       let ringRate = this.currentInstrumentBoardData.rate;
       ringRate = ringRate < 1 ? ringRate * 100 : ringRate;
       return parseFloat(ringRate.toFixed(4));
     },
-    // 仪表盘id
     ringGraphId() {
       return `${this.ringGraphKey}UsingRate`;
     },
-    // 上方标题
     topTitle() {
       return this.currentInstrumentBoardData["dir_name"] || this.topTitleKeyToNameMapping[this.ringGraphKey] || this.ringGraphKey;
     },
-    // 下方标题
     subTitle() {
       const used = this.currentInstrumentBoardData["used"] ? this.currentInstrumentBoardData["used"] + "/" : "";
       const total = this.currentInstrumentBoardData["total"] ? this.currentInstrumentBoardData["total"] : "";
@@ -98,7 +86,6 @@ export default {
       const title = (this.currentInstrumentBoardData["used"] ? "已用/" : "") + "总量(单位)";
       return { content, title };
     },
-    // 使用率样式配置
     usingRateStyle() {
       return {
         fontSize: 18,
@@ -117,7 +104,6 @@ export default {
   methods: {
     drawBar() {
       const currentRate = [this.ringRate];
-      // 基于dom，初始化echarts实例
       const RingGraph = echarts.init(document.getElementById(this.ringGraphId));
 
       const option = {
@@ -130,8 +116,7 @@ export default {
         },
         angleAxis: {
           max: 100,
-          clockwise: true, // 逆时针
-          // 隐藏刻度线
+          clockwise: true,
           show: false
         },
         radiusAxis: {
@@ -148,15 +133,15 @@ export default {
           }
         },
         polar: {
-          center: ["50%", "50%"], // 坐标中心位置
-          radius: "100%" // 图形大小
+          center: ["50%", "50%"],
+          radius: "100%"
         },
         series: [{
           type: "bar",
           data: currentRate,
           showBackground: true,
           backgroundStyle: {
-            color: "#BDEBFF" // 底圈颜色
+            color: "#BDEBFF"
           },
           coordinateSystem: "polar",
           roundCap: true,
@@ -177,10 +162,8 @@ export default {
           }
         }]
       };
-      // 绘制图表
       RingGraph.setOption(option);
     },
-    // 仪表盘样式-颜色
     getCircleColor(usingRate) {
       if (usingRate < 60) {
         return NORMAL_COLOR;

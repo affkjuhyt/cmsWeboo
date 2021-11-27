@@ -58,7 +58,6 @@ export default {
           }
         ]
       },
-      // 性别状态字典
       sexOptions: []
     };
   },

@@ -27,11 +27,6 @@
                 <div class="pull-right">{{ user.email }}</div>
               </li>
               <li class="list-group-item">
-                <svg-icon icon-class="tree" />
-                Cấp bậc
-                <div v-if="user.dept" class="pull-right">{{ user.dept.deptName }} / {{ postGroup }}</div>
-              </li>
-              <li class="list-group-item">
                 <svg-icon icon-class="peoples" />
                 Vai trò
                 <div class="pull-right">{{ roleGroup }}</div>

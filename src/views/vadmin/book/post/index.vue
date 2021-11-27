@@ -1,17 +1,17 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="70px">
-      <el-form-item label="Tên" prop="title">
+      <el-form-item label="Tên" prop="user">
         <el-input
-          v-model="queryParams.title"
-          placeholder="Vui lòng nhập tên hội"
+          v-model="queryParams.user"
+          placeholder="Vui lòng nhập tên người post"
           clearable
           size="small"
           style="width: 200px"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="Trạng thái" prop="status" label-width="100px">
+      <!-- <el-form-item label="Trạng thái" prop="status" label-width="100px">
         <el-select
           v-model="queryParams.status"
           placeholder="Trạng thái"
@@ -26,7 +26,7 @@
             :value="dict.dictValue"
           />
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">Tìm kiếm</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">Làm mới</el-button>
@@ -36,7 +36,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-          v-hasPermi="['system:group:post']"
+          v-hasPermi="['system:post:post']"
           type="primary"
           plain
           icon="el-icon-plus"
@@ -46,7 +46,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          v-hasPermi="['system:group:{id}:put']"
+          v-hasPermi="['system:post:{id}:put']"
           type="success"
           plain
           icon="el-icon-edit"
@@ -57,7 +57,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          v-hasPermi="['system:group:{id}:delete']"
+          v-hasPermi="['system:post:{id}:delete']"
           type="danger"
           plain
           icon="el-icon-delete"
@@ -68,7 +68,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          v-hasPermi="['system:group:export:get']"
+          v-hasPermi="['system:post:export:get']"
           type="warning"
           plain
           icon="el-icon-download"
@@ -78,7 +78,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          v-hasPermi="['system:group:clearcache:delete']"
+          v-hasPermi="['system:post:clearcache:delete']"
           type="danger"
           plain
           icon="el-icon-refresh"
@@ -92,38 +92,38 @@
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" width="100" />
-      <el-table-column label="Tên" align="center" prop="name" :show-overflow-tooltip="true">
+      <el-table-column label="Group" align="center" prop="group" :show-overflow-tooltip="true">
         <!-- <template slot-scope="scope">
           <router-link :to="hasPermi(['system:group:chapter:get']) ?'/book/chapter/data/' + scope.row.id :'#'" class="link-type">
             <span>{{ scope.row.title }}</span>
           </router-link>
         </template> -->
       </el-table-column>
-      <el-table-column label="Trạng thái" align="center" prop="status" :formatter="statusFormat"></el-table-column>
-      <el-table-column label="Số lượng bài viết" align="center" prop="post_count" :show-overflow-tooltip="true" />
-      <el-table-column label="Số lượng thành viên" align="center" prop="member_count" :show-overflow-tooltip="true" />
-      <el-table-column label="Mô tả" align="center" prop="description" :show-overflow-tooltip="true" />
+      <el-table-column label="User" align="center" prop="user" />
+      <el-table-column label="Nội dung" align="center" prop="content" :show-overflow-tooltip="true" />
+      <el-table-column label="Số lượt like" align="center" prop="like_count" :show-overflow-tooltip="true" />
+      <el-table-column label="Số lượt chia sẻ" align="center" prop="share_count" :show-overflow-tooltip="true" />
       <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        v-if="hasPermi(['system:group:{id}:put','system:group:{id}:delete'])"
+        v-if="hasPermi(['system:post:{id}:put','system:post:{id}:delete'])"
         label="Hành động"
         align="center"
         class-name="small-padding fixed-width"
       >
         <template slot-scope="scope">
           <el-button
-            v-hasPermi="['system:group:{id}:put']"
+            v-hasPermi="['system:post:{id}:put']"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
           >Chỉnh sửa</el-button>
           <el-button
-            v-hasPermi="['system:group:{id}:delete']"
+            v-hasPermi="['system:post:{id}:delete']"
             size="mini"
             type="text"
             icon="el-icon-delete"
@@ -142,10 +142,18 @@
     />
 
     <!-- Thêm mới -->
-    <el-dialog :title_name="title_name" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="Tên" prop="name">
-          <el-input v-model="form.name" placeholder="Nhập tên nhóm" />
+    <el-dialog :title="title_name" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-form-item label="Group" prop="group">
+          <el-select v-model="form.groupIds" multiple placeholder="Group">
+            <el-option
+              v-for="item in groupOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+              :disabled="item.status == 0"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="Trạng thái" prop="status">
           <el-radio-group v-model="form.status">
@@ -156,8 +164,8 @@
             >{{ dict.dictLabel }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="Miêu tả" prop="description">
-          <el-input v-model="form.description" type="textarea" placeholder="Nhập miêu tả truyện" />
+        <el-form-item label="Nội dung bài viết" prop="content">
+          <el-input  type="textarea" v-model="form.content" placeholder="Nhập nội dung bài viết" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -169,7 +177,7 @@
 </template>
 
 <script>
-import { listGroup, getGroup, addGroup, updateGroup, delGroup, exportGroup, clearCache } from "@/api/vadmin/system/group/data";
+import { listPostGroup, getPostGroup, addPostGroup, updatePostGroup, delPostGroup, exportPostGroup, clearCache } from "@/api/vadmin/system/post/data";
 
 export default {
   name: "Group",
@@ -191,11 +199,11 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        description: undefined,
-        name: undefined,
-        post_count: undefined,
-        member_count: undefined,
-        status: undefined,
+        content: undefined,
+        like_count: undefined,
+        share_count: undefined,
+        user: undefined,
+        group: undefined
       },
       form: {},
       rules: {
@@ -218,7 +226,7 @@ export default {
     getList() {
       this.loading = true;
       console.log("AAAA: " + JSON.stringify(this.queryParams));
-      listGroup(this.queryParams).then(response => {
+      listPostGroup(this.queryParams).then(response => {
         this.typeList = response.data.results;
         this.total = response.data.count;
         this.loading = false;
@@ -237,10 +245,11 @@ export default {
     reset() {
       this.form = {
         id: undefined,
-        name: undefined,
-        post_count: undefined,
-        member_count: undefined,
-        status: undefined
+        content: undefined,
+        like_count: undefined,
+        share_count: undefined,
+        user: undefined,
+        group: undefined
       };
       this.resetForm("form");
     },
@@ -260,7 +269,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title_name = "Thêm mới hội nhóm";
+      this.title_name = "Thêm mới bài viết mới";
     },
     // Chọn dữ liệu
     handleSelectionChange(selection) {
@@ -272,7 +281,7 @@ export default {
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids;
-      getGroup(id).then(response => {
+      getPostGroup(id).then(response => {
         this.form = response.data;
         this.open = true;
         this.title_name = "Chỉnh sửa hội nhóm";
@@ -283,13 +292,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id !== undefined) {
-            updateGroup(this.form).then(response => {
+            updatePostGroup(this.form).then(response => {
               this.msgSuccess("Chỉnh sửa thành công");
               this.open = false;
               this.getList();
             });
           } else {
-            addGroup(this.form).then(response => {
+            addPostGroup(this.form).then(response => {
               this.msgSuccess("Thêm mới thành công");
               this.open = false;
               this.getList();
@@ -306,7 +315,7 @@ export default {
         cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
-        return delGroup(ids);
+        return delPostGroup(ids);
       }).then(() => {
         this.getList();
         this.msgSuccess("Xóa hội nhóm thành công");
@@ -320,7 +329,7 @@ export default {
         cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
-        return exportGroup(queryParams);
+        return exportPostGroup(queryParams);
       }).then(response => {
         this.download(response.data.file_url, response.data.name);
       });

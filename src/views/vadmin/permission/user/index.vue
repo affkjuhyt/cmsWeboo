@@ -1,30 +1,7 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20">
-      <el-col :span="4" :xs="24">
-        <div class="head-container">
-          <el-input
-            v-model="deptName"
-            placeholder="Vui lòng nhập tên phòng ban"
-            clearable
-            size="small"
-            prefix-icon="el-icon-search"
-            style="margin-bottom: 20px"
-          />
-        </div>
-        <div class="head-container">
-          <el-tree
-            ref="tree"
-            :data="deptOptions"
-            :props="defaultProps"
-            :expand-on-click-node="false"
-            :filter-node-method="filterNode"
-            default-expand-all
-            @node-click="handleNodeClick"
-          />
-        </div>
-      </el-col>
-      <el-col :span="20" :xs="24">
+    <el-row :gutter="24">
+      <el-col :span="32" :xs="12">
         <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
           <el-form-item label="Tên tài khoản" prop="username" label-width="120px">
             <el-input
@@ -162,14 +139,6 @@
           />
           <el-table-column
             v-if="columns[3].visible"
-            key="deptName"
-            label="Phòng"
-            align="center"
-            prop="dept.deptName"
-            :show-overflow-tooltip="true"
-          />
-          <el-table-column
-            v-if="columns[4].visible"
             key="role"
             label="Vai trò liên kết"
             align="center"
@@ -193,14 +162,14 @@
             </template>
           </el-table-column>
           <el-table-column
-            v-if="columns[5].visible"
+            v-if="columns[4].visible"
             key="mobile"
             label="Số điện thoại"
             align="center"
             prop="mobile"
             width="120"
           />
-          <el-table-column v-if="columns[6].visible" key="is_active" label="Trạng thái" align="center">
+          <el-table-column v-if="columns[5].visible" key="is_active" label="Trạng thái" align="center">
             <template slot-scope="scope">
               <el-switch
                 v-model="scope.row.is_active"
@@ -209,7 +178,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column v-if="columns[7].visible" label="Thời gian tạo" align="center" prop="create_datetime" width="160">
+          <el-table-column v-if="columns[6].visible" label="Thời gian tạo" align="center" prop="create_datetime" width="160">
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.create_datetime) }}</span>
             </template>
@@ -269,11 +238,6 @@
               <el-input v-model="form.name" placeholder="Vui lòng nhập tên của người dùng" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="Phòng phân bổ" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="Vui lòng chọn bộ phận" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -326,19 +290,6 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="Post">
-              <el-select v-model="form.postIds" multiple placeholder="Post">
-                <el-option
-                  v-for="item in postOptions"
-                  :key="item.id"
-                  :label="item.postName"
-                  :value="item.id"
-                  :disabled="item.status == 0"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
           <el-col :span="12">
             <el-form-item label="Role">
               <el-select v-model="form.roleIds" multiple placeholder="Role">
@@ -438,7 +389,6 @@ export default {
       dateRange: [],
       statusOptions: [{ dictLabel: "Normal", dictValue: true }, { dictLabel: "Hủy kích hoạt", dictValue: false }],
       sexOptions: [],
-      postOptions: [],
       roleOptions: [],
       form: {},
       defaultProps: {
@@ -465,11 +415,10 @@ export default {
         { key: 0, label: `tên người dùng`, visible: true },
         { key: 1, label: `tên tài khoản`, visible: true },
         { key: 2, label: `Biệt hiệu của người dùng`, visible: true },
-        { key: 3, label: `Phòng`, visible: true },
-        { key: 4, label: `Vai trò liên kết`, visible: true },
-        { key: 5, label: `số điện thoại`, visible: true },
-        { key: 6, label: `Status`, visible: true },
-        { key: 7, label: `Thời gian tạo`, visible: true }
+        { key: 3, label: `Vai trò liên kết`, visible: true },
+        { key: 4, label: `số điện thoại`, visible: true },
+        { key: 5, label: `Status`, visible: true },
+        { key: 6, label: `Thời gian tạo`, visible: true }
       ],
       rules: {
         username: [
@@ -569,7 +518,6 @@ export default {
         gender: undefined,
         is_active: false,
         remark: undefined,
-        postIds: [],
         roleIds: []
       };
       this.resetForm("form");
@@ -593,7 +541,6 @@ export default {
       this.reset();
       this.getTreeselect();
       getUser().then(response => {
-        this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
         this.open = true;
         this.title = "Thêm người dùng";
@@ -606,10 +553,8 @@ export default {
       const id = row.id || this.ids;
       getUser(id).then(response => {
         const data = response.data.data;
-        data["postIds"] = response.data.postIds;
         data["roleIds"] = response.data.roleIds;
         this.form = data;
-        this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
         this.open = true;
         this.title = "Sửa đổi người dùng";

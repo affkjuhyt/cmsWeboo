@@ -23,7 +23,7 @@
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="Trạng thái" prop="is_active">
+          <el-form-item label="Trạng thái" prop="is_active" label-width="90px">
             <el-select
               v-model="queryParams.is_active"
               placeholder="Trạng thái"

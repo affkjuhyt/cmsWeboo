@@ -257,7 +257,7 @@ export default {
       const clone = JSON.parse(JSON.stringify(origin));
       clone.formId = ++this.idGlobal;
       clone.span = formConf.span;
-      clone.renderKey = +new Date(); // 改变renderKey后可以实现强制更新组件
+      clone.renderKey = +new Date(); // Sau khi thay đổi renderKey, thành phần có thể buộc phải cập nhật
       if (!clone.layout) clone.layout = "colFormItem";
       if (clone.layout === "colFormItem") {
         clone.vModel = `field${this.idGlobal}`;

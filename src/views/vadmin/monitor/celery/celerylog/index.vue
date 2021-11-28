@@ -1,30 +1,30 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
-      <el-form-item label="任务名称" prop="name">
+      <el-form-item label="Tên nhiệm vụ" prop="name">
         <el-input
           v-model="queryParams.name"
-          placeholder="请输入任务名称"
+          placeholder="Vui lòng nhập tên nhiệm vụ"
           clearable
           style="width: 240px;"
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="函数名称" prop="func_name">
+      <el-form-item label="Tên chức năng" prop="func_name">
         <el-input
           v-model="queryParams.func_name"
-          placeholder="请输入执行函数名称"
+          placeholder="Vui lòng nhập tên của hàm thực thi"
           clearable
           style="width: 240px;"
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
+      <el-form-item label="Trang thái" prop="status">
         <el-select
           v-model="queryParams.status"
-          placeholder="运行状态"
+          placeholder="Trang thái"
           clearable
           size="small"
           style="width: 240px"
@@ -37,7 +37,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="执行时间">
+      <el-form-item label="Thời gian thực hiện">
         <el-date-picker
           v-model="dateRange"
           size="small"
@@ -45,14 +45,14 @@
           value-format="yyyy-MM-dd HH:mm:ss"
           type="daterange"
           range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          start-placeholder="Ngày bắt đầu"
+          end-placeholder="Ngày cuối"
           :default-time="['00:00:00', '23:59:59']"
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">Tìm kiếm</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">Reset</el-button>
       </el-form-item>
     </el-form>
 
@@ -66,7 +66,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-        >删除</el-button>
+        >Xóa</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -76,7 +76,7 @@
           icon="el-icon-delete"
           size="mini"
           @click="handleClean"
-        >清空</el-button>
+        >Clean</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -86,26 +86,26 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-        >导出</el-button>
+        >Xuất</el-button>
       </el-col>
       <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
     </el-row>
 
     <el-table v-loading="loading" :data="list" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="日志编号" width="80" align="center" prop="id" />
-      <el-table-column label="任务名称" align="center" prop="name" width="200" :show-overflow-tooltip="true" />
-      <el-table-column label="执行函数名称" align="center" prop="func_name" :show-overflow-tooltip="true" />
-      <el-table-column label="执行参数" align="center" prop="kwargs" :show-overflow-tooltip="true" />
-      <el-table-column label="执行时间" width="80" align="center" prop="seconds" />
-      <el-table-column label="运行状态" width="80" align="center" prop="status" :formatter="statusFormat" />
-      <el-table-column label="任务结果" align="center" prop="result" :show-overflow-tooltip="true" />
-      <el-table-column label="执行日期" align="center" prop="create_datetime" width="180">
+      <el-table-column label="Id" width="80" align="center" prop="id" />
+      <el-table-column label="Tên" align="center" prop="name" width="200" :show-overflow-tooltip="true" />
+      <el-table-column label="Hàm thực thi" align="center" prop="func_name" :show-overflow-tooltip="true" />
+      <el-table-column label="Các thông số thực thi" align="center" prop="kwargs" :show-overflow-tooltip="true" />
+      <el-table-column label="Thời gian thực hiện" width="80" align="center" prop="seconds" />
+      <el-table-column label="Tình trạng hoạt động" width="80" align="center" prop="status" :formatter="statusFormat" />
+      <el-table-column label="Kết quả nhiệm vụ" align="center" prop="result" :show-overflow-tooltip="true" />
+      <el-table-column label="Ngày thi hành" align="center" prop="create_datetime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="Hành động" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             v-hasPermi="['admin:system:celerylog:get']"
@@ -113,7 +113,7 @@
             type="text"
             icon="el-icon-view"
             @click="handleView(scope.row,scope.index)"
-          >详细
+          >Chi tiết
           </el-button>
         </template>
       </el-table-column>
@@ -127,10 +127,9 @@
       @pagination="getList"
     />
 
-    <!-- 表单类详情dialog-->
     <detail-form-dialog
       v-if="openDetailModal"
-      dialog-title="定时日志详细"
+      dialog-title="Chi tiết nhật ký thời gian"
       modal-width="700px"
       :open-detail-modal="openDetailModal"
       :form-data="form"
@@ -147,29 +146,29 @@ import DetailFormDialog from "@/components/Modal/DetailFormDialog";
 const CELERY_LOG_FORM_ITEM = [
   {
     index: 1,
-    label: "日志编号",
+    label: "Số nhật ký",
     key: "id"
   },
   {
     index: 2,
-    label: "任务名称",
+    label: "Tên nhiêm vụ",
     key: "name"
   },
   {
     index: 3,
-    label: "执行函数名称",
+    label: "Tên hàm thực thi",
     key: "func_name",
     width: "auto"
   },
   {
     index: 4,
-    label: "执行参数",
+    label: "Các thông số thực thi",
     key: "kwargs",
     singleLine: true
   },
   {
     index: 5,
-    label: "执行时间",
+    label: "Thời gian thực hiện",
     key: "seconds"
   },
   {
@@ -184,13 +183,13 @@ const CELERY_LOG_FORM_ITEM = [
   },
   {
     index: 7,
-    label: "任务结果",
+    label: "Kết quả nhiệm vụ",
     key: "result",
     singleLine: true
   },
   {
     index: 8,
-    label: "执行日期",
+    label: "Ngày thi hành",
     key: "create_datetime",
     labelType: "time",
     singleLine: true
@@ -202,28 +201,18 @@ export default {
   components: { DetailFormDialog },
   data() {
     return {
-      // 遮罩层
       loading: true,
-      // 选中数组
       ids: [],
-      // 非多个禁用
       multiple: true,
-      // 显示搜索条件
       showSearch: true,
-      // 总条数
       total: 0,
-      // 表格数据
-      // 是否显示详细模态框
       openDetailModal: false,
       list: [],
-      // 状态数据字典
-      statusOptions: [{ dictLabel: "成功", dictValue: true }, { dictLabel: "失败", dictValue: false }],
-      // 日期范围
+      statusOptions: [{ dictLabel: "Thành công", dictValue: true }, { dictLabel: "Thất bại", dictValue: false }],
       dateRange: [],
       form: {},
       formItem: CELERY_LOG_FORM_ITEM,
 
-      // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -241,7 +230,6 @@ export default {
   },
   methods: {
 
-    /** 查询登录日志列表 */
     getList() {
       this.loading = true;
       list(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
@@ -251,67 +239,59 @@ export default {
       }
       );
     },
-    // 运行状态字典翻译
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.status);
     },
-    /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
       console.log(this.queryParams);
       this.getList();
     },
-    /** 重置按钮操作 */
     resetQuery() {
       this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id);
       this.multiple = !selection.length;
     },
 
-    /** 详细按钮操作 */
     handleView(row) {
       this.openDetailModal = true;
       this.form = row;
     },
 
-    /** 删除按钮操作 */
     handleDelete(row) {
       const infoIds = row.id || this.ids;
-      this.$confirm('是否确认删除访问编号为"' + infoIds + '"的数据项?', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm('Bạn có chắc chắn xóa số truy cập như"' + infoIds + '"?', "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return delCeleryLog(infoIds);
       }).then(() => {
         this.getList();
-        this.msgSuccess("删除成功");
+        this.msgSuccess("Đã xóa thành công");
       });
     },
-    /** 清空按钮操作 */
     handleClean() {
-      this.$confirm("是否确认清空所有登录日志数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm("Bạn có chắc chắn xóa tất cả các mục dữ liệu nhật ký đăng nhập không?", "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return cleanCeleryLog();
       }).then(() => {
         this.getList();
-        this.msgSuccess("清空成功");
+        this.msgSuccess("Clean thành công");
       });
     },
-    /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有定时日志数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm("Bạn có chắc chắn xuất tất cả các mục dữ liệu nhật ký thời gian không?", "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return exportCeleryLog(queryParams);

@@ -35,7 +35,6 @@ export default {
         newPassword: undefined,
         confirmPassword: undefined
       },
-      // 表单校验
       rules: {
         oldPassword: [
           { required: true, message: "Mật khẩu cũ không được để trống", trigger: "blur" }
@@ -57,7 +56,7 @@ export default {
         if (valid) {
           updateUserPwd(this.user.oldPassword, this.user.newPassword).then(
             response => {
-              this.msgSuccess("修改成功");
+              this.msgSuccess("Cập nhật thông tin thành công");
             }
           );
         }

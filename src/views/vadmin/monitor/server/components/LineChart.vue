@@ -18,7 +18,6 @@
 
 <script>
 import VueTypes from "vue-types";
-// 引入基本模板,按需加载
 import echarts from "echarts";
 import moment from "moment";
 import { getMonitorLogs } from "@/api/vadmin/monitor/server";
@@ -28,11 +27,10 @@ const YESTERDAY = moment().subtract(1, "days").format("YYYY-MM-DD");
 const LAST_SEVEN_DAYS = moment().subtract(7, "days").format("YYYY-MM-DD");
 const LAST_THIRTY_DAYS = moment().subtract(30, "days").format("YYYY-MM-DD");
 
-// 时间段筛选配置
 const TIME_LIMIT_SETTING = {
   "yesterday": {
     key: "yesterday",
-    name: "昨天",
+    name: "Hôm qua",
     timeRange: [
       `${YESTERDAY} 00:00:00`,
       `${YESTERDAY} 23:59:59`
@@ -40,7 +38,7 @@ const TIME_LIMIT_SETTING = {
   },
   "today": {
     key: "today",
-    name: "今天",
+    name: "Hôm nay",
     timeRange: [
       `${TODAY} 00:00:00`,
       `${TODAY} 23:59:59`
@@ -48,7 +46,7 @@ const TIME_LIMIT_SETTING = {
   },
   "latestWeek": {
     key: "latestWeek",
-    name: "最近7天",
+    name: "Tuần sau",
     timeRange: [
       `${LAST_SEVEN_DAYS} 00:00:00`,
       `${TODAY} 23:59:59`
@@ -56,15 +54,14 @@ const TIME_LIMIT_SETTING = {
   },
   "latestMonth": {
     key: "latestMonth",
-    name: "最近30天",
+    name: "Tháng sau",
     timeRange: [
       `${LAST_THIRTY_DAYS} 00:00:00`,
       `${TODAY} 23:59:59`
     ]
   }
 };
-// 默认显示时间
-const DEFAULT_TIME = "今天";
+const DEFAULT_TIME = "Hôm nay";
 
 export default {
   name: "LineChart",
@@ -103,9 +100,7 @@ export default {
   },
   methods: {
     drawBar() {
-      // 基于dom，初始化echarts实例
       const barGraph = echarts.init(document.getElementById(this.lineChartId));
-      // 绘制图表
       barGraph.setOption({
         tooltip: {
           trigger: "axis",
@@ -136,7 +131,7 @@ export default {
         },
         yAxis: {
           type: "value",
-          name: "使用率",
+          name: "Tỉ lệ sử dụng",
           axisLabel: {
             show: true,
             interval: "auto",
@@ -145,7 +140,7 @@ export default {
         },
         series: [
           {
-            name: "使用率",
+            name: "Tỉ lệ sử dụng",
             type: "line",
             data: this.lineChartData
           }
@@ -162,7 +157,7 @@ export default {
         this.lineChartTime = results.data["datetime"];
         this.drawBar();
       }).catch(error => {
-        this.$message.warning(error.msg || `获取${this.chartTitle}数据失败！`);
+        this.$message.warning(error.msg || `Không lấy được dữ liệu của${this.chartTitle}！`);
       });
     }
   }

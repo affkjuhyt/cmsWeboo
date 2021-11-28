@@ -91,7 +91,7 @@ export default {
               this.loading = false;
               this.$emit("success", response.data);
               this.dialogClose();
-              this.msgSuccess("新增成功!");
+              this.msgSuccess("Thêm thành công!");
             }).catch(() => {
               this.loading = false;
             });
@@ -99,7 +99,7 @@ export default {
             SyncDataApi.updateIntervalschedule(data).then(response => {
               this.$emit("success", response.data);
               this.loading = false;
-              this.msgSuccess("更新成功!");
+              this.msgSuccess("Hoàn thành câp nhât!");
               this.dialogClose();
             }).catch(() => {
               this.loading = false;

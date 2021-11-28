@@ -27,7 +27,7 @@
           </template>
         </el-autocomplete>
       </el-form-item>
-      <el-form-item :rules="[{ required: true, message: 'Tên là bắt buộc'}]" prop="name" label="名称:">
+      <el-form-item :rules="[{ required: true, message: 'Tên là bắt buộc'}]" prop="name" label="Tên:">
         <el-input v-model="form.name" placeholder="Ví dụ: tác vụ đồng bộ hóa XXX" style="width: 400px;" />
       </el-form-item>
       <el-form-item prop="interval" label="Tác vụ tần suất:">
@@ -50,11 +50,11 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item prop="enabled" label="是否开启:">
+      <el-form-item prop="enabled" label="Có mở không:">
         <template>
           <el-radio-group v-model="form.enabled">
-            <el-radio :label="true">是</el-radio>
-            <el-radio :label="false">否</el-radio>
+            <el-radio :label="true">Có</el-radio>
+            <el-radio :label="false">Không</el-radio>
           </el-radio-group>
         </template>
       </el-form-item>
@@ -90,7 +90,7 @@ export default {
   },
   computed: {
     dialogTitle() {
-      return this.create ? "新增任务" : "编辑任务";
+      return this.create ? "Nhiệm vụ mới" : "Chỉnh sửa";
     }
   },
   watch: {
@@ -110,7 +110,6 @@ export default {
     }
   },
   created() {
-    // 获取所有 tasks 名称
     SyncDataApi.TasksAsChoices().then((response) => {
       this.tasks_as_choices = response.data || [];
     });
@@ -119,7 +118,6 @@ export default {
     querySearch(queryString, cb) {
       var restaurants = this.tasks_as_choices;
       var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-      // 调用 callback 返回建议列表的数据
       cb(results);
     }, createFilter(queryString) {
       return (restaurant) => {
@@ -130,7 +128,6 @@ export default {
       this.form.task = item;
     },
     dialogOpen() {
-      // 为True意味着是通过遍及方式打开对话框
       if (!this.create) {
         this.form = { ...this.entity };
       }
@@ -146,7 +143,7 @@ export default {
               this.loading = false;
               this.$emit("success", response.data);
               this.dialogClose();
-              this.msgSuccess("新增成功!");
+              this.msgSuccess("Thêm thành công!");
             }).catch(() => {
               this.loading = false;
             });
@@ -154,7 +151,7 @@ export default {
             SyncDataApi.updatePeriodicTask(data).then(response => {
               this.$emit("success", response.data);
               this.loading = false;
-              this.msgSuccess("更新成功!");
+              this.msgSuccess("Hoàn thành cập nhật!");
               this.dialogClose();
             }).catch(() => {
               this.loading = false;

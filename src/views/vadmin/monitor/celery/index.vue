@@ -1,7 +1,3 @@
-<!--
-@author: xuchi
-@description: 应用列表页面
--->
 <template>
   <div>
     <el-row>

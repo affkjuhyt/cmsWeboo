@@ -843,7 +843,7 @@ export default {
     colorFormatChange(val) {
       this.activeData.defaultValue = null;
       this.activeData["show-alpha"] = val.indexOf("a") > -1;
-      this.activeData.renderKey = +new Date(); // 更新renderKey,重新渲染该组件
+      this.activeData.renderKey = +new Date(); // Sau khi thay đổi renderKey, thành phần có thể buộc phải cập nhật
     },
     openIconsDialog(model) {
       this.iconsVisible = true;

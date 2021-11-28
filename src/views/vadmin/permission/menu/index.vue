@@ -447,7 +447,6 @@ export default {
         }
       });
     },
-    /** 删除按钮操作 */
     handleDelete(row) {
       this.$confirm('Bạn có chắc chắn xóa"' + row.name + '"mục dữ liệu?', "Cảnh báo", {
         confirmButtonText: "Đồng ý",

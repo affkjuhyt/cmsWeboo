@@ -1,17 +1,17 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
-      <el-form-item label="任务名称" prop="jobName">
+      <el-form-item label="Tên job" prop="jobName">
         <el-input
           v-model="queryParams.jobName"
-          placeholder="请输入任务名称"
+          placeholder="Vui lòng nhập tên job"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="任务组名" prop="jobGroup">
-        <el-select v-model="queryParams.jobGroup" placeholder="请选择任务组名" clearable size="small">
+      <el-form-item label="Tên nhóm công việc" prop="jobGroup">
+        <el-select v-model="queryParams.jobGroup" placeholder="Vui lòng nhập tên nhóm công việc" clearable size="small">
           <el-option
             v-for="dict in jobGroupOptions"
             :key="dict.dictValue"
@@ -20,8 +20,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="任务状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="请选择任务状态" clearable size="small">
+      <el-form-item label="Trạng thái" prop="status">
+        <el-select v-model="queryParams.status" placeholder="Vui lòng chọn trạng thái nhiệm vụ" clearable size="small">
           <el-option
             v-for="dict in statusOptions"
             :key="dict.dictValue"
@@ -31,8 +31,8 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">Tìm kiếm</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">Reset</el-button>
       </el-form-item>
     </el-form>
 
@@ -45,7 +45,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-        >新增</el-button>
+        >Thêm mới</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -56,7 +56,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-        >修改</el-button>
+        >Chỉnh sửa</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -67,7 +67,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-        >删除</el-button>
+        >Xóa</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -77,7 +77,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-        >导出</el-button>
+        >Xuất</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -87,19 +87,19 @@
           icon="el-icon-s-operation"
           size="mini"
           @click="handleJobLog"
-        >日志</el-button>
+        >Nhật ký</el-button>
       </el-col>
       <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
     </el-row>
 
     <el-table v-loading="loading" :data="jobList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="任务编号" align="center" prop="jobId" />
-      <el-table-column label="任务名称" align="center" prop="jobName" :show-overflow-tooltip="true" />
-      <el-table-column label="任务组名" align="center" prop="jobGroup" :formatter="jobGroupFormat" />
-      <el-table-column label="调用目标字符串" align="center" prop="invokeTarget" :show-overflow-tooltip="true" />
-      <el-table-column label="cron执行表达式" align="center" prop="cronExpression" :show-overflow-tooltip="true" />
-      <el-table-column label="状态" align="center">
+      <el-table-column label="Id" align="center" prop="jobId" />
+      <el-table-column label="Tên job" align="center" prop="jobName" :show-overflow-tooltip="true" />
+      <el-table-column label="Tên nhóm job" align="center" prop="jobGroup" :formatter="jobGroupFormat" />
+      <el-table-column label="Chuỗi mục tiêu cuộc gọi" align="center" prop="invokeTarget" :show-overflow-tooltip="true" />
+      <el-table-column label="biểu thức thực thi cron" align="center" prop="cronExpression" :show-overflow-tooltip="true" />
+      <el-table-column label="Trạng thái" align="center">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.status"
@@ -109,7 +109,7 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="Hành động" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             v-hasPermi="['monitor:job:changeStatus']"
@@ -117,14 +117,14 @@
             type="text"
             icon="el-icon-caret-right"
             @click="handleRun(scope.row)"
-          >执行一次</el-button>
+          >Thực hiện một lần</el-button>
           <el-button
             v-hasPermi="['monitor:job:query']"
             size="mini"
             type="text"
             icon="el-icon-view"
             @click="handleView(scope.row)"
-          >详细</el-button>
+          >Chi tiết</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -137,18 +137,17 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改定时任务对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="700px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="任务名称" prop="jobName">
-              <el-input v-model="form.jobName" placeholder="请输入任务名称" />
+            <el-form-item label="Tên nhiệm vụ" prop="jobName">
+              <el-input v-model="form.jobName" placeholder="Vui lòng nhập tên nhiệm vụ" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="任务分组" prop="jobGroup">
-              <el-select v-model="form.jobGroup" placeholder="请选择">
+            <el-form-item label="Nhóm nhiệm vụ" prop="jobGroup">
+              <el-select v-model="form.jobGroup" placeholder="Vui lòng chọn">
                 <el-option
                   v-for="dict in jobGroupOptions"
                   :key="dict.dictValue"
@@ -161,29 +160,29 @@
           <el-col :span="24">
             <el-form-item prop="invokeTarget">
               <span slot="label">
-                调用方法
+                Phương thức gọi
                 <el-tooltip placement="top">
                   <div slot="content">
-                    Bean调用示例：ryTask.ryParams('ry')
-                    <br>Class类调用示例：com.ruoyi.quartz.task.RyTask.ryParams('ry')
-                    <br>参数说明：支持字符串，布尔类型，长整型，浮点型，整型
+                    Bean ví dụ：ryTask.ryParams('ry')
+                    <br>Class Ví dụ về cuộc gọi trong lớp：com.ruoyi.quartz.task.RyTask.ryParams('ry')
+                    <br>Mô tả tham số: chuỗi hỗ trợ, boolean, số nguyên dài, dấu phẩy động, số nguyên
                   </div>
                   <i class="el-icon-question" />
                 </el-tooltip>
               </span>
-              <el-input v-model="form.invokeTarget" placeholder="请输入调用目标字符串" />
+              <el-input v-model="form.invokeTarget" placeholder="Vui lòng nhập chuỗi mục tiêu đang gọi" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="cron表达式" prop="cronExpression">
-              <el-input v-model="form.cronExpression" placeholder="请输入cron执行表达式" />
+            <el-form-item label="cron" prop="cronExpression">
+              <el-input v-model="form.cronExpression" placeholder="Vui lòng nhập biểu thức thực thi cron" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="是否并发" prop="concurrent">
+            <el-form-item label="Cho dù đồng thời" prop="concurrent">
               <el-radio-group v-model="form.concurrent" size="small">
-                <el-radio-button label="0">允许</el-radio-button>
-                <el-radio-button label="1">禁止</el-radio-button>
+                <el-radio-button label="0">Cho phép</el-radio-button>
+                <el-radio-button label="1">Cấm</el-radio-button>
               </el-radio-group>
             </el-form-item>
           </el-col>

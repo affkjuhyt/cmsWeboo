@@ -10,8 +10,8 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="部门状态" clearable size="small">
+      <el-form-item label="Trạng thái" prop="status">
+        <el-select v-model="queryParams.status" placeholder="Trạng thái" clearable size="small">
           <el-option
             v-for="dict in statusOptions"
             :key="dict.dictValue"
@@ -21,8 +21,8 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">Tìm kiếm</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">Reset</el-button>
       </el-form-item>
     </el-form>
 
@@ -35,7 +35,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-        >新增</el-button>
+        >Thêm mới</el-button>
       </el-col>
       <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
     </el-row>
@@ -47,22 +47,22 @@
       default-expand-all
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column prop="deptName" label="部门名称" />
-      <el-table-column prop="orderNum" label="排序" width="200" />
-      <el-table-column prop="status" label="状态" :formatter="statusFormat" width="200" />
-      <el-table-column label="更新时间" align="center" prop="update_datetime">
+      <el-table-column prop="deptName" label="Tên bộ phận" />
+      <el-table-column prop="orderNum" label="Order" width="200" />
+      <el-table-column prop="status" label="Trạng thái" :formatter="statusFormat" width="200" />
+      <el-table-column label="Thời gian cập nhật" align="center" prop="update_datetime">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.update_datetime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="create_datetime">
+      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>
       </el-table-column>
       <el-table-column
         v-if="hasPermi(['permission:dept:{id}:put','permission:dept:post','permission:dept:{id}:delete'])"
-        label="操作"
+        label="Hành động"
         align="center"
         class-name="small-padding fixed-width"
       >
@@ -73,14 +73,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-          >修改</el-button>
+          >Chỉnh sửa</el-button>
           <el-button
             v-hasPermi="['permission:dept:post']"
             size="mini"
             type="text"
             icon="el-icon-plus"
             @click="handleAdd(scope.row)"
-          >新增</el-button>
+          >Thêm mới</el-button>
           <el-button
             v-if="scope.row.parentId !== 0"
             v-hasPermi="['permission:dept:{id}:delete']"
@@ -88,7 +88,7 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-          >删除</el-button>
+          >Xóa</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -98,7 +98,7 @@
         <el-row>
           <el-col v-if="form.parentId !== 0" :span="24">
             <el-form-item label="Cấp cao hơn" prop="parentId">
-              <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
+              <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" placeholder="Chọn bộ phận cấp trên" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -113,21 +113,21 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="Leader" prop="leader">
-              <el-input v-model="form.leader" placeholder="请输入负责人" maxlength="20" />
+              <el-input v-model="form.leader" placeholder="Vui lòng nhập người phụ trách" maxlength="20" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="Số điện thoại" prop="phone">
-              <el-input v-model="form.phone" placeholder="请输入联系电话" maxlength="11" />
+              <el-input v-model="form.phone" placeholder="Vui lòng nhập số điện thoại của bạn" maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
+            <el-form-item label="Email" prop="email">
+              <el-input v-model="form.email" placeholder="vui lòng nhập email của bạn" maxlength="50" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="部门状态">
+            <el-form-item label="Tình trạng bộ phận">
               <el-radio-group v-model="form.status">
                 <el-radio
                   v-for="dict in statusOptions"
@@ -270,7 +270,6 @@ export default {
         this.deptOptions = this.handleTree(response.data, "id");
       });
     },
-    /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {

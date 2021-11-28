@@ -165,7 +165,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="Nội dung bài viết" prop="content">
-          <el-input  type="textarea" v-model="form.content" placeholder="Nhập nội dung bài viết" />
+          <el-input v-model="form.content" type="textarea" placeholder="Nhập nội dung bài viết" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

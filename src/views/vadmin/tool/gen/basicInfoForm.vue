@@ -2,28 +2,28 @@
   <el-form ref="basicInfoForm" :model="info" :rules="rules" label-width="150px">
     <el-row>
       <el-col :span="12">
-        <el-form-item label="表名称" prop="tableName">
-          <el-input v-model="info.tableName" placeholder="请输入仓库名称" />
+        <el-form-item label="Tên bảng" prop="tableName">
+          <el-input v-model="info.tableName" placeholder="Vui lòng nhập tên bảng" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="表描述" prop="tableComment">
-          <el-input v-model="info.tableComment" placeholder="请输入" />
+        <el-form-item label="Bảng mô tả" prop="tableComment">
+          <el-input v-model="info.tableComment" placeholder="Vui lòng nhập bảng mô tả" />
         </el-form-item>
       </el-col>
 
       <el-col :span="12">
-        <el-form-item label="实体类名称" prop="className">
-          <el-input v-model="info.className" placeholder="请输入" />
+        <el-form-item label="Tên lớp thực thể" prop="className">
+          <el-input v-model="info.className" placeholder="Tên lớp" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="作者" prop="functionAuthor">
-          <el-input v-model="info.functionAuthor" placeholder="请输入" />
+        <el-form-item label="Tác giả" prop="functionAuthor">
+          <el-input v-model="info.functionAuthor" placeholder="Vui lòng nhập" />
         </el-form-item>
       </el-col>
       <el-col :span="24">
-        <el-form-item label="备注" prop="remark">
+        <el-form-item label="Miêu tả" prop="remark">
           <el-input v-model="info.remark" type="textarea" :rows="3" />
         </el-form-item>
       </el-col>
@@ -43,16 +43,16 @@ export default {
     return {
       rules: {
         tableName: [
-          { required: true, message: "请输入表名称", trigger: "blur" }
+          { required: true, message: "Vui lòng nhập tên bảng", trigger: "blur" }
         ],
         tableComment: [
-          { required: true, message: "请输入表描述", trigger: "blur" }
+          { required: true, message: "Vui lòng nhập mô tả bảng", trigger: "blur" }
         ],
         className: [
-          { required: true, message: "请输入实体类名称", trigger: "blur" }
+          { required: true, message: "Vui lòng nhập tên lớp thực thể", trigger: "blur" }
         ],
         functionAuthor: [
-          { required: true, message: "请输入作者", trigger: "blur" }
+          { required: true, message: "Vui lòng nhập tác giả", trigger: "blur" }
         ]
       }
     };

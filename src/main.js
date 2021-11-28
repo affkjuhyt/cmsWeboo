@@ -29,7 +29,6 @@ import {
   selectDictLabels
 } from "@/utils/ruoyi";
 import Pagination from "@/components/Pagination";
-// 自定义表格工具扩展
 import RightToolbar from "@/components/RightToolbar";
 import SmallDialog from "@/components/SmallDialog";
 import DeptTree from "@/components/DeptTree";
@@ -37,10 +36,9 @@ import UsersTree from "@/components/UsersTree";
 import ModelDisplay from "@/components/ModelDisplay";
 import CommonIcon from "@/components/CommonIcon";
 import CommonStaticTable from "@/components/CommonStaticTable";
-import { getCrontabData, getIntervalData } from "./utils/validate"; // 通用图标组件
+import { getCrontabData, getIntervalData } from "./utils/validate";
 import { getModelSelect } from "@/utils/modelSelect";
 
-// 全局方法挂载
 locale.use(lang);
 
 Vue.prototype.getDicts = getDicts;
@@ -74,12 +72,10 @@ Vue.prototype.msgError = function(msg) {
 Vue.prototype.msgInfo = function(msg) {
   this.$message.info(msg);
 };
-// 自定义组件
 Vue.component("SmallDialog", SmallDialog);
 Vue.component("DeptTree", DeptTree);
 Vue.component("UsersTree", UsersTree);
 Vue.component("ModelDisplay", ModelDisplay);
-// 全局组件挂载
 Vue.component("Pagination", Pagination);
 Vue.component("RightToolbar", RightToolbar);
 Vue.component("CommonIcon", CommonIcon);

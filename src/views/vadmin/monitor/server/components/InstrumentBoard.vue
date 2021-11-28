@@ -83,7 +83,7 @@ export default {
       const total = this.currentInstrumentBoardData["total"] ? this.currentInstrumentBoardData["total"] : "";
       const unit = this.currentInstrumentBoardData["unit"] ? ` (${this.currentInstrumentBoardData["unit"]})` : "";
       const content = `${used}${total}${unit} `;
-      const title = (this.currentInstrumentBoardData["used"] ? "已用/" : "") + "总量(单位)";
+      const title = (this.currentInstrumentBoardData["used"] ? "đã sử dụng/" : "") + "Tổng số tiền (đơn vị)";
       return { content, title };
     },
     usingRateStyle() {

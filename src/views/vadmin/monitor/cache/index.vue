@@ -3,38 +3,38 @@
     <el-row>
       <el-col :span="24" class="card-box">
         <el-card>
-          <div slot="header"><span>基本信息</span></div>
+          <div slot="header"><span>Thông tin cơ bản</span></div>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table cellspacing="0" style="width: 100%">
               <tbody>
                 <tr>
-                  <td><div class="cell">Redis版本</div></td>
+                  <td><div class="cell">Redis</div></td>
                   <td><div v-if="cache.info" class="cell">{{ cache.info.redis_version }}</div></td>
-                  <td><div class="cell">运行模式</div></td>
-                  <td><div v-if="cache.info" class="cell">{{ cache.info.redis_mode == "standalone" ? "单机" : "集群" }}</div></td>
-                  <td><div class="cell">端口</div></td>
+                  <td><div class="cell">Chế độ hoạt động</div></td>
+                  <td><div v-if="cache.info" class="cell">{{ cache.info.redis_mode == "standalone" ? "Độc lập" : "Cụm" }}</div></td>
+                  <td><div class="cell">Port</div></td>
                   <td><div v-if="cache.info" class="cell">{{ cache.info.tcp_port }}</div></td>
-                  <td><div class="cell">客户端数</div></td>
+                  <td><div class="cell">Clients</div></td>
                   <td><div v-if="cache.info" class="cell">{{ cache.info.connected_clients }}</div></td>
                 </tr>
                 <tr>
-                  <td><div class="cell">运行时间(天)</div></td>
+                  <td><div class="cell">Thời gian chạy (ngày)</div></td>
                   <td><div v-if="cache.info" class="cell">{{ cache.info.uptime_in_days }}</div></td>
-                  <td><div class="cell">使用内存</div></td>
+                  <td><div class="cell">Sử dụng bộ nhớ</div></td>
                   <td><div v-if="cache.info" class="cell">{{ cache.info.used_memory_human }}</div></td>
-                  <td><div class="cell">使用CPU</div></td>
+                  <td><div class="cell">Sử dụng CPU</div></td>
                   <td><div v-if="cache.info" class="cell">{{ parseFloat(cache.info.used_cpu_user_children).toFixed(2) }}</div></td>
-                  <td><div class="cell">内存配置</div></td>
+                  <td><div class="cell">Cấu hình bộ nhớ</div></td>
                   <td><div v-if="cache.info" class="cell">{{ cache.info.maxmemory_human }}</div></td>
                 </tr>
                 <tr>
-                  <td><div class="cell">AOF是否开启</div></td>
-                  <td><div v-if="cache.info" class="cell">{{ cache.info.aof_enabled == "0" ? "否" : "是" }}</div></td>
-                  <td><div class="cell">RDB是否成功</div></td>
+                  <td><div class="cell">AOF có bật hay không</div></td>
+                  <td><div v-if="cache.info" class="cell">{{ cache.info.aof_enabled == "0" ? "Có" : "Không" }}</div></td>
+                  <td><div class="cell">RDB có thành công hay không</div></td>
                   <td><div v-if="cache.info" class="cell">{{ cache.info.rdb_last_bgsave_status }}</div></td>
-                  <td><div class="cell">Key数量</div></td>
+                  <td><div class="cell">Số lượng chính</div></td>
                   <td><div v-if="cache.dbSize" class="cell">{{ cache.dbSize }} </div></td>
-                  <td><div class="cell">网络入口/出口</div></td>
+                  <td><div class="cell">Vào / ra mạng</div></td>
                   <td><div v-if="cache.info" class="cell">{{ cache.info.instantaneous_input_kbps }}kps/{{ cache.info.instantaneous_output_kbps }}kps</div></td>
                 </tr>
               </tbody>
@@ -45,7 +45,7 @@
 
       <el-col :span="12" class="card-box">
         <el-card>
-          <div slot="header"><span>命令统计</span></div>
+          <div slot="header"><span>Thống kê lệnh</span></div>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <div ref="commandstats" style="height: 420px" />
           </div>
@@ -55,7 +55,7 @@
       <el-col :span="12" class="card-box">
         <el-card>
           <div slot="header">
-            <span>内存信息</span>
+            <span>Thông tin bộ nhớ</span>
           </div>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <div ref="usedmemory" style="height: 420px" />
@@ -74,13 +74,9 @@ export default {
   name: "Server",
   data() {
     return {
-      // 加载层信息
       loading: [],
-      // 统计命令信息
       commandstats: null,
-      // 使用内存
       usedmemory: null,
-      // cache信息
       cache: []
     };
   },
@@ -89,7 +85,6 @@ export default {
     this.openLoading();
   },
   methods: {
-    /** 查缓存询信息 */
     getList() {
       getCache().then((response) => {
         this.cache = response.data;
@@ -103,7 +98,7 @@ export default {
           },
           series: [
             {
-              name: "命令",
+              name: "Đặt hàng",
               type: "pie",
               roseType: "radius",
               radius: [15, 95],
@@ -121,7 +116,7 @@ export default {
           },
           series: [
             {
-              name: "峰值",
+              name: "Giá trị cao",
               type: "gauge",
               min: 0,
               max: 1000,
@@ -131,7 +126,7 @@ export default {
               data: [
                 {
                   value: parseFloat(this.cache.info.used_memory_human),
-                  name: "内存消耗"
+                  name: "Tiêu thụ bộ nhớ"
                 }
               ]
             }
@@ -139,11 +134,10 @@ export default {
         });
       });
     },
-    // 打开加载层
     openLoading() {
       this.loading = this.$loading({
         lock: true,
-        text: "拼命读取中",
+        text: "loading",
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)"
       });

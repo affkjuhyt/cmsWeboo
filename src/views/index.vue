@@ -41,7 +41,6 @@ export default {
   },
   data() {
     return {
-      // 版本号
       version: "1.1.1"
     };
   },

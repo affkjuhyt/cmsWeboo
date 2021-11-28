@@ -18,14 +18,13 @@ router.beforeEach((to, from, next) => {
       NProgress.done();
     } else {
       if (store.getters.roles.length === 0) {
-        // 判断当前用户是否已拉取完user_info信息
+        // Xác định xem người dùng hiện tại có lấy thông tin user_info không
         store.dispatch("GetInfo").then(res => {
-          // 拉取user_info
           const roles = res.roles;
           store.dispatch("GenerateRoutes", { roles }).then(accessRoutes => {
-            // 根据roles Tao bang dinh tuyen
+            // Tao bang dinh tuyen
             router.addRoutes(accessRoutes); // Tu dong them bang dinh tuyen
-            next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
+            next({ ...to, replace: true }); // phương pháp hack để đảm bảo addRoutes đã hoàn tất
           });
         }).catch(err => {
           store.dispatch("LogOut").then(() => {
@@ -38,12 +37,12 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    // 没有token
+    // Token
     if (whiteList.indexOf(to.path) !== -1) {
-      // 在免登录白名单，直接进入
+      // Trong danh sách trắng của đăng nhập miễn phí, hãy nhập trực tiếp
       next();
     } else {
-      next(`/login?redirect=${to.fullPath}`); // 否则全部重定向到登录页
+      next(`/login?redirect=${to.fullPath}`); // Nếu cập nhật thành công, tất cả sẽ được chuyển đến trang đăng nhập
       NProgress.done();
     }
   }

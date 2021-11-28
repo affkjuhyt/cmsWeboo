@@ -56,20 +56,16 @@ export default {
   name: "Mymessage",
   data() {
     return {
-      // 查询通知
       queryParams: {
         pageNum: 1,
         pageSize: 10
       },
       messageList: [],
-      // 已读通知
       countReaded: 0,
       messageReadedList: [],
-      // 未读消息列表
       messageUnreadList: [],
       countUnread: 0,
       badgeType: "danger",
-      // 选中查询后的详细信息
       showingMsgItem: {}
     };
   },
@@ -77,15 +73,12 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询通知列表 */
     getList() {
-      // 已读通知列表
       userMessage(this.addDateRange({ ...this.queryParams, is_read: "True" })).then(response => {
         this.messageReadedList = response.data.results;
         this.countReaded = response.data.count;
       }
       );
-      // 未读通知列表
       userMessage(this.addDateRange({ ...this.queryParams, is_read: "False" })).then(response => {
         this.messageUnreadList = response.data.results;
         this.countUnread = response.data.count;
@@ -97,10 +90,8 @@ export default {
       this.messageList = key[0] === "1" ? this.messageUnreadList : this.messageReadedList;
       this.badgeType = key[0] === "1" ? "danger" : "info";
     },
-    // 通知列表激活后
     handleListSelect(key, keyPath) {
       this.showingMsgItem = this.messageList[key[0]];
-      // 修改通知查询状态
       if (this.badgeType === "danger") {
         updateIsRead(this.showingMsgItem).then(response => {
           if (response.code === 200) {

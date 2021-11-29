@@ -1,39 +1,36 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="70px">
-      <el-form-item label="Tên" prop="content">
-        <el-input
-          v-model="queryParams.content"
-          placeholder="Vui lòng nhập nội dung content"
-          clearable
-          size="small"
-          style="width: 200px"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <!-- <el-form-item label="Trạng thái" prop="status">
-        <el-input
-          v-model="queryParams.statu"
-          placeholder="Trạng thái"
+      <el-form-item label="Tên truyện" prop="book" label-width="90px">
+        <el-select
+          v-model="queryParams.book"
+          placeholder="Tên truyện"
           clearable
           size="small"
           style="width: 240px"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item> -->
-      <el-form-item label="Trạng thái" prop="status" label-width="100px">
+          @change="handleChange($event)"
+        >
+          <el-option
+            v-for="item in listBookOptions"
+            :key="item.id"
+            :label="item.title"
+            :value="item.id"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Tên chương" prop="chapter" label-width="110px">
         <el-select
-          v-model="queryParams.status"
-          placeholder="Trạng thái"
+          v-model="queryParams.chapter"
+          placeholder="Tên chương"
           clearable
           size="small"
           style="width: 240px"
         >
           <el-option
-            v-for="dict in statusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
+            v-for="item in chapterBookOptions"
+            :key="item.id"
+            :label="item.title"
+            :value="item.id"
           />
         </el-select>
       </el-form-item>
@@ -179,6 +176,8 @@
 
 <script>
 import { listComment, addComment, updateComment, delComment, exportComment, clearCache } from "@/api/vadmin/system/comment/data";
+import { listBook } from "@/api/vadmin/system/book/data";
+import { getChapters } from "@/api/vadmin/system/book/chapter";
 
 export default {
   name: "Comment",
@@ -193,7 +192,8 @@ export default {
       typeList: [],
       title_name: "",
       open: false,
-      statusOptions: [],
+      listBookOptions: [],
+      chapterBookOptions: [],
       dateRange: [],
       queryParams: {
         pageNum: 1,
@@ -224,9 +224,10 @@ export default {
   },
   created() {
     this.getList();
-    this.getDicts("sys_normal_disable").then(response => {
-      this.statusOptions = response.data;
-    });
+    this.getBookList();
+    // this.getDicts("sys_normal_disable").then(response => {
+    //   this.statusOptions = response.data;
+    // });
   },
   methods: {
     getList() {
@@ -294,6 +295,17 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title_name = "Chỉnh sửa comment";
+      });
+    },
+    getBookList() {
+      listBook({ pageNum: "all" }).then((response) => {
+        this.listBookOptions = response.data;
+      });
+    },
+    handleChange(event) {
+      getChapters(this.queryParams).then((response) => {
+        this.chapterBookOptions = response.results;
+        console.log("chapterBookOptions: " + JSON.stringify(this.chapterBookOptions));
       });
     },
     /** Submit form */

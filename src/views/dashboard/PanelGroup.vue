@@ -9,7 +9,7 @@
           <div class="card-panel-text">
             Người dùng
           </div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="count_user" :duration="2600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -22,20 +22,20 @@
           <div class="card-panel-text">
             Bình luận
           </div>
-          <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="count_comment" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('purchases')">
-        <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon icon-class="money" class-name="card-panel-icon" />
+        <div class="card-panel-icon-wrapper icon-documentation">
+          <svg-icon icon-class="documentation" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Tiền dịch vụ
+            Tổng số bài viết
           </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="count_post" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -48,7 +48,7 @@
           <div class="card-panel-text">
             Số lượng truyện
           </div>
-          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="count_book" :duration="3600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -57,14 +57,46 @@
 
 <script>
 import CountTo from "vue-count-to";
+import { getDashboard } from "@/api/vadmin/system/dashboard";
 
 export default {
   components: {
     CountTo
   },
+  data() {
+    return {
+      loading: true,
+      ids: [],
+      single: true,
+      multiple: true,
+      showSearch: true,
+      total: 0,
+      typeList: [],
+      title_name: "",
+      open: false,
+      listBookOptions: [],
+      chapterBookOptions: [],
+      count_book: undefined,
+      count_comment: undefined,
+      count_user: undefined,
+      count_post: undefined,
+      dateRange: []
+    };
+  },
+  created() {
+    this.resultCount();
+  },
   methods: {
     handleSetLineChartData(type) {
       this.$emit("handleSetLineChartData", type);
+    },
+    resultCount() {
+      getDashboard().then((response) => {
+        this.count_book = response.data.count_book;
+        this.count_comment = response.data.count_comment;
+        this.count_user = response.data.count_user;
+        this.count_post = response.data.count_post;
+      });
     }
   }
 };

@@ -11,22 +11,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="Trạng thái" prop="status" label-width="100px">
-        <el-select
-          v-model="queryParams.status"
-          placeholder="Trạng thái"
-          clearable
-          size="small"
-          style="width: 240px"
-        >
-          <el-option
-            v-for="dict in statusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">Tìm kiếm</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">Làm mới</el-button>
@@ -99,13 +83,12 @@
           </router-link>
         </template> -->
       </el-table-column>
-      <el-table-column label="Trạng thái" align="center" prop="status" :formatter="statusFormat"></el-table-column>
       <el-table-column label="Số lượng bài viết" align="center" prop="post_count" :show-overflow-tooltip="true" />
       <el-table-column label="Số lượng thành viên" align="center" prop="member_count" :show-overflow-tooltip="true" />
       <el-table-column label="Mô tả" align="center" prop="description" :show-overflow-tooltip="true" />
-      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
+      <el-table-column label="Thời gian tạo" align="center" prop="date_added" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.create_datetime) }}</span>
+          <span>{{ scope.row.date_added }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -147,7 +130,7 @@
         <el-form-item label="Tên" prop="name">
           <el-input v-model="form.name" placeholder="Nhập tên nhóm" />
         </el-form-item>
-        <el-form-item label="Trạng thái" prop="status">
+        <el-form-item label="Trạng thái" prop="status" label-width="90px">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in statusOptions"
@@ -157,7 +140,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="Miêu tả" prop="description">
-          <el-input v-model="form.description" type="textarea" placeholder="Nhập miêu tả truyện" />
+          <el-input v-model="form.description" type="textarea" placeholder="Nhập miêu tả" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -165,14 +148,32 @@
         <el-button @click="cancel">Hủy</el-button>
       </div>
     </el-dialog>
+
+    <el-divider />
+
+    <el-row :gutter="32">
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <LinerChart />
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <bar-chart />
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import { listGroup, getGroup, addGroup, updateGroup, delGroup, exportGroup, clearCache } from "@/api/vadmin/system/group/data";
+import LinerChart from "../../../../views/dashboard/LineChart";
+import BarChart from "../../../../views/dashboard/BarChart";
 
 export default {
   name: "Group",
+  components: { LinerChart, BarChart },
   data() {
     return {
       // Loading
@@ -195,7 +196,7 @@ export default {
         name: undefined,
         post_count: undefined,
         member_count: undefined,
-        status: undefined,
+        status: undefined
       },
       form: {},
       rules: {

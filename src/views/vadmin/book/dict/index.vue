@@ -199,29 +199,17 @@ export default {
   name: "Dict",
   data() {
     return {
-      // 遮罩层
       loading: true,
-      // 选中数组
       ids: [],
-      // 非单个禁用
       single: true,
-      // 非多个禁用
       multiple: true,
-      // 显示搜索条件
       showSearch: true,
-      // 总条数
       total: 0,
-      // 字典表格数据
       typeList: [],
-      // 弹出层标题
       title: "",
-      // 是否显示弹出层
       open: false,
-      // 状态数据字典
       statusOptions: [],
-      // 日期范围
       dateRange: [],
-      // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -229,9 +217,7 @@ export default {
         dictType: undefined,
         status: undefined
       },
-      // 表单参数
       form: {},
-      // 表单校验
       rules: {
         dictName: [
           { required: true, message: "Tên truyện không thể viết thiếu", trigger: "blur" }
@@ -259,16 +245,13 @@ export default {
       }
       );
     },
-    // 字典状态字典翻译
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.status);
     },
-    // 取消按钮
     cancel() {
       this.open = false;
       this.reset();
     },
-    // 表单重置
     reset() {
       this.form = {
         id: undefined,
@@ -279,30 +262,25 @@ export default {
       };
       this.resetForm("form");
     },
-    /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
       this.getList();
     },
-    /** 重置按钮操作 */
     resetQuery() {
       this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    /** 新增按钮操作 */
     handleAdd() {
       this.reset();
       this.open = true;
       this.title = "Thêm mới truyện";
     },
-    // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id);
       this.single = selection.length !== 1;
       this.multiple = !selection.length;
     },
-    /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids;
@@ -312,7 +290,6 @@ export default {
         this.title = "Chỉnh sửa truyện";
       });
     },
-    /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
@@ -332,10 +309,9 @@ export default {
         }
       });
     },
-    /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$confirm('Bạn có muốn xóa truyện không"' + ids + '"的数据项?', "Cảnh báo", {
+      this.$confirm('Bạn có muốn xóa truyện không"' + ids + '"?', "Cảnh báo", {
         confirmButtonText: "Đồng ý",
         cancelButtonText: "Hủy",
         type: "warning"
@@ -346,7 +322,6 @@ export default {
         this.msgSuccess("Xóa truyện thành công");
       });
     },
-    /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
       this.$confirm("Bạn có chắc muốn export tất cả các loại dữ liệu?", "Cảnh báo", {
@@ -359,7 +334,6 @@ export default {
         this.download(response.data.file_url, response.data.name);
       });
     },
-    /** 清理缓存按钮操作 */
     handleClearCache() {
       clearCache().then(response => {
         this.msgSuccess("Xóa cache thành công");

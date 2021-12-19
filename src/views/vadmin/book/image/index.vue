@@ -100,23 +100,14 @@
       <el-table-column label="Tên truyện" width="150" align="center" prop="name_book" />
       <el-table-column label="Tên post" width="150" align="center" prop="" />
       <el-table-column label="Tên chương" width="150" align="center" prop="name_chapter" />
-      <el-table-column label="Người tạo" width="120" align="center" prop="creator_name" />
       <el-table-column label="Nguồn tập tin" align="center" prop="image" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-button
-            v-if="scope.row.image"
-            size="mini"
-            type="text"
-            icon="el-icon-document-copy"
-            @click="CopyFileUrl(scope.row.image)"
-          />
-          &nbsp;
-          <span>{{ scope.row.image }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="160">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.create_datetime) }}</span>
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="scope.row.image"
+            :preview-src-list="scope.row.image"
+          >
+          </el-image>
         </template>
       </el-table-column>
       <el-table-column
@@ -202,6 +193,9 @@ export default {
   mounted() {
   },
   methods: {
+    getImage(imagePath) {
+      return require(imagePath);
+    },
     getList() {
       this.loading = true;
       listImageFile(this.queryParams).then(response => {
@@ -295,5 +289,5 @@ export default {
 </script>
 
 <style scoped>
-
+  @import url("//unpkg.com/element-ui@2.13.0/lib/theme-chalk/index.css");
 </style>

@@ -166,17 +166,17 @@ const LOGIN_FORM_ITEM = [
   },
   {
     index: 4,
-    label: "Vị trí đăng nhập",
+    label: "Location",
     key: "loginLocation"
   },
   {
     index: 5,
-    label: "Trình duyệt",
+    label: "Browser",
     key: "browser"
   },
   {
     index: 6,
-    label: "Hệ điều hành",
+    label: "System",
     key: "browser"
   },
   {

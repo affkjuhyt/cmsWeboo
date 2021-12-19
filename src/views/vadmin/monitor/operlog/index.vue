@@ -98,10 +98,10 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="STT" align="center" prop="id" />
       <el-table-column label="Mô-đun hệ thống" align="center" prop="request_modular" />
-      <el-table-column label="Yêu cầu phương thức" align="center" prop="request_method" />
+      <el-table-column label="Yêu cầu phương thức" align="center" prop="request_method" width="180px" />
       <el-table-column label="Người tạo" align="center" prop="creator_name" />
       <el-table-column label="IP" align="center" prop="request_ip" width="130" :show-overflow-tooltip="true" />
-      <el-table-column label="Location" align="center" prop="request_location" :show-overflow-tooltip="true" />
+      <!-- <el-table-column label="Location" align="center" prop="request_location" :show-overflow-tooltip="true" /> -->
       <el-table-column label="Trạng thái" align="center" prop="status" :formatter="statusFormat" />
       <el-table-column label="Thời gian truy vấn" align="center" prop="create_datetime" width="180">
         <template slot-scope="scope">

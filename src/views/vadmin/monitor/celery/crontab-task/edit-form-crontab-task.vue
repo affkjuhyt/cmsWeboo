@@ -9,23 +9,23 @@
     @closed="dialogClose"
     @opened="dialogOpen"
   >
-    <el-form ref="form" v-loading="loading" :model="form" :size="$ELEMENT.size" label-width="120px">
-      <el-form-item v-show="false" prop="instanceId" label="instanceId" style="width: 200px;">
+    <el-form ref="form" v-loading="loading" :model="form" :size="$ELEMENT.size" label-width="150px">
+      <el-form-item v-show="false" prop="instanceId" label="instanceId" style="width: 250px;">
         <el-input v-model="form.instanceId" readonly />
       </el-form-item>
-      <el-form-item prop="minute" label="Phút:">
+      <el-form-item prop="minute" label="Phút:" label-width="128px">
         <el-input v-model="form.minute" placeholder="Mặc định: * " />
       </el-form-item>
-      <el-form-item prop="hour" label="Giờ:">
+      <el-form-item prop="hour" label="Giờ:" label-width="128px">
         <el-input v-model="form.hour" placeholder="Mặc định: * " />
       </el-form-item>
-      <el-form-item prop="day_of_week" label="Ngày trong tuần">
+      <el-form-item prop="day_of_week" label="Ngày trong tuần" label-width="128px">
         <el-input v-model="form.day_of_week" placeholder="Mặc định: * " />
       </el-form-item>
-      <el-form-item prop="day_of_month" label="Ngày trong tháng">
+      <el-form-item prop="day_of_month" label="Ngày trong tháng" label-width="128px">
         <el-input v-model="form.day_of_month" placeholder="Mặc định: * " />
       </el-form-item>
-      <el-form-item prop="month_of_year" label="Tháng trong năm">
+      <el-form-item prop="month_of_year" label="Tháng trong năm" label-width="128px">
         <el-input v-model="form.month_of_year" placeholder="Mặc định: * " />
       </el-form-item>
     </el-form>

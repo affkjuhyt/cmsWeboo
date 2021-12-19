@@ -4,6 +4,7 @@
 
 <script>
 import echarts from "echarts";
+import { getPieChart } from "@/api/vadmin/system/dashboard";
 require("echarts/theme/macarons"); // echarts theme
 import resize from "./mixins/resize";
 
@@ -28,6 +29,9 @@ export default {
       chart: null
     };
   },
+  created() {
+    this.getList();
+  },
   mounted() {
     this.$nextTick(() => {
       this.initChart();
@@ -41,37 +45,45 @@ export default {
     this.chart = null;
   },
   methods: {
+    getList() {
+      getPieChart().then(response => {
+        this.dataPieChart = response.data;
+      });
+    },
     initChart() {
-      this.chart = echarts.init(this.$el, "macarons");
+      getPieChart().then(response => {
+        this.dataPieChart = response.data[0];
 
-      this.chart.setOption({
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-          left: "center",
-          bottom: "10",
-          data: ["Industries", "Technology", "Forex", "Gold", "Forecasts"]
-        },
-        series: [
-          {
-            name: "WEEKLY WRITE ARTICLES",
-            type: "pie",
-            roseType: "radius",
-            radius: [15, 95],
-            center: ["50%", "38%"],
-            data: [
-              { value: 320, name: "Industries" },
-              { value: 240, name: "Technology" },
-              { value: 149, name: "Forex" },
-              { value: 100, name: "Gold" },
-              { value: 59, name: "Forecasts" }
-            ],
-            animationEasing: "cubicInOut",
-            animationDuration: 2600
-          }
-        ]
+        this.chart = echarts.init(this.$el, "macarons");
+        this.chart.setOption({
+          tooltip: {
+            trigger: "item",
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+          legend: {
+            left: "center",
+            bottom: "10",
+            data: [response.data[0]["key"], response.data[1]["key"], response.data[2]["key"], response.data[3]["key"], response.data[4]["key"]]
+          },
+          series: [
+            {
+              name: "Thể loại truyện",
+              type: "pie",
+              roseType: "radius",
+              radius: [15, 95],
+              center: ["50%", "38%"],
+              data: [
+                { value: response.data[0]["value"], name: response.data[0]["key"] },
+                { value: response.data[1]["value"], name: response.data[1]["key"] },
+                { value: response.data[2]["value"], name: response.data[2]["key"] },
+                { value: response.data[3]["value"], name: response.data[3]["key"] },
+                { value: response.data[4]["value"], name: response.data[4]["key"] }
+              ],
+              animationEasing: "cubicInOut",
+              animationDuration: 2600
+            }
+          ]
+        });
       });
     }
   }

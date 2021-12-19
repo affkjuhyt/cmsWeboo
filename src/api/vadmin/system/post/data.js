@@ -52,6 +52,21 @@ export function exportPostGroup(query) {
   });
 }
 
+// Get PieChart
+export function getPostPieChart() {
+  return request({
+    url: "/admin/system/post/postPieChart/",
+    method: "get"
+  });
+}
+
+export function getPostBarChart() {
+  return request({
+    url: "/admin/system/post/postBarChart/",
+    method: "get"
+  });
+}
+
 // Clear cache
 export function clearCache() {
   return request({

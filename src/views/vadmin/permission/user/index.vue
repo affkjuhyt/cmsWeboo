@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="24">
+    <el-row :gutter="32">
       <el-col :span="32" :xs="12">
         <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
           <el-form-item label="Tên tài khoản" prop="username" label-width="120px">
@@ -13,9 +13,9 @@
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="Số điện thoại" prop="mobile" label-width="120px">
+          <el-form-item label="Số điện thoại" prop="phone_number" label-width="120px">
             <el-input
-              v-model="queryParams.mobile"
+              v-model="queryParams.phone_number"
               placeholder="Nhập số điện thoại"
               clearable
               size="small"
@@ -163,10 +163,10 @@
           </el-table-column>
           <el-table-column
             v-if="columns[4].visible"
-            key="mobile"
+            key="phone_number"
             label="Số điện thoại"
             align="center"
-            prop="mobile"
+            prop="phone_number"
             width="120"
           />
           <el-table-column v-if="columns[5].visible" key="is_active" label="Trạng thái" align="center">
@@ -233,11 +233,9 @@
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="Tên của người dùng" prop="name">
-              <el-input v-model="form.name" placeholder="Vui lòng nhập tên của người dùng" />
-            </el-form-item>
-          </el-col>
+          <el-form-item label="Tên của người dùng" prop="name" label-width="180px">
+            <el-input v-model="form.name" placeholder="Vui lòng nhập tên của người dùng" />
+          </el-form-item>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -253,12 +251,12 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item v-if="form.id == undefined" label="Username" prop="username">
-              <el-input v-model="form.username" placeholder="Vui long nhap username" />
+            <el-form-item v-if="form.id == undefined" label="Tên" prop="username">
+              <el-input v-model="form.username" placeholder="Vui long nhap ten" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.id == undefined" label="Password" prop="password">
+            <el-form-item v-if="form.id == undefined" label="Password" prop="password" label-width="100px">
               <el-input v-model="form.password" placeholder="Password" type="password" />
             </el-form-item>
           </el-col>
@@ -348,6 +346,20 @@
         <el-button @click="upload.open = false">Upload</el-button>
       </div>
     </el-dialog>
+
+    <el-divider />
+
+    <el-row :gutter="32">
+      <el-col :xs="24" :sm="24" :lg="12">
+        <LinerChart />
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <pie-chart />
+        </div>
+      </el-col>
+    </el-row>
+    <el-divider />
   </div>
 </template>
 
@@ -368,10 +380,12 @@ import { getToken } from "@/utils/auth";
 import { treeselect } from "@/api/vadmin/permission/dept";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import LinerChart from "./userLineChart";
+import PieChart from "./userPieChart";
 
 export default {
   name: "User",
-  components: { Treeselect },
+  components: { Treeselect, LinerChart, PieChart },
   data() {
     return {
       loading: true,

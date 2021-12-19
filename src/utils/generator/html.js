@@ -8,8 +8,8 @@ export function dialogWrapper(str) {
   return `<el-dialog v-bind="$attrs" v-on="$listeners" @open="onOpen" @close="onClose" title="Dialog Titile">
     ${str}
     <div slot="footer">
-      <el-button @click="close">取消</el-button>
-      <el-button type="primary" @click="handelConfirm">确定</el-button>
+      <el-button @click="close">Hủy bỏ</el-button>
+      <el-button type="primary" @click="handelConfirm">Đồng ý</el-button>
     </div>
   </el-dialog>`;
 }
@@ -68,7 +68,6 @@ function buildFromBtns(conf, type) {
   return str;
 }
 
-// span不为24的用el-col包裹
 function colWrapper(element, str) {
   if (someSpanIsNot24 || element.span !== 24) {
     return `<el-col :span="${element.span}">
@@ -268,7 +267,7 @@ const tags = {
     const ref = `ref="${el.vModel}"`;
     let child = buildElUploadChild(el);
 
-    if (child) child = `\n${child}\n`; // 换行
+    if (child) child = `\n${child}\n`;
     return `<${el.tag} ${ref} ${fileList} ${action} ${autoUpload} ${multiple} ${beforeUpload} ${listType} ${accept} ${name} ${disabled}>${child}</${el.tag}>`;
   }
 };

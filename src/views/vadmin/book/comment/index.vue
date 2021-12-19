@@ -41,7 +41,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button
           v-hasPermi="['system:comment:post']"
           type="primary"
@@ -61,7 +61,7 @@
           :disabled="single"
           @click="handleUpdate"
         >Chỉnh sửa</el-button>
-      </el-col>
+      </el-col> -->
       <el-col :span="1.5">
         <el-button
           v-hasPermi="['system:comment:{id}:delete']"
@@ -112,9 +112,9 @@
       <el-table-column label="User" align="center" prop="user" />
       <el-table-column label="Content" prop="content" :show-overflow-tooltip="true" />
       <el-table-column label="Số lượt like" prop="like_count" :show-overflow-tooltip="true" />
-      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
+      <el-table-column label="Thời gian tạo" align="center" prop="date_added" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.create_datetime) }}</span>
+          <span>{{ scope.row.date_added }}</span>
         </template>
       </el-table-column>
       <el-table-column

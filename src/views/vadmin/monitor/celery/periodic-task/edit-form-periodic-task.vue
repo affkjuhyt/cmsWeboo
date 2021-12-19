@@ -11,7 +11,7 @@
     @closed="dialogClose"
     @opened="dialogOpen"
   >
-    <el-form ref="form" v-loading="loading" :model="form" :size="$ELEMENT.size" label-width="120px">
+    <el-form ref="form" v-loading="loading" :model="form" :size="$ELEMENT.size" label-width="170px">
       <el-form-item :rules="[{ required: true, message: 'Tác vụ không được để trống'}]" label="celery:" prop="task">
         <el-autocomplete
           v-model="form.task"

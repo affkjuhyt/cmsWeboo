@@ -28,7 +28,7 @@
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="closeDetailFormDialog">关 闭</el-button>
+      <el-button @click="closeDetailFormDialog">Đóng</el-button>
     </div>
   </el-dialog>
 </template>

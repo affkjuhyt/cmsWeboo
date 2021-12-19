@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
-      <el-form-item label="Tên nhiệm vụ" prop="name">
+      <el-form-item label="Tên nhiệm vụ" prop="name" label-width="120px">
         <el-input
           v-model="queryParams.name"
           placeholder="Vui lòng nhập tên nhiệm vụ"
@@ -11,7 +11,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="Tên chức năng" prop="func_name">
+      <el-form-item label="Tên chức năng" prop="func_name" label-width="120px">
         <el-input
           v-model="queryParams.func_name"
           placeholder="Vui lòng nhập tên của hàm thực thi"
@@ -21,10 +21,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="Trang thái" prop="status">
+      <el-form-item label="Trạng thái" prop="status" label-width="100px">
         <el-select
           v-model="queryParams.status"
-          placeholder="Trang thái"
+          placeholder="Trạng thái"
           clearable
           size="small"
           style="width: 240px"
@@ -37,7 +37,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="Thời gian thực hiện">
+      <el-form-item label="Thời gian thực hiện" label-width="150px">
         <el-date-picker
           v-model="dateRange"
           size="small"
@@ -92,15 +92,15 @@
     </el-row>
 
     <el-table v-loading="loading" :data="list" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="Id" width="80" align="center" prop="id" />
+      <el-table-column type="selection" width="35" align="center" />
+      <el-table-column label="Id" width="50" align="center" prop="id" />
       <el-table-column label="Tên" align="center" prop="name" width="200" :show-overflow-tooltip="true" />
       <el-table-column label="Hàm thực thi" align="center" prop="func_name" :show-overflow-tooltip="true" />
-      <el-table-column label="Các thông số thực thi" align="center" prop="kwargs" :show-overflow-tooltip="true" />
+      <el-table-column label="Các thông số thực thi" align="center" prop="kwargs" :show-overflow-tooltip="true" width="105px" />
       <el-table-column label="Thời gian thực hiện" width="80" align="center" prop="seconds" />
-      <el-table-column label="Tình trạng hoạt động" width="80" align="center" prop="status" :formatter="statusFormat" />
+      <el-table-column label="Tình trạng hoạt động" width="160" align="center" prop="status" :formatter="statusFormat" />
       <el-table-column label="Kết quả nhiệm vụ" align="center" prop="result" :show-overflow-tooltip="true" />
-      <el-table-column label="Ngày thi hành" align="center" prop="create_datetime" width="180">
+      <el-table-column label="Ngày thi hành" align="center" prop="create_datetime" width="110">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>

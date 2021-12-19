@@ -11,7 +11,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="Loại thông báo" prop="message_type">
+      <el-form-item label="Loại thông báo" prop="message_type" label-width="150px">
         <el-select v-model="queryParams.message_type" placeholder="Loại thông báo" clearable size="small">
           <el-option
             v-for="dict in MessagePushTypeOptions"
@@ -21,7 +21,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="Trạng thái thông báo" prop="status">
+      <el-form-item label="Trạng thái thông báo" prop="status" label-width="170px">
         <el-select v-model="queryParams.status" placeholder="Trạng thái thông báo" clearable size="small">
           <el-option
             v-for="dict in MessagePushStatusOptions"
@@ -100,9 +100,9 @@
       <el-table-column label="Content" align="center" prop="content" :show-overflow-tooltip="true" />
       <el-table-column label="Loại thông báo" align="center" prop="message_type" :formatter="typeFormat" />
       <!--      <el-table-column label="是否审核通过" align="center" prop="is_reviewed" :formatter="isReviewedFormat"/>-->
-      <el-table-column label="Trạng thái thông báo" align="center" prop="status" :formatter="statusFormat" />
+      <el-table-column label="Trạng thái thông báo" align="center" prop="status" :formatter="statusFormat" width="180px" />
       <el-table-column label="Path" align="center" prop="to_path" :show-overflow-tooltip="true" />
-      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
+      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180px">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>
@@ -146,7 +146,7 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="Tiêu đề thông báo" prop="title">
+            <el-form-item label="Tiêu đề" prop="title">
               <el-input v-model="form.title" placeholder="Vui lòng nhập tiêu đề của thông báo" />
             </el-form-item>
           </el-col>
@@ -168,7 +168,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Loại thông báo" prop="message_type">
+            <el-form-item label="Loại thông báo" prop="message_type" label-width="120px">
               <el-select v-model="form.message_type" placeholder="Xin vui lòng chọn">
                 <el-option
                   v-for="dict in MessagePushTypeOptions"

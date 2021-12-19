@@ -163,6 +163,18 @@
         <el-button @click="cancel">Hủy</el-button>
       </div>
     </el-dialog>
+
+    <el-divider />
+    <LinerChart />
+    <el-divider />
+
+    <el-row :gutter="32">
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <bar-chart />
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -170,10 +182,12 @@
 import { getChapter, getChapters, addChapter, updateChapter, delChapter, exportChapter } from "@/api/vadmin/system/book/chapter";
 import { listBook, clearCache } from "@/api/vadmin/system/book/data";
 import FileUpload from "@/components/FileUpload/index";
+import BarChart from "./ChapterBarChart";
+import LinerChart from "./ChapterLineChart.vue";
 
 export default {
   name: "Chapter",
-  components: { FileUpload },
+  components: { FileUpload, LinerChart, BarChart },
   data() {
     return {
       loading: true,

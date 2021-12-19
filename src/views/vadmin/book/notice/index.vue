@@ -248,20 +248,16 @@ export default {
         this.loading = false;
       });
     },
-    // 公告状态字典翻译
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.status);
     },
-    // 公告状态字典翻译
     typeFormat(row, column) {
       return this.selectDictLabel(this.typeOptions, row.noticeType);
     },
-    // 取消按钮
     cancel() {
       this.open = false;
       this.reset();
     },
-    // 表单重置
     reset() {
       this.form = {
         noticeId: undefined,
@@ -324,18 +320,17 @@ export default {
         }
       });
     },
-    /** 删除按钮操作 */
     handleDelete(row) {
       const noticeIds = row.noticeId || this.ids;
-      this.$confirm('是否确认删除公告编号为"' + noticeIds + '"的数据项?', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm('Bạn có chắc chắn xóa số thông báo không"' + noticeIds + '"Mục dữ liệu?', "Cảnh báo", {
+        confirmButtonText: "Đảm bảo",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return delNotice(noticeIds);
       }).then(() => {
         this.getList();
-        this.msgSuccess("删除成功");
+        this.msgSuccess("Xóa thông báo thành công");
       });
     }
   }

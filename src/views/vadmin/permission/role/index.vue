@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true">
-      <el-form-item label="Tên vai trò" prop="roleName">
+      <el-form-item label="Tên vai trò" prop="roleName" label-width="100px">
         <el-input
           v-model="queryParams.roleName"
           placeholder="Vui lòng nhập tên vai trò"
@@ -163,8 +163,8 @@
       @pagination="getList"
     />
 
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="700px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="150px">
         <el-form-item label="Tên vai trò" prop="roleName">
           <el-input v-model="form.roleName" placeholder="Vui lòng nhập tên vai trò" />
         </el-form-item>
@@ -208,8 +208,8 @@
       </div>
     </el-dialog>
 
-    <el-dialog :title="title" :visible.sync="openDataScope" width="500px" append-to-body>
-      <el-form :model="form" label-width="80px">
+    <el-dialog :title="title" :visible.sync="openDataScope" width="700px" append-to-body>
+      <el-form :model="form" label-width="140px">
         <el-form-item label="Tên vai trò">
           <el-input v-model="form.roleName" :disabled="true" />
         </el-form-item>
@@ -226,7 +226,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item v-show="form.dataScope == 2" label="Quyền dữ liệu">
+        <!-- <el-form-item v-show="form.dataScope == 2" label="Quyền dữ liệu">
           <el-checkbox v-model="deptExpand" @change="handleCheckedTreeExpand($event, 'dept')">Mở rộng/thu hẹp</el-checkbox>
           <el-checkbox v-model="deptNodeAll" @change="handleCheckedTreeNodeAll($event, 'dept')">Chọn tất cả/ bỏ chọn tất cả</el-checkbox>
           <el-checkbox v-model="form.deptCheckStrictly" @change="handleCheckedTreeConnect($event, 'dept')">Tính cha con</el-checkbox>
@@ -241,7 +241,7 @@
             empty-text="Đang tải, vui lòng đợi"
             :props="defaultProps"
           />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitDataScope">Gửi</el-button>

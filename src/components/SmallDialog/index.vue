@@ -1,6 +1,3 @@
-<!--
-@description: 已封装组件、通用组件、基础组件、全局组件(已注册全局组件)
--->
 <template>
   <el-dialog
     ref="elDialog"
@@ -19,10 +16,10 @@
   >
     <el-row slot="title">
       <el-col :span="18" style="text-align: left;">
-        <common-icon :icon-title="dialogTitle || 'Dialog组件'" :value="icon" style="font-size: 1.2em" />
+        <common-icon :icon-title="dialogTitle || 'Thành phần hộp thoại'" :value="icon" style="font-size: 1.2em" />
       </el-col>
       <el-col :span="6" style="text-align: right">
-        <i class="el-icon-close" style="font-size: 30px; cursor: pointer" title="关闭" @click="dialogClose" />
+        <i class="el-icon-close" style="font-size: 30px; cursor: pointer" title="Đóng" @click="dialogClose" />
       </el-col>
     </el-row>
     <div class="dialog-body">
@@ -30,8 +27,8 @@
     </div>
     <slot name="footer">
       <div class="dialog-button">
-        <el-button v-if="buttons.indexOf('cancel') >= 0" :size="size" :disabled="loading" type="info" title="取消" @click="cancel">取消</el-button>
-        <el-button v-if="buttons.indexOf('confirm') >= 0" :size="size" :disabled="loading" type="success" title="确定" @click="confirm">确定</el-button>
+        <el-button v-if="buttons.indexOf('cancel') >= 0" :size="size" :disabled="loading" type="info" title="Hủy" @click="cancel">Hủy</el-button>
+        <el-button v-if="buttons.indexOf('confirm') >= 0" :size="size" :disabled="loading" type="success" title="Đống ý" @click="confirm">Đồng ý</el-button>
       </div>
     </slot>
   </el-dialog>

@@ -112,9 +112,9 @@
       <el-table-column label="Thể loại" align="center" prop="type" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column label="Trạng thái" align="center" prop="status" />
       <el-table-column label="Author" align="center" prop="author" :show-overflow-tooltip="true" />
-      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
+      <el-table-column label="Thời gian tạo" align="center" prop="date_added" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.create_datetime) }}</span>
+          <span>{{ scope.row.date_added }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -151,8 +151,8 @@
     />
 
     <!-- Thêm mới -->
-    <el-dialog :title_name="title_name" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title_name="title_name" :visible.sync="open" width="700px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="90px">
         <el-form-item label="Tên" prop="title">
           <el-input v-model="form.title" placeholder="Nhập tên truyện" />
         </el-form-item>
@@ -162,8 +162,13 @@
         <el-form-item label="Thể loại" prop="type">
           <el-input v-model="form.type" placeholder="Nhập thể loại truyện" />
         </el-form-item>
-        <el-form-item label="Miêu tả" prop="description">
-          <el-input v-model="form.description" type="textarea" placeholder="Nhập miêu tả truyện" />
+        <el-col :span="24">
+          <el-form-item label="Miêu tả" prop="description">
+            <editor v-model="form.content" :min-height="192" />
+          </el-form-item>
+        </el-col>
+        <el-form-item label="Tệp dữ liệu">
+          <input id="zip" type="file" @change="getFiles($event)" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -171,19 +176,39 @@
         <el-button @click="cancel">Hủy</el-button>
       </div>
     </el-dialog>
+
+    <el-divider />
+
+    <el-row :gutter="32">
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <pie-chart />
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <bar-chart />
+        </div>
+      </el-col>
+    </el-row>
+
+    <el-divider />
   </div>
 </template>
 
 <script>
 import { listBook, getBook, addBook, updateBook, delBook, exportBook, clearCache } from "@/api/vadmin/system/book/data";
+import PieChart from "./PieChart";
+import BarChart from "./BarChart";
+import Editor from "@/components/Editor";
+import FileUpload from "@/components/FileUpload/index";
 
 export default {
   name: "Book",
+  components: { FileUpload, PieChart, BarChart, Editor },
   data() {
     return {
-      // Loading
       loading: true,
-      // Array
       ids: [],
       single: true,
       multiple: true,
@@ -194,7 +219,6 @@ export default {
       open: false,
       statusOptions: [],
       dateRange: [],
-      // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -240,7 +264,6 @@ export default {
       }
       );
     },
-    // 字典状态字典翻译
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.status);
     },

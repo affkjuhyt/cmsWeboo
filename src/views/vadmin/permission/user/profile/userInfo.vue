@@ -3,7 +3,7 @@
     <el-form-item label="Tài khoản" prop="username">
       <el-input v-model="user.username" />
     </el-form-item>
-    <el-form-item label="Số điện thoại" prop="mobile">
+    <el-form-item label="Số điện thoại" prop="phone_number">
       <el-input v-model="user.mobile" maxlength="11" />
     </el-form-item>
     <el-form-item label="Email" prop="email">

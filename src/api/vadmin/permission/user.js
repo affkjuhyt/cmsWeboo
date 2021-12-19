@@ -1,7 +1,6 @@
 import request from "@/utils/request";
 import { praseStrEmpty } from "@/utils/ruoyi";
 
-// 查询用户列表
 export function listUser(query) {
   return request({
     url: "/admin/permission/user/",
@@ -10,7 +9,6 @@ export function listUser(query) {
   });
 }
 
-// 查询用户详细
 export function getUser(userId) {
   return request({
     url: "/admin/permission/user/details/?userId=" + praseStrEmpty(userId),
@@ -18,7 +16,6 @@ export function getUser(userId) {
   });
 }
 
-// 新增用户
 export function addUser(data) {
   return request({
     url: "/admin/permission/user/",
@@ -27,7 +24,6 @@ export function addUser(data) {
   });
 }
 
-// 修改用户
 export function updateUser(data) {
   return request({
     url: "/admin/permission/user/" + data.id + "/",
@@ -36,7 +32,6 @@ export function updateUser(data) {
   });
 }
 
-// 删除用户
 export function delUser(userId) {
   return request({
     url: "/admin/permission/user/" + userId + "/",
@@ -44,7 +39,6 @@ export function delUser(userId) {
   });
 }
 
-// 导出用户
 export function exportUser(query) {
   return request({
     url: "/admin/permission/user/export/",
@@ -53,7 +47,6 @@ export function exportUser(query) {
   });
 }
 
-// 用户密码重置
 export function resetUserPwd(userId, password) {
   const data = {
     userId,
@@ -66,7 +59,20 @@ export function resetUserPwd(userId, password) {
   });
 }
 
-// 用户状态修改
+export function getPercentUserVip() {
+  return request({
+    url: "/admin/system/percentUser/",
+    method: "get"
+  });
+}
+
+export function getRegisterUser() {
+  return request({
+    url: "/admin/system/registerUser/",
+    method: "get"
+  });
+}
+
 export function changeUserStatus(userId, status) {
   const data = {
     userId,
@@ -79,7 +85,6 @@ export function changeUserStatus(userId, status) {
   });
 }
 
-// 查询用户个人信息
 export function getUserProfile() {
   return request({
     url: "/admin/permission/user/profile/",
@@ -87,7 +92,6 @@ export function getUserProfile() {
   });
 }
 
-// 修改用户个人信息
 export function updateUserProfile(data) {
   return request({
     url: "/admin/permission/user/profile/",
@@ -96,7 +100,6 @@ export function updateUserProfile(data) {
   });
 }
 
-// 用户密码重置
 export function updateUserPwd(oldPassword, newPassword) {
   const data = {
     oldPassword,
@@ -109,7 +112,6 @@ export function updateUserPwd(oldPassword, newPassword) {
   });
 }
 
-// 用户头像上传
 export function uploadAvatar(data) {
   return request({
     url: "/admin/permission/user/profile/avatar/",
@@ -118,7 +120,6 @@ export function uploadAvatar(data) {
   });
 }
 
-// 下载用户导入模板
 export function importTemplate() {
   return request({
     url: "/admin/permission/user/importTemplate/",
@@ -126,7 +127,6 @@ export function importTemplate() {
   });
 }
 
-// 用户导入
 export function importsUser(data) {
   return request({
     url: "/admin/permission/user/importTemplate/",

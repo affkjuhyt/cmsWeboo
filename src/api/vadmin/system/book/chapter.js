@@ -34,6 +34,13 @@ export function getChapters(query) {
   });
 }
 
+export function getBarChartChapter(bookId) {
+  return request({
+    url: "/admin/system/book/chapter/" + bookId + "/chapterBarChart/",
+    method: "get"
+  });
+}
+
 // addChapter
 export function addChapter(data) {
   return request({

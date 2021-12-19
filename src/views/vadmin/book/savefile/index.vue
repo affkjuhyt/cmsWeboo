@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
-      <el-form-item label="Tên tập tin" prop="name">
+      <el-form-item label="Tên tập tin" prop="name" label-width="110px">
         <el-input
           v-model="queryParams.name"
           placeholder="Vui lòng nhập tên tệp"
@@ -67,12 +67,12 @@
 
     <el-table v-loading="loading" :data="fileList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="Thư mục số" width="90" align="center" prop="id" />
+      <el-table-column label="Thư mục số" width="100" align="center" prop="id" />
       <el-table-column label="Tên tập tin" width="200" align="center" prop="name" :show-overflow-tooltip="true" />
-      <el-table-column label="Loại tệp" width="150" align="center" prop="type" />
-      <el-table-column label="Kích thước tệp" width="90" align="center" prop="size" />
-      <el-table-column label="Khu vực lưu trữ" align="center" prop="address" />
-      <el-table-column label="Nguồn tập tin" align="center" prop="source" />
+      <el-table-column label="Loại tệp" width="90" align="center" prop="type" />
+      <el-table-column label="Kích thước tệp" width="120" align="center" prop="size" />
+      <!-- <el-table-column label="Nơi lưu trữ" align="center" prop="address" /> -->
+      <el-table-column label="Nguồn tập tin" align="left" prop="source" width="120" />
       <el-table-column label="Địa chỉ đích" align="center" prop="file" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-button

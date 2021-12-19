@@ -23,6 +23,13 @@ export function getComment(commentId) {
 //   });
 // }
 
+export function getLineChart() {
+  return request({
+    url: "/admin/system/comment/weekday/",
+    method: "get"
+  });
+}
+
 export function updateComment(data) {
   return request({
     url: "/admin/system/comment/" + data.id + "/",

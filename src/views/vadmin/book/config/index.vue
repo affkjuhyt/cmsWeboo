@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
-      <el-form-item label="Tên tham số" prop="configName">
+      <el-form-item label="Tên tham số" prop="configName" label-width="120px">
         <el-input
           v-model="queryParams.configName"
           placeholder="Vui lòng nhập tên thông số"
@@ -11,7 +11,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="Tên khóa tham số" prop="configKey">
+      <el-form-item label="Tên khóa tham số" prop="configKey" label-width="150px">
         <el-input
           v-model="queryParams.configKey"
           placeholder="Khóa tham số"
@@ -21,7 +21,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="Hệ thống tích hợp" prop="configType">
+      <el-form-item label="Hệ thống tích hợp" prop="configType" label-width="150px">
         <el-select v-model="queryParams.configType" placeholder="Hệ thống tích hợp" clearable size="small">
           <el-option
             v-for="dict in typeOptions"

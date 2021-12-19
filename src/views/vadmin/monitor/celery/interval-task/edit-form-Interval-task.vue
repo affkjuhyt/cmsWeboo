@@ -16,7 +16,7 @@
       <el-form-item prop="every" label="Tần số:">
         <el-input-number v-model="form.every" :min="1" label="Tần số" />
       </el-form-item>
-      <el-form-item prop="period" label="Khoảng thời gian:">
+      <el-form-item prop="period" label="Khoảng thời gian:" label-width="150px">
         <el-select v-model="form.period" placeholder="Vui lòng chọn">
           <el-option
             v-for="(item,index) in lists"

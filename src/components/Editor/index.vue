@@ -11,17 +11,14 @@ import "quill/dist/quill.bubble.css";
 export default {
   name: "Editor",
   props: {
-    /* 编辑器的内容 */
     value: {
       type: String,
       default: ""
     },
-    /* 高度 */
     height: {
       type: Number,
       default: null
     },
-    /* 最小高度 */
     minHeight: {
       type: Number,
       default: null
@@ -36,21 +33,20 @@ export default {
         bounds: document.body,
         debug: "warn",
         modules: {
-          // 工具栏配置
           toolbar: [
-            ["bold", "italic", "underline", "strike"], // 加粗 斜体 下划线 删除线
-            ["blockquote", "code-block"], // 引用  代码块
-            [{ list: "ordered" }, { list: "bullet" }], // 有序、无序列表
-            [{ indent: "-1" }, { indent: "+1" }], // 缩进
-            [{ size: ["small", false, "large", "huge"] }], // 字体大小
-            [{ header: [1, 2, 3, 4, 5, 6, false] }], // 标题
-            [{ color: [] }, { background: [] }], // 字体颜色、字体背景颜色
-            [{ align: [] }], // 对齐方式
-            ["clean"], // 清除文本格式
-            ["link", "image", "video"] // 链接、图片、视频
+            ["bold", "italic", "underline", "strike"],
+            ["blockquote", "code-block"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ indent: "-1" }, { indent: "+1" }],
+            [{ size: ["small", false, "large", "huge"] }],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            [{ color: [] }, { background: [] }],
+            [{ align: [] }],
+            ["clean"],
+            ["link", "image", "video"]
           ]
         },
-        placeholder: "请输入内容",
+        placeholder: "Vui lòng nhập nội dung",
         readOnly: false
       }
     };
@@ -122,16 +118,16 @@ export default {
   display: none;
 }
 .ql-snow .ql-tooltip[data-mode="link"]::before {
-  content: "请输入链接地址:";
+  content: "Vui lòng nhập địa chỉ liên kết:";
 }
 .ql-snow .ql-tooltip.ql-editing a.ql-action::after {
   border-right: 0px;
-  content: "保存";
+  content: "Editing";
   padding-right: 0px;
 }
 
 .ql-snow .ql-tooltip[data-mode="video"]::before {
-  content: "请输入视频地址:";
+  content: "Nhập video:";
 }
 
 .ql-snow .ql-picker.ql-size .ql-picker-label::before,
@@ -153,43 +149,43 @@ export default {
 
 .ql-snow .ql-picker.ql-header .ql-picker-label::before,
 .ql-snow .ql-picker.ql-header .ql-picker-item::before {
-  content: "文本";
+  content: "Chữ";
 }
 .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before,
 .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {
-  content: "标题1";
+  content: "Tiêu đề 1";
 }
 .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before,
 .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {
-  content: "标题2";
+  content: "Tiều đề 2";
 }
 .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before,
 .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
-  content: "标题3";
+  content: "Tiêu đề 3";
 }
 .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="4"]::before,
 .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before {
-  content: "标题4";
+  content: "Tiêu đề 4";
 }
 .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="5"]::before,
 .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before {
-  content: "标题5";
+  content: "Tiêu đề 5";
 }
 .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="6"]::before,
 .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {
-  content: "标题6";
+  content: "Tiêu đề 6";
 }
 
 .ql-snow .ql-picker.ql-font .ql-picker-label::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item::before {
-  content: "标准字体";
+  content: "Phông chữ";
 }
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="serif"]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="serif"]::before {
-  content: "衬线字体";
+  content: "Serif";
 }
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="monospace"]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="monospace"]::before {
-  content: "等宽字体";
+  content: "monospace";
 }
 </style>

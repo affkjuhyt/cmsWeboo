@@ -103,9 +103,9 @@
       <el-table-column label="Nội dung" align="center" prop="content" :show-overflow-tooltip="true" />
       <el-table-column label="Số lượt like" align="center" prop="like_count" :show-overflow-tooltip="true" />
       <el-table-column label="Số lượt chia sẻ" align="center" prop="share_count" :show-overflow-tooltip="true" />
-      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
+      <el-table-column label="Thời gian tạo" align="center" prop="date_added" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.create_datetime) }}</span>
+          <span>{{ scope.row.date_added }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -173,14 +173,31 @@
         <el-button @click="cancel">Hủy</el-button>
       </div>
     </el-dialog>
+    <el-divider />
+
+    <el-row :gutter="32">
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <pie-chart />
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <bar-chart />
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import { listPostGroup, getPostGroup, addPostGroup, updatePostGroup, delPostGroup, exportPostGroup, clearCache } from "@/api/vadmin/system/post/data";
+import PieChart from "./PostPieChart";
+import BarChart from "./PostBarChart";
 
 export default {
   name: "Group",
+  components: { PieChart, BarChart },
   data() {
     return {
       // Loading

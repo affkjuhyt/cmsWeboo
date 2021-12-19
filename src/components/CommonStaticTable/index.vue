@@ -27,7 +27,7 @@
             v-show="isFilter"
             :size="$ELEMENT.size"
             type="info"
-            title="取消过滤"
+            title="Bỏ bộ lọc"
             style="margin-left: 0;"
             @click="handleCancelFilter"
           >

@@ -6,6 +6,7 @@
 import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import resize from "./mixins/resize";
+import { getBarChart } from "@/api/vadmin/system/dashboard";
 
 const animationDuration = 6000;
 
@@ -30,6 +31,9 @@ export default {
       chart: null
     };
   },
+  created() {
+    this.getList();
+  },
   mounted() {
     this.$nextTick(() => {
       this.initChart();
@@ -43,58 +47,73 @@ export default {
     this.chart = null;
   },
   methods: {
+    getList() {
+      getBarChart().then(response => {
+        console.log(this.dataBarChart);
+        this.dataBarChart = response.data;
+      });
+    },
     initChart() {
-      this.chart = echarts.init(this.$el, "macarons");
+      getBarChart().then(response => {
+        console.log(response.data[0]);
 
-      this.chart.setOption({
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "shadow"
-          }
-        },
-        grid: {
-          top: 10,
-          left: "2%",
-          right: "2%",
-          bottom: "3%",
-          containLabel: true
-        },
-        xAxis: [{
-          type: "category",
-          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-          axisTick: {
-            alignWithLabel: true
-          }
-        }],
-        yAxis: [{
-          type: "value",
-          axisTick: {
-            show: false
-          }
-        }],
-        series: [{
-          name: "pageA",
-          type: "bar",
-          stack: "vistors",
-          barWidth: "60%",
-          data: [79, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: "pageB",
-          type: "bar",
-          stack: "vistors",
-          barWidth: "60%",
-          data: [80, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: "pageC",
-          type: "bar",
-          stack: "vistors",
-          barWidth: "60%",
-          data: [30, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }]
+        this.chart = echarts.init(this.$el, "macarons");
+
+        this.chart.setOption({
+          title: {
+            text: "Số lượt truy cập",
+            left: "center",
+            top: "8px"
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              type: "shadow"
+            }
+          },
+          grid: {
+            top: 10,
+            left: "2%",
+            right: "2%",
+            bottom: "3%",
+            containLabel: true
+          },
+          xAxis: [{
+            type: "category",
+            data: [response.data[0]["key"], response.data[1]["key"], response.data[2]["key"], response.data[3]["key"], response.data[4]["key"], response.data[5]["key"], response.data[6]["key"], response.data[7]["key"], response.data[8]["key"], response.data[9]["key"], response.data[10]["key"], response.data[11]["key"]],
+            axisTick: {
+              alignWithLabel: true
+            }
+          }],
+          yAxis: [{
+            type: "value",
+            axisTick: {
+              show: false
+            }
+          }],
+          series: [{
+            name: "Số lượt truy cập theo tháng",
+            type: "bar",
+            stack: "vistors",
+            barWidth: "60%",
+            data: [
+              response.data[0]["value"],
+              response.data[1]["value"],
+              response.data[2]["value"],
+              response.data[3]["value"],
+              response.data[4]["value"],
+              response.data[5]["value"],
+              response.data[6]["value"],
+              response.data[7]["value"],
+              response.data[8]["value"],
+              response.data[9]["value"],
+              response.data[10]["value"],
+              response.data[11]["value"]
+            ],
+            backgroundColor: "#f89098",
+            animationDuration
+          }]
+        });
       });
     }
   }

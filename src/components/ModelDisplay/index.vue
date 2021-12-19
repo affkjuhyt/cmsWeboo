@@ -938,27 +938,25 @@ export default {
       }
       this.title = func.label;
     },
-    /** 删除按钮操作 */
     handleDelete(func, row) {
       const ids = row.id || this.multipleSelection.map(item => item.id);
-      this.$confirm("是否确认" + func.label + '编号为"' + ids + '"的数据项?', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm("Xác nhận" + func.label + 'Không"' + ids + '"Mục dữ liệu?', "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return func.api(ids);
       }).then(() => {
         this.getTableData();
         this.$emit("delete", ids);
-        this.msgSuccess("删除成功");
+        this.msgSuccess("Đã xóa thành công");
       });
     },
-    /** 导出按钮操作 */
     handleExport(func) {
       const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有符合条件的数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm("Bạn có chắc chắn xuất tất cả các mục dữ liệu đủ điều kiện không?", "Cảnh báo", {
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
         type: "warning"
       }).then(function() {
         return func.api(queryParams);
@@ -1014,7 +1012,6 @@ export default {
         }
       });
     },
-    // 取消按钮
     cancel() {
       this.open = false;
     },
@@ -1022,7 +1019,6 @@ export default {
       this.$refs["ruleForm"].resetFields();
       this.form = {};
     },
-    // 获取操作的权限列表
     getOperationPermis() {
       let Permis = [];
       this.funcs.map(value => {

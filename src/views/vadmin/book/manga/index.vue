@@ -150,7 +150,6 @@
       @pagination="getList"
     />
 
-    <!-- Thêm mới -->
     <el-dialog :title_name="title_name" :visible.sync="open" width="700px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="90px">
         <el-form-item label="Tên" prop="title">
@@ -172,7 +171,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">Gửi</el-button>
+        <el-button type="primary" @click="submit($event)">Gửi</el-button>
         <el-button @click="cancel">Hủy</el-button>
       </div>
     </el-dialog>
@@ -253,6 +252,12 @@ export default {
     });
   },
   methods: {
+    getFiles(event) {
+      this.files = event.target.files[0];
+      const urls = this.files;
+      console.log(urls);
+      console.log(this.files);
+    },
     getList() {
       this.loading = true;
       console.log("AAAA: " + JSON.stringify(this.queryParams));
@@ -326,25 +331,56 @@ export default {
       });
     },
     /** Submit form */
-    submitForm: function() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.id !== undefined) {
-            updateBook(this.form).then(response => {
-              this.msgSuccess("Chỉnh sửa thành công");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addBook(this.form).then(response => {
-              this.msgSuccess("Thêm mới thành công");
-              this.open = false;
-              this.getList();
-            });
-          }
+    submit(event) {
+      event.preventDefault();
+      const formData = new FormData();
+      formData.append("id", this.form.id);
+      formData.append("title", this.form.title);
+      formData.append("author", this.form.author);
+      formData.append("type", this.form.type);
+      formData.append("description", this.form.content);
+      formData.append("file", this.files);
+      if (this.form.id !== undefined) {
+        if(this.form.title == undefined) {
+          this.msgError("Chưa có đủ dữ liệu");
+        } else {
+          updateBook(formData).then((response) => {
+          this.msgSuccess("Chỉnh sửa dữ liệu thành công");
+          this.open = false;
+          this.getList();
+        });
         }
-      });
+      } else {
+        if(this.form.title == undefined) {
+          this.msgError("Chưa có đủ dữ liệu");
+        } else {
+          updateBook(formData).then((response) => {
+            this.msgSuccess("Thêm mới dữ liệu thành công");
+            this.open = false;
+            this.getList();
+          });
+        }
+      }
     },
+    // submitForm: function() {
+    //   this.$refs["form"].validate(valid => {
+    //     if (valid) {
+    //       if (this.form.id !== undefined) {
+    //         updateBook(this.form).then(response => {
+    //           this.msgSuccess("Chỉnh sửa thành công");
+    //           this.open = false;
+    //           this.getList();
+    //         });
+    //       } else {
+    //         addBook(this.form).then(response => {
+    //           this.msgSuccess("Thêm mới thành công");
+    //           this.open = false;
+    //           this.getList();
+    //         });
+    //       }
+    //     }
+    //   });
+    // },
     /** Xóa data */
     handleDelete(row) {
       const ids = row.id || this.ids;

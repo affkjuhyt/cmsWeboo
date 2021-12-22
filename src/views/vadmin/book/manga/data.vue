@@ -95,9 +95,9 @@
       <el-table-column label="STT chương" align="center" prop="number" />
       <el-table-column label="Số like" align="center" prop="like_count">
       </el-table-column>
-      <el-table-column label="Thời gian tạo" align="center" prop="create_datetime" width="180">
+      <el-table-column label="Thời gian tạo" align="center" prop="date_added" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.create_datetime) }}</span>
+          <span>{{ scope.row.date_added }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -133,8 +133,8 @@
       @pagination="getList"
     />
 
-    <el-dialog :title_name="title_name" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title_name="title_name" :visible.sync="open" width="600px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="Tên chương" prop="title">
           <el-input v-model="form.title" placeholder="Nhập tên chương" />
         </el-form-item>
@@ -167,14 +167,6 @@
     <el-divider />
     <LinerChart />
     <el-divider />
-
-    <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="12">
-        <div class="chart-wrapper">
-          <bar-chart />
-        </div>
-      </el-col>
-    </el-row>
   </div>
 </template>
 
@@ -182,12 +174,11 @@
 import { getChapter, getChapters, addChapter, updateChapter, delChapter, exportChapter } from "@/api/vadmin/system/book/chapter";
 import { listBook, clearCache } from "@/api/vadmin/system/book/data";
 import FileUpload from "@/components/FileUpload/index";
-import BarChart from "./ChapterBarChart";
 import LinerChart from "./ChapterLineChart.vue";
 
 export default {
   name: "Chapter",
-  components: { FileUpload, LinerChart, BarChart },
+  components: { FileUpload, LinerChart },
   data() {
     return {
       loading: true,
@@ -314,7 +305,6 @@ export default {
     submit(event) {
       event.preventDefault();
       const formData = new FormData();
-      console.log("Form is: " + this.form.description);
       formData.append("id", this.form.id);
       formData.append("description", this.form.description);
       formData.append("title", this.form.title);

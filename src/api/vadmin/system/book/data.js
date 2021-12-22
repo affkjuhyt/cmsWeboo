@@ -29,7 +29,7 @@ export function addBook(data) {
 // Update data book
 export function updateBook(data) {
   return request({
-    url: "/admin/system/book/data/" + data.id + "/",
+    url: "/admin/system/book/data/update/",
     method: "put",
     data: data
   });

@@ -21,22 +21,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <!-- <el-form-item label="Trạng thái" prop="status">
-        <el-select
-          v-model="queryParams.status"
-          placeholder="Trạng thái"
-          clearable
-          size="small"
-          style="width: 240px"
-        >
-          <el-option
-            v-for="dict in statusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
-          />
-        </el-select>
-      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">Tìm kiếm</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">Làm mới</el-button>

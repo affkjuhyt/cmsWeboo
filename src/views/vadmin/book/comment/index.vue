@@ -125,13 +125,6 @@
       >
         <template slot-scope="scope">
           <el-button
-            v-hasPermi="['system:comment:{id}:put']"
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-          >Chỉnh sửa</el-button>
-          <el-button
             v-hasPermi="['system:comment:{id}:delete']"
             size="mini"
             type="text"
@@ -288,15 +281,15 @@ export default {
       this.multiple = !selection.length;
     },
     /** Update data */
-    handleUpdate(row) {
-      this.reset();
-      const id = row.id || this.ids;
-      updateComment(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title_name = "Chỉnh sửa comment";
-      });
-    },
+    // handleUpdate(row) {
+    //   this.reset();
+    //   const id = row.id || this.ids;
+    //   updateComment(id).then(response => {
+    //     this.form = response.data;
+    //     this.open = true;
+    //     this.title_name = "Chỉnh sửa comment";
+    //   });
+    // },
     getBookList() {
       listBook({ pageNum: "all" }).then((response) => {
         this.listBookOptions = response.data;

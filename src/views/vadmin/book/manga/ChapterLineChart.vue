@@ -93,7 +93,7 @@ export default {
             }
           },
           legend: {
-            data: ["Mong đợi", "Thực tế"]
+            data: ["Thực tế"]
           },
           series: [{
             name: "expected", itemStyle: {
@@ -107,29 +107,9 @@ export default {
             },
             smooth: true,
             type: "line",
-            data: [1, 5, 6, 7, 8, 9, 10],
+            data: [36, 15, 13, 22, 40, 9, 10],
             animationDuration: 2800,
             animationEasing: "cubicInOut"
-          },
-          {
-            name: "actual",
-            smooth: true,
-            type: "line",
-            itemStyle: {
-              normal: {
-                color: "#3888fa",
-                lineStyle: {
-                  color: "#3888fa",
-                  width: 2
-                },
-                areaStyle: {
-                  color: "#f3f8ff"
-                }
-              }
-            },
-            data: [response.data.Mon, response.data.Tue, response.data.Wed, response.data.Thu, response.data.Fri, response.data.Sat, response.data.Sun],
-            animationDuration: 2800,
-            animationEasing: "quadraticOut"
           }]
         });
       });

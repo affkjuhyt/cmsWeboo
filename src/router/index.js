@@ -58,6 +58,12 @@ export const constantRoutes = [
         component: (resolve) => require(["@/views/vadmin/book/message/Mymessage"], resolve),
         name: "msg",
         meta: { title: "Thông báo", icon: "user" }
+      },
+      {
+        path: "recommender",
+        component: (resolve) => require(["@/views/vadmin/recommender/data"], resolve),
+        name: "recommender",
+        meta: { title: "Đề xuất", icon: "" }
       }
     ]
   },

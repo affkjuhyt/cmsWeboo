@@ -57,7 +57,7 @@
       row-key="id"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column prop="name" label="Menu" :show-overflow-tooltip="true" width="160" />
+      <el-table-column prop="name" label="Menu" :show-overflow-tooltip="true" width="220px" />
       <el-table-column prop="icon" label="Icon" align="center" width="100">
         <template slot-scope="scope">
           <svg-icon :icon-class="scope.row.icon || ''" />
@@ -65,12 +65,11 @@
       </el-table-column>
       <el-table-column prop="orderNum" label="Loại" width="60" />
       <el-table-column prop="menuType" label="Loại menu" :formatter="menuTypeFormat" width="100px" />
-      <el-table-column prop="perms" label="ID cơ quan" :show-overflow-tooltip="true" />
-      <el-table-column prop="component_path" label="Đường dẫn thành phần" :show-overflow-tooltip="true" />
+      <el-table-column prop="component_path" align="center" label="Đường dẫn thành phần" :show-overflow-tooltip="true" />
       <!--      <el-table-column prop="interface_path" label="接口路径" :show-overflow-tooltip="true"></el-table-column>-->
       <!--      <el-table-column prop="interface_method" label="请求方式" :formatter="interfaceMethodFormat" width="70"></el-table-column>-->
-      <el-table-column prop="status" label="Status" :formatter="statusFormat" width="80" />
-      <el-table-column label="Thời gian cập nhật" align="center" prop="update_datetime">
+      <el-table-column prop="status" label="Status" :formatter="statusFormat" width="120px" />
+      <!-- <el-table-column label="Thời gian cập nhật" align="center" prop="update_datetime">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.update_datetime) }}</span>
         </template>
@@ -79,7 +78,7 @@
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.create_datetime) }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         v-if="hasPermi(['permission:menus:{id}:put', 'permission:menus:post', 'permission:menus:{id}:delete'])"
         label="Hành động"
@@ -115,8 +114,8 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="150px">
         <el-row>
           <el-col :span="24">
             <el-form-item label="Menu phía trên">
@@ -184,7 +183,7 @@
             </el-form-item>
           </el-col>
           <el-col v-if="form.menuType != '2'" :span="12">
-            <el-form-item label="Đường dẫn thành phần" prop="component_path">
+            <el-form-item label="Đường dẫn thành phần" prop="component_path" label-width="170px">
               <el-input v-model="form.component_path" placeholder="Vui lòng nhập đường dẫn thành phần front-end" @change="ComponentPathChange" />
             </el-form-item>
           </el-col>
@@ -209,11 +208,6 @@
                   :value="dict.dictValue"
                 />
               </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item v-if="form.menuType != '0'" label="ID cơ quan">
-              <el-input v-model="form.perms" placeholder="Hãy xác định" maxlength="50" />
             </el-form-item>
           </el-col>
           <el-col :span="12">

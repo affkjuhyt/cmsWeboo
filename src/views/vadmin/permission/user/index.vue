@@ -130,13 +130,17 @@
             :show-overflow-tooltip="true"
           />
           <el-table-column
-            v-if="columns[2].visible"
             key="name"
             label="Tên người dùng"
             align="center"
             prop="name"
-            :show-overflow-tooltip="true"
-          />
+            :show-overflow-tooltip="true" >
+            <template slot-scope="scope">
+              <router-link :to="hasPermi(['system:book:chapter:get']) ?'/book/chapter/data/' + scope.row.id :'#'" class="link-type">
+                <span>{{ scope.row.name }}</span>
+              </router-link>
+            </template>
+          </el-table-column>
           <el-table-column
             v-if="columns[3].visible"
             key="role"

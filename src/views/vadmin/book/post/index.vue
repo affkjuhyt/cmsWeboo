@@ -192,6 +192,7 @@
 
 <script>
 import { listPostGroup, getPostGroup, addPostGroup, updatePostGroup, delPostGroup, exportPostGroup, clearCache } from "@/api/vadmin/system/post/data";
+import { listGroup } from "@/api/vadmin/system/group/data";
 import PieChart from "./PostPieChart";
 import BarChart from "./PostBarChart";
 
@@ -212,6 +213,7 @@ export default {
       title_name: "",
       open: false,
       statusOptions: [],
+      groupOptions: [],
       dateRange: [],
       queryParams: {
         pageNum: 1,
@@ -238,6 +240,7 @@ export default {
     this.getDicts("sys_normal_disable").then(response => {
       this.statusOptions = response.data;
     });
+    this.getGroupList();
   },
   methods: {
     getList() {
@@ -249,6 +252,11 @@ export default {
         this.loading = false;
       }
       );
+    },
+    getGroupList() {
+      listGroup({ pageNum: "all" }).then((response) => {
+        this.groupOptions = response.data;
+      });
     },
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.status);

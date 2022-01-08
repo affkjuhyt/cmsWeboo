@@ -136,7 +136,7 @@
             prop="name"
             :show-overflow-tooltip="true" >
             <template slot-scope="scope">
-              <router-link :to="hasPermi(['system:book:chapter:get']) ?'/book/chapter/data/' + scope.row.id :'#'" class="link-type">
+              <router-link :to="hasPermi(['rec:cb:user:{id}:get']) ?'/permission/recommender/' + scope.row.id :'#'" class="link-type">
                 <span>{{ scope.row.name }}</span>
               </router-link>
             </template>

@@ -34,7 +34,9 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      gradient: null,
+      gradient2: null
     };
   },
   // watch: {
@@ -49,6 +51,20 @@ export default {
     this.$nextTick(() => {
       this.initChart();
     });
+    this.gradient = this.$refs.canvas
+      .getContext("2d")
+      .createLinearGradient(0, 0, 0, 450);
+    this.gradient2 = this.$refs.canvas
+      .getContext("2d")
+      .createLinearGradient(0, 0, 0, 450);
+
+    this.gradient.addColorStop(0, "rgba(255, 0,0, 0.5)");
+    this.gradient.addColorStop(0.5, "rgba(255, 0, 0, 0.25)");
+    this.gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
+
+    this.gradient2.addColorStop(0, "rgba(0, 231, 255, 0.9)");
+    this.gradient2.addColorStop(0.5, "rgba(0, 231, 255, 0.25)");
+    this.gradient2.addColorStop(1, "rgba(0, 231, 255, 0)");
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -95,23 +111,25 @@ export default {
             data: ["Mong đợi", "Thực tế"]
           },
           series: [{
-            name: "expected", itemStyle: {
+            name: "Mong đợi", itemStyle: {
               normal: {
-                color: "#FF005A",
+                color: "#FC2525",
                 lineStyle: {
-                  color: "#FF005A",
+                  color: "#FC2525",
                   width: 2
                 }
               }
             },
             smooth: true,
             type: "line",
+            borderColor: "#FC2525",
+            tension: 0.1,
             data: [672, 325, 236, 867, 438, 439, 810],
             animationDuration: 2800,
             animationEasing: "cubicInOut"
           },
           {
-            name: "actual",
+            name: "Thực tế",
             smooth: true,
             type: "line",
             itemStyle: {

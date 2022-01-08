@@ -81,6 +81,19 @@ export const constantRoutes = [
     ]
   },
   {
+    path: "/permission",
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: "recommender/:userId(\\d+)",
+        component: (resolve) => require(["@/views/vadmin/permission/user/recommender"], resolve),
+        name: "Data",
+        meta: { title: "Recommender truyện", icon: "" }
+      }
+    ]
+  },
+  {
     path: "/book",
     component: Layout,
     hidden: true,
@@ -90,6 +103,12 @@ export const constantRoutes = [
         component: (resolve) => require(["@/views/vadmin/book/manga/data"], resolve),
         name: "Data",
         meta: { title: "Dữ liệu chương", icon: "" }
+      },
+      {
+        path: ":bookId(\\d+)/recommender",
+        component: (resolve) => require(["@/views/vadmin/book/manga/recommender"], resolve),
+        name: "Data",
+        meta: { title: "Truyện tương tự", icon: "" }
       }
     ]
   }

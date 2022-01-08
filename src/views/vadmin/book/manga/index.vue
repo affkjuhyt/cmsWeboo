@@ -122,6 +122,14 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
           >Xóa</el-button>
+          <div style="margin: 5px"></div>
+          <router-link :to="hasPermi(['rec:cb:item:{id}:get']) ? '/book/' + scope.row.id + '/recommender/' :'#'">
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-document"
+            >Suggest</el-button>
+          </router-link>
         </template>
       </el-table-column>
     </el-table>
@@ -180,7 +188,7 @@
 </template>
 
 <script>
-import { listBook, getBook, addBook, updateBook, delBook, exportBook, clearCache } from "@/api/vadmin/system/book/data";
+import { listBook, getBook, updateBook, delBook, exportBook, clearCache } from "@/api/vadmin/system/book/data";
 import PieChart from "./PieChart";
 import BarChart from "./BarChart";
 import Editor from "@/components/Editor";
@@ -325,17 +333,17 @@ export default {
       formData.append("description", this.form.content);
       formData.append("file", this.files);
       if (this.form.id !== undefined) {
-        if(this.form.title == undefined) {
+        if (this.form.title == undefined) {
           this.msgError("Chưa có đủ dữ liệu");
         } else {
           updateBook(formData).then((response) => {
-          this.msgSuccess("Chỉnh sửa dữ liệu thành công");
-          this.open = false;
-          this.getList();
-        });
+            this.msgSuccess("Chỉnh sửa dữ liệu thành công");
+            this.open = false;
+            this.getList();
+          });
         }
       } else {
-        if(this.form.title == undefined) {
+        if (this.form.title == undefined) {
           this.msgError("Chưa có đủ dữ liệu");
         } else {
           updateBook(formData).then((response) => {
@@ -378,6 +386,10 @@ export default {
         this.getList();
         this.msgSuccess("Xóa truyện thành công");
       });
+    },
+    handleSuggest(row) {
+      const ids = row.id;
+      console.log("Id is: " + ids);
     },
     /** Xuất dữ liệu */
     handleExport() {

@@ -15,6 +15,19 @@
         </div>
       </el-col>
     </el-row>
+    <el-divider />
+    <el-row :gutter="32">
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <PlanetChart />
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <BubbleChart />
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -24,15 +37,19 @@ import LinerChart from "../views/dashboard/LineChart";
 import PieChart from "../views/dashboard/PieChart";
 import RaddarChart from "../views/dashboard/RaddarChart";
 import BarChart from "../views/dashboard/BarChart";
+import PlanetChart from "../views/dashboard/PlanetChart";
+import BubbleChart from "../views/dashboard/Bubble";
 
 export default {
   name: "Index",
   components: {
+    PlanetChart,
     PanelGroup,
     LinerChart,
     PieChart,
     RaddarChart,
-    BarChart
+    BarChart,
+    BubbleChart
   },
   data() {
     return {

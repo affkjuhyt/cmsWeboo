@@ -3,7 +3,9 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+          <router-link to="/permission/user/" class="link-type">
+            <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+          </router-link>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
@@ -16,7 +18,9 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('messages')">
         <div class="card-panel-icon-wrapper icon-message">
-          <svg-icon icon-class="message" class-name="card-panel-icon" />
+          <router-link to="/system/comment/list_comment/" class="link-type">
+            <svg-icon icon-class="message" class-name="card-panel-icon" />
+          </router-link>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
@@ -29,7 +33,9 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('purchases')">
         <div class="card-panel-icon-wrapper icon-documentation">
-          <svg-icon icon-class="documentation" class-name="card-panel-icon" />
+          <router-link to="/system/post/" class="link-type">
+            <svg-icon icon-class="documentation" class-name="card-panel-icon" />
+          </router-link>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
@@ -42,7 +48,9 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('shoppings')">
         <div class="card-panel-icon-wrapper icon-shopping">
-          <svg-icon icon-class="component" class-name="card-panel-icon" />
+          <router-link to="/system/book/" class="link-type">
+            <svg-icon icon-class="component" class-name="card-panel-icon" />
+          </router-link>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">

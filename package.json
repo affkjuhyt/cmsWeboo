@@ -40,6 +40,7 @@
   "dependencies": {
     "@riophae/vue-treeselect": "0.4.0",
     "axios": "^0.24.0",
+    "chart.js": "^2.9.4",
     "clipboard": "2.0.6",
     "core-js": "3.8.1",
     "echarts": "^4.9.0",
@@ -58,6 +59,7 @@
     "sortablejs": "1.10.2",
     "util": "^0.12.4",
     "vue": "2.6.12",
+    "vue-chartjs": "^3.5.1",
     "vue-count-to": "1.0.13",
     "vue-cropper": "0.5.5",
     "vue-router": "3.4.9",

@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" :model="user" :rules="rules" label-width="80px">
+  <el-form ref="form" :model="user" :rules="rules" label-width="120px">
     <el-form-item label="Tài khoản" prop="username">
       <el-input v-model="user.username" />
     </el-form-item>

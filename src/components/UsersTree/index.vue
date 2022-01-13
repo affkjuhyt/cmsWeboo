@@ -1,4 +1,3 @@
-<!-- 用户选择器 -->
 <template>
   <div>
     <treeselect
@@ -21,14 +20,10 @@ export default {
   name: "DeptTree",
   components: { Treeselect },
   props: {
-    /* 选择器的内容 */
     // eslint-disable-next-line vue/require-prop-type-constructor
     value: { type: Number | Array },
-    /* 用于显示选项 */
-    placeholder: { type: String, default: "请选择用户" },
-    /* 是否多选 */
+    placeholder: { type: String, default: "Vui lòng chọn một người dùng" },
     multiple: { type: Boolean, default: false },
-    /* 是否只能选末级 */
     disable_branch_nodes: { type: Boolean, default: false }
   },
   data() {
@@ -52,7 +47,6 @@ export default {
     this.getTreeselect();
   },
   methods: {
-    /** 查询所有用户信息 **/
     getTreeselect() {
       listUser({ pageNum: "all", _fields: "id,name" }).then(response => {
         response.data.map(val => { val["label"] = val["name"]; });

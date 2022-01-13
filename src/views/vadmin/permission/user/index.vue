@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="32">
+    <el-row>
       <el-col :span="32" :xs="12">
         <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
           <el-form-item label="Tên tài khoản" prop="username" label-width="120px">
@@ -237,14 +237,14 @@
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
-          <el-form-item label="Tên của người dùng" prop="name" label-width="180px">
-            <el-input v-model="form.name" placeholder="Vui lòng nhập tên của người dùng" />
+          <el-form-item label="Tên người dùng" prop="name" label-width="180px">
+            <el-input v-model="form.name" placeholder="Vui lòng nhập tên người dùng" />
           </el-form-item>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="Mobile" prop="mobile">
-              <el-input v-model="form.mobile" placeholder="Vui long nhap so dien thoai" maxlength="11" />
+            <el-form-item label="Mobile" prop="phone_number">
+              <el-input v-model="form.phone_number" placeholder="Vui long nhap so dien thoai" maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -266,7 +266,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <!-- <el-col :span="12">
             <el-form-item label="Gender">
               <el-select v-model="form.gender" placeholder="Gender">
                 <el-option
@@ -277,7 +277,7 @@
                 />
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="12">
             <el-form-item label="Status">
               <el-radio-group v-model="form.is_active">
@@ -457,7 +457,7 @@ export default {
         ],
         mobile: [
           {
-            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
+            pattern: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
             message: "Vui lòng nhập số điện thoại chính xác",
             trigger: "blur"
           }
@@ -533,7 +533,7 @@ export default {
         password: undefined,
         mobile: undefined,
         email: undefined,
-        gender: undefined,
+        // gender: undefined,
         is_active: false,
         remark: undefined,
         roleIds: []

@@ -33,7 +33,6 @@ const user = {
   },
 
   actions: {
-    // 登录
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim();
       const password = userInfo.password;
@@ -50,14 +49,13 @@ const user = {
       });
     },
 
-    // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(res => {
           console.log(state.token);
           const user = res.data.user;
           const avatar = user.avatar ? process.env.VUE_APP_BASE_API + user.avatar : require("@/assets/images/profile.jpg");
-          if (res.data.roles && res.data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+          if (res.data.roles && res.data.roles.length > 0) {
             commit("SET_ROLES", res.data.roles);
             commit("SET_PERMISSIONS", res.data.permissions);
           } else {
@@ -73,7 +71,6 @@ const user = {
       });
     },
 
-    // 退出系统
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
@@ -88,7 +85,6 @@ const user = {
       });
     },
 
-    // 前端 登出
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit("SET_TOKEN", "");

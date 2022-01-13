@@ -24,7 +24,7 @@
               v-else-if="value.type==='model_select' && value.select_data"
               :value.sync="queryParams[value.prop]"
               :prop="value.prop"
-              :placeholder="value.select_data.placeholder|| '请选择'"
+              :placeholder="value.select_data.placeholder|| 'Vui lòng chọn'"
               :multiple="value.select_data.multiple|| false"
               :disable_branch_nodes="value.select_data.disable_branch_nodes|| false"
               :label_name="value.select_data.label_name|| 'name'"
@@ -338,7 +338,7 @@
             size="small"
             style="width: 240px"
             value-format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期"
+            placeholder="Chọn ngày"
           />
           <el-select
             v-else-if="value.type==='option' && value.option_key"
@@ -366,7 +366,7 @@
           <model-select
             v-else-if="value.type==='model_select' && value.select_data"
             :value.sync="form[value.prop]"
-            :placeholder="value.select_data.placeholder|| '请选择'"
+            :placeholder="value.select_data.placeholder|| 'Vui lòng chọn'"
             :multiple="value.select_data.multiple|| false"
             :disable_branch_nodes="value.select_data.disable_branch_nodes|| false"
             :label_name="value.select_data.label_name|| 'name'"
@@ -376,7 +376,7 @@
           <el-cascader
             v-else-if="value.type==='cascader' && value.select_data"
             v-model="form[value.prop]"
-            :placeholder="value.select_data.placeholder|| '请选择'"
+            :placeholder="value.select_data.placeholder|| 'Vui lòng chọn'"
             :options="modelSelect[value.prop] || []"
             :clearable="value.select_data.clearable|| false"
             :filterable="value.select_data.filterable|| false"
@@ -786,35 +786,30 @@ export default {
         console.error(error);
       });
     },
-    /** 清空已选择 */
     clearMultipleSelection() {
       this.clearSelection();
     },
-    /** 清空已选择 */
     clearSelection() {
       this.$refs.tableData.clearSelection();
     },
     handleSelectField(e, field) {
       field.show = e;
     },
-    // 处理提交表单, 点击搜索按钮事件
     handleSearchFormSubmit() {
       this.pagination.page = 1;
       this.getTableData();
     },
-    /** 搜索按钮操作 */
     handleQuery() {
       this.pagination.page = 1;
       this.getTableData();
     },
-    /** 重置按钮操作 */
     resetQuery() {
       this.dateRange = [];
       this.queryParams = {};
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    /** 初始化 Options */
+    /** Options */
     initOptions() {
       const Promises = [];
       this.fields.map(value => {
@@ -848,17 +843,14 @@ export default {
         this.getTableData();
       });
     },
-    // 处理修改多选的值
     handleSelectionChange(val) {
       this.$emit("selection-change", val);
       this.multipleSelection = val;
     },
-    // 处理修改表格分页器的页面大小(再次获取接口数据)
     handleChangePageSize(val) {
       this.pagination.page_size = val;
       this.getTableData();
     },
-    // 处理修改表格分页器的页码(再次获取接口数据)
     handleChangeCurrentPage(val) {
       this.pagination.page = val;
       this.getTableData();
@@ -889,7 +881,6 @@ export default {
     handleHeaderClick(column, event) {
       this.$emit("header-click", column, event);
     },
-    /** 新增按钮*/
     handleAdd(func) {
       this.dateRange = [];
       this.queryParams = {};
@@ -898,7 +889,6 @@ export default {
       this.title = func.label;
       this.submitFormApi = func.api;
     },
-    /** 修改按钮*/
     handleUpdate(func, row) {
       this.dateRange = [];
       this.queryParams = {};
@@ -918,7 +908,6 @@ export default {
       }
       this.title = func.label;
     },
-    /** 详情按钮*/
     handleSelect(func, row) {
       this.dateRange = [];
       this.queryParams = {};
@@ -964,11 +953,10 @@ export default {
         this.download(response.data.file_url, response.data.name);
       });
     },
-    /** 导入按钮操作 */
     handleImport() {
-      this.upload.title = "导入";
+      this.upload.title = "Import";
       this.upload.open = true;
-    }, /** 获取表单校验 */
+    },
     getFormRules() {
       const dict = {};
       this.fields.map(value => {
@@ -976,7 +964,7 @@ export default {
           if (value.required) {
             dict[value.prop] = [{
               required: value.required,
-              message: value.rules_message || value.label + "不能为空",
+              message: value.rules_message || value.label + "Không được để trống",
               trigger: value.trigger || "change"
             }];
             if (value.validator) {
@@ -990,20 +978,19 @@ export default {
       });
       return dict;
     },
-    /** 提交按钮 */
     submitForm() {
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
           if (this.form.id !== undefined) {
             this.submitFormApi(this.form).then(() => {
-              this.msgSuccess("修改成功");
+              this.msgSuccess("Đã sửa thành công");
               this.open = false;
               this.getTableData();
               this.$emit("update", this.form);
             });
           } else {
             this.submitFormApi(this.form).then(() => {
-              this.msgSuccess("新增成功");
+              this.msgSuccess("Đã thêm thành công");
               this.open = false;
               this.getTableData();
               this.$emit("add", this.form);
@@ -1028,7 +1015,6 @@ export default {
       });
       return Permis;
     },
-    /** 下载模板操作 */
     importTemplate() {
       this.funcs.map(value => {
         if (value.type === "import") {
@@ -1039,11 +1025,9 @@ export default {
         this.download(response.data.file_url, response.data.name);
       });
     },
-    // 文件上传中处理
     handleFileUploadProgress(event, file, fileList) {
       this.upload.isUploading = true;
     },
-    // 文件上传成功处理
     handleFileSuccess(response, file, fileList) {
       this.funcs.map(value => {
         if (value.type === "import") {
@@ -1053,12 +1037,11 @@ export default {
       this.upload.open = false;
       this.upload.isUploading = false;
       this.$refs.upload.clearFiles();
-      // 是否更新已经存在的用户数据
       this.importApi.api({
         file_url: response.data.file_url,
         updateSupport: this.upload.updateSupport
       }).then(response => {
-        this.$alert("导入成功！", "导入结果", { dangerouslyUseHTMLString: true });
+        this.$alert("Nhập thành công!", "Nhập kết quả", { dangerouslyUseHTMLString: true });
         this.getTableData();
       });
     },

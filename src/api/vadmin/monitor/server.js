@@ -9,7 +9,6 @@ export function getServerList(params) {
   });
 }
 
-// 修改服务器信息
 export function updateServerInfo(id, data) {
   const { name, remark } = data;
   return request({
@@ -22,7 +21,6 @@ export function updateServerInfo(id, data) {
   });
 }
 
-// 获取监控配置信息
 export function getMonitorStatusInfo() {
   return request({
     url: "admin/monitor/monitor/enabled/",
@@ -30,7 +28,6 @@ export function getMonitorStatusInfo() {
   });
 }
 
-// 更新监控配置信息
 export function updateMonitorStatusInfo(params) {
   return request({
     url: "admin/monitor/monitor/enabled/",
@@ -39,7 +36,6 @@ export function updateMonitorStatusInfo(params) {
   });
 }
 
-// 清空记录
 export function cleanMonitorLog() {
   return request({
     url: "admin/monitor/monitor/clean/",
@@ -47,7 +43,6 @@ export function cleanMonitorLog() {
   });
 }
 
-// 获取监控记录
 export function getMonitorLogs(id, params) {
   return request({
     url: `admin/monitor/monitor/rate/${id}/`,
@@ -56,7 +51,6 @@ export function getMonitorLogs(id, params) {
   });
 }
 
-// 获取服务器最新监控日志信息
 export function getServerLatestLog(id) {
   return request({
     url: `admin/monitor/monitor/info/${id}/`,

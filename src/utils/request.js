@@ -11,7 +11,7 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   const isToken = (config.headers || {}).isToken === false;
   if (getToken() && !isToken) {
-    config.headers["Authorization"] = "Bearer " + getToken(); // 让每个请求携带自定义token 请根据实际情况自行修改
+    config.headers["Authorization"] = "Bearer " + getToken();
   }
   if (config.method === "get" && config.params) {
     let url = config.url + "?";
@@ -75,7 +75,7 @@ error => {
   } else if (message.includes("timeout")) {
     message = "Kết nối API hết hạn";
   } else if (message.includes("Request failed with status code")) {
-    message = "Kết nối lỗi" + message.substr(message.length - 3) + "异常";
+    message = "Kết nối lỗi" + message.substr(message.length - 3);
   }
   Message({
     message: message,

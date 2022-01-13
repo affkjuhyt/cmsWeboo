@@ -71,7 +71,6 @@ export default {
     },
     change(val) {
       if (this.ishttp(val.path)) {
-        // http(s):// 路径新窗口打开
         window.open(val.path, "_blank");
       } else {
         this.$router.push(val.path);

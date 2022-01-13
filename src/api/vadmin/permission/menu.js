@@ -1,6 +1,5 @@
 import request from "@/utils/request";
 
-// 查询菜单列表
 export function listMenu(query) {
   return request({
     url: "/admin/permission/menus/",
@@ -9,7 +8,6 @@ export function listMenu(query) {
   });
 }
 
-// 查询菜单详细
 export function getMenu(menuId) {
   return request({
     url: "/admin/permission/menus/" + menuId,
@@ -17,7 +15,6 @@ export function getMenu(menuId) {
   });
 }
 
-// 查询菜单下拉树结构
 export function treeselect() {
   return request({
     url: "/admin/permission/menus/treeselect/?status=1",
@@ -25,7 +22,6 @@ export function treeselect() {
   });
 }
 
-// 根据角色ID查询菜单下拉树结构
 export function roleMenuTreeselect(roleId) {
   return request({
     url: "/admin/permission/menus/roleMenuTreeselect/" + roleId + "/?status=1",

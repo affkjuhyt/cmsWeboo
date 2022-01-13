@@ -90,9 +90,8 @@ export function selectDictLabels(datas, value, separator) {
   return actions.join("").substring(0, actions.join("").length - 1);
 }
 /**
- * 保存
  * @param  {Blob} blob
- * @param  {String} filename 想要保存的文件名称
+ * @param  {String} filename
  */
 
 function saveAs(blob, filename) {
@@ -117,7 +116,7 @@ function saveAs(blob, filename) {
 }
 
 /**
- * @param  {String} url 目标文件地址
+ * @param  {String} url
  * @return {cb}
  */
 function getBlob(url, cb) {
@@ -158,11 +157,11 @@ export function praseStrEmpty(str) {
 }
 
 /**
- * @param {*} data 数据源
- * @param {*} id id字段 默认 'id'
- * @param {*} parentId 父节点字段 默认 'parentId'
- * @param {*} children 孩子节点字段 默认 'children'
- * @param {*} rootId 根Id 默认 0
+ * @param {*} data
+ * @param {*} id
+ * @param {*} parentId
+ * @param {*} children
+ * @param {*} rootId
  */
 export function handleTree(data, id, parentId, children, rootId) {
   id = id || "id";

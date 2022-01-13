@@ -20,17 +20,17 @@
         <el-image :src="value" :style="`width:150px;height:150px;`" fit="fill" />
         <div class="mask">
           <div class="actions">
-            <span title="预览" @click.stop="dialogVisible = true">
+            <span title="Xem trước" @click.stop="dialogVisible = true">
               <i class="el-icon-zoom-in" />
             </span>
-            <span title="移除" @click.stop="removeImage">
+            <span title="Xóa" @click.stop="removeImage">
               <i class="el-icon-delete" />
             </span>
           </div>
         </div>
       </div>
     </el-upload>
-    <el-dialog :visible.sync="dialogVisible" title="预览" width="800" append-to-body>
+    <el-dialog :visible.sync="dialogVisible" title="Xem trước" width="800" append-to-body>
       <img :src="value" style="display: block; max-width: 100%; margin: 0 auto;">
     </el-dialog>
   </div>
@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      uploadImgUrl: process.env.VUE_APP_BASE_API + "/common/upload", // 上传的图片服务器地址
+      uploadImgUrl: process.env.VUE_APP_BASE_API + "/common/upload",
       headers: {
         Authorization: "Bearer " + getToken()
       }
@@ -67,14 +67,14 @@ export default {
     handleBeforeUpload() {
       this.loading = this.$loading({
         lock: true,
-        text: "上传中",
+        text: "Tải lên",
         background: "rgba(0, 0, 0, 0.7)"
       });
     },
     handleUploadError() {
       this.$message({
         type: "error",
-        message: "上传失败"
+        message: "Tải lên thất bại"
       });
       this.loading.close();
     }

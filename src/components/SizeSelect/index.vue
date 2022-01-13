@@ -17,10 +17,10 @@ export default {
   data() {
     return {
       sizeOptions: [
-        { label: "Default", value: "default" },
-        { label: "Medium", value: "medium" },
-        { label: "Small", value: "small" },
-        { label: "Mini", value: "mini" }
+        { label: "Mặc định", value: "default" },
+        { label: "Trung bình", value: "medium" },
+        { label: "Nhỏ", value: "small" },
+        { label: "Siêu nhỏ", value: "mini" }
       ]
     };
   },
@@ -35,12 +35,11 @@ export default {
       this.$store.dispatch("app/setSize", size);
       this.refreshView();
       this.$message({
-        message: "Switch Size Success",
+        message: "Thay đổi kích cỡ thành công",
         type: "success"
       });
     },
     refreshView() {
-      // In order to make the cached page re-rendered
       this.$store.dispatch("tagsView/delAllCachedViews", this.$route);
 
       const { fullPath } = this.$route;

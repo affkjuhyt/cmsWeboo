@@ -9,10 +9,6 @@ const modelSelect = {
     }
   },
   actions: {
-    // 从后台获取需要 select 选择数据
-    // modelName : 模型 name
-    // labelName : 后端接口返回时，配置下拉选择时显示的名字字段，如：name/title/nickName
-    // listApi : 查询列表的api
     async getModelSelect({ commit, state }, paramsMap) {
       const modelName = paramsMap["modelName"];
       const labelName = paramsMap["labelName"];

@@ -1,4 +1,3 @@
-<!-- 部门选择器 -->
 <template>
   <div>
     <treeselect
@@ -21,14 +20,10 @@ export default {
   name: "DeptTree",
   components: { Treeselect },
   props: {
-    /* 选择器的内容 */
     // eslint-disable-next-line vue/require-prop-type-constructor
     value: { type: Number | Array },
-    /* 用于显示选项 */
-    placeholder: { type: String, default: "请选择归属部门" },
-    /* 是否多选 */
+    placeholder: { type: String, default: "Vui lòng chọn bộ phận" },
     multiple: { type: Boolean, default: false },
-    /* 是否只能选末级 */
     disable_branch_nodes: { type: Boolean, default: false }
   },
   data() {
@@ -53,7 +48,6 @@ export default {
     this.getTreeselect();
   },
   methods: {
-    /** 查询部门下拉树结构 */
     getTreeselect() {
       treeselect().then(response => {
         this.deptOptions = response.data;

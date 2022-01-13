@@ -1,6 +1,3 @@
-<!--
-@description: 封装组件
--->
 <template>
   <div style="padding-left: 10px;">
     <el-row v-if="topLayout" style="margin-bottom: 20px">
@@ -18,7 +15,7 @@
           <el-button
             :size="$ELEMENT.size"
             type="primary"
-            title="过滤"
+            title="Lọc"
             @click="handleSearchFormSubmit"
           >
             <common-icon value="svg:icon-filter" />
@@ -43,7 +40,7 @@
             :size="$ELEMENT.size"
             name="refresh"
             type="info"
-            title="导出数据"
+            title="Xuất dữ liệu"
             @click="handleExportTableData"
           >
             <svg-icon icon-class="icon-excel" style="font-size: 1em" />
@@ -71,7 +68,7 @@
               name="refresh"
               type="info"
               icon="el-icon-s-fold"
-              title="设置显示的字段"
+              title="Đặt các trường được hiển thị"
             />
           </el-popover>
         </div>
@@ -202,18 +199,15 @@ export default {
       }
     },
     fields: {
-      // 后端返回的字段
       type: Array,
       default: () => {
         return [];
       }
     },
     selection: {
-      // 开始开启多选(默认不开启, false)
       type: Boolean,
       default: false
     },
-    // api 对象
     api: {
       type: Function,
       default: null
@@ -228,10 +222,10 @@ export default {
   data() {
     return {
       tableEditable: true,
-      showFields: [], // 显示的字段
-      filterFields: [], // 过滤的字段
-      filterPlaceholder: "过滤", // 过滤提示文字
-      buttonTagList: [], // 所有按钮标签
+      showFields: [],
+      filterFields: [],
+      filterPlaceholder: "Lọc",
+      buttonTagList: [],
       excelDialogVisible: false,
       tableLoading: false,
       advancedSearchForm: {},
@@ -318,7 +312,7 @@ export default {
       this.filterFields = this.fields.filter(field => field.search).map(field => field.prop);
       if (this.filterFields.length) {
         const text = this.fields.filter(field => field.search).map(field => field.label).join("、");
-        this.filterPlaceholder = `${text} 过滤`;
+        this.filterPlaceholder = `${text} lọc`;
       }
     },
     listInterfaceData() {
@@ -380,7 +374,6 @@ export default {
       this.$refs.table.clearSelection();
     },
     clearFilter() {
-      // 重置过滤
       this.searchForm.search = "";
       this.filterData = Array.from(this.tableData);
     },
@@ -391,7 +384,6 @@ export default {
       this.tableData = Array.from(data);
       this.filterData = Array.from(this.filterHandler(this.tableData));
     },
-    // 导出表格的数据, 当前数据、当前列
     handleExportTableData() {
       this.excelDialogVisible = true;
       this.exportFields = this.fields.map(field => {
@@ -399,7 +391,6 @@ export default {
       });
       this.excelHeader = this.showFields.map(field => field["prop"]);
     },
-    // 处理修改多选的值
     handleSelectionChange(val) {
       this.$emit("selection-change", val);
       this.multipleSelection = val;
@@ -448,7 +439,6 @@ export default {
       this.$refs.table.toggleRowSelection(row, selected);
     },
     toggleFilter() {
-      // 触发过滤
       this.filterData = Array.from(this.filterHandler());
     },
     handleSearchFormSubmit() {

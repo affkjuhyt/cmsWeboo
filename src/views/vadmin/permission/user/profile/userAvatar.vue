@@ -27,7 +27,7 @@
         <el-col :lg="2" :md="2">
           <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload">
             <el-button size="small">
-              选择
+              Tải lên
               <i class="el-icon-upload el-icon--right" />
             </el-button>
           </el-upload>
@@ -45,7 +45,7 @@
           <el-button icon="el-icon-refresh-right" size="small" @click="rotateRight()" />
         </el-col>
         <el-col :lg="{span: 2, offset: 6}" :md="2">
-          <el-button type="primary" size="small" @click="uploadImg()">提 交</el-button>
+          <el-button type="primary" size="small" @click="uploadImg()">Gửi</el-button>
         </el-col>
       </el-row>
     </el-dialog>

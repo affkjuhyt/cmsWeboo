@@ -6,7 +6,6 @@ Vue.use(Router);
 /* Layout */
 import Layout from "@/layout";
 
-// 公共路由
 export const constantRoutes = [
   {
     path: "/redirect",

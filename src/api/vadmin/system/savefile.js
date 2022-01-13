@@ -1,6 +1,5 @@
 import request from "@/utils/request";
 
-// 查询文件列表
 export function listSaveFile(query) {
   return request({
     url: "/admin/system/savefile/",
@@ -9,7 +8,6 @@ export function listSaveFile(query) {
   });
 }
 
-// 新增文件
 export function addSaveFile(data) {
   return request({
     url: "/admin/system/savefile/",
@@ -18,7 +16,6 @@ export function addSaveFile(data) {
   });
 }
 
-// 删除文件
 export function delSaveFile(menuId) {
   return request({
     url: "/admin/system/savefile/" + menuId + "/",
@@ -26,7 +23,6 @@ export function delSaveFile(menuId) {
   });
 }
 
-// 清理废弃文件
 export function clearSaveFile() {
   return request({
     url: "/admin/system/clearsavefile/",

@@ -1,8 +1,3 @@
-<!--
-@description: 封装组件, 通用图标组件(已注册全局组件)
-用法:<common-icon value="el:el-icon-delete-solid"/>
-用法:<common-icon value="svg:icon-folder"/>
--->
 <template>
   <!--<svg v-if="iconType && iconType.toLocaleLowerCase() === 'svg'" :class="commonClass" aria-hidden="true">
     <use :xlink:href="commonName"/>
